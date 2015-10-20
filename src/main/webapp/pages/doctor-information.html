@@ -1,0 +1,215 @@
+<div class="container">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-content"><h4>ทันตเเพทย์</h4></span>
+            <div class="row">
+                <div class="col m6 input-field">
+                    <i class="material-icons prefix">search</i>
+                    <input type="text" id="search" ng-model="search.keyword">
+                    <label for="search" >ค้นหา : </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col m3">
+                    <span><h6>ค้นหาโดย : </h6></span>
+                    <div class="select-custom">
+                        <select class="browser-default" id="select-searchby" ng-model="search.searchBy" ng-init="search.searchBy = 'ชื่อ'">
+                            <option value="อีเมลล์">อีเมลล์</option>
+                            <option value="ชื่อ">ชื่อ</option>
+                            <option value="เบอร์โทรศัพท์">เบอร์โทร</option>
+                         </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="">
+                    <a class="btn waves-effect waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searchData()">ค้นหา</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <div class="col m6">
+                    <span class="card-title" style="font-size: 30px; font-weight:400;color: black">Employee Detail</span>
+                </div>
+                <div class="col m6">
+                    <div class="right">
+                        <span class="">Show Page : </span>
+                        <select class="browser-default" ng-change="selectGetOrSearch()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="size" ng-init="size = '10'">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <table class="hoverable responsive-table" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th style="width: 10%">ID</th>
+                        <th style="width: 20%">Name</th>
+                        <th style="width: 20%">Email</th>
+                        <th style="width: 20%">Mobile</th>
+                        <th style="width: 15%">Work Status</th>
+                        <th style="width: 10%">More Detail</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                    <tr ng-repeat="doc in doctors.content">
+                        <td>{{doc.id}}</td>
+                        <td>{{doc.nameTh}}</td>
+                        <td>{{doc.email}}</td>
+                        <td>{{doc.mobile}}</td>
+                        <td>{{doc.workStatus}}</td>
+                        <td><a href="" ng-click="moreDetail(doc)" class="activator" id="moredetail">more detail</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row" id="card-employee">
+                <div class="col m12">
+                    <ul class="pagination right" style="margin-top: 10px;">
+                        <li class="btn waves-effect btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
+                        <li class="btn waves-effect btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
+                        <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage+1}}</p></li>
+                        <li class="btn waves-effect btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
+                        <li class="btn waves-effect btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4" id="close-card">Employee Detail<i class="material-icons right" ng-click="toPreScroll()">close</i></span>
+            <div style="margin-top: 40px;" class="center">
+                <img class="responsive-img" src="" id="img-employee">
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="row">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">ID : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.id}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">Email : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.email}}</label>
+                    </div>
+                </div>
+                <div class="row margin-top">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">Permit No. : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.permitNo}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">Permit Type : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.permitType}}</label>
+                    </div>
+                </div>
+                <div class="row margin-top">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">Personal ID : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.pid}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">Name TH : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.nameTh}}</label>
+                    </div>
+                </div>
+                <div class="row margin-top">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">Name ENG : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.nameEng}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">Birth Date : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.birthDate}}</label>
+                    </div>
+                </div>
+                <div class="row margin-top">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">Age : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.age}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">Sex : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.sex}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">Blood : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.blood}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">Tel : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.tel}}</label>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">Mobile : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.mobile}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">Work Status : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{doctorDetail.workStatus}}</label>
+                    </div>
+                </div> 
+                
+            </div>
+            
+           
+            <div class="row margin-top right">
+                <input type="submit" value="Cancel" class="btn btn-gray waves-effect waves-light" ng-click="cancel()">
+                <input type="submit" value="Update" class="btn btn-blue2 waves-effect waves-light" ng-click="UpdateDoctor()">
+                <input type="submit" value="Delete" class="btn btn-red waves-effect waves-light" ng-click="clickDelete(doctorDetail)">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-delete" class="modal" style="border-radius: 10px;">
+    <div class="modal-content">
+        <div class="row center">
+            <h4 style="background: red;color: white;padding: 20px;" class="margin-top-20 magin-buttom-20">Delete Doctor</h4>
+        </div>
+        <h5 class="margin-left-20">Delete Doctor : {{doctorDetail.nameTh}}</h5>
+    </div>
+    <div class="model-footer right">
+        <a href="" class="magin-button btn btn-gray modal-action modal-close">Cancle</a>
+        <a href="" class="magin-button btn btn-red modal-action modal-close" ng-click="deleteDoctor()">Delete</a>
+    </div>
+</div>
+
+

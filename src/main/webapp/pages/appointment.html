@@ -1,0 +1,202 @@
+<div class="container">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title" style="color: black;"><h4>การนัดหมาย</h4></span>
+
+            <div class="row">
+                <div class="col m6 s12 input-field">
+                    <i class="material-icons prefix clear-prefix" id="id">label</i>
+                    <input type="text" id="id" disabled ng-model="appointment.id">
+                    <label for="id" class="update">ID</label>
+                </div>
+                <div class="col m6 s12 input-field">
+                    <i class="material-icons prefix clear-prefix">content_paste</i>
+                    <textarea type="text" id="treatmentlist" ng-model="appointment.treatmentList" class="materialize-textarea"></textarea>
+                    <label for="treatmentlist" class="update">รายการรักษา</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col m6 s12 input-field">
+                    <i class="material-icons prefix clear-prefix">person</i>
+                    <input type="text" id="appointment-patient" ng-model="patient.name" ng-click="clickPatient()">
+                    <label for="appointment-patient" class="update">คนไข้</label>
+                </div>
+                <div class="col m6 s12 input-field">
+                    <i class="material-icons prefix clear-prefix">assignment_ind</i>
+                    <input type="text" id="appointment-doctor" ng-model="appointment.doctor">
+                    <label for="appointment-doctor" class="update">ทันตเเพทย์</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col m6 s12 input-field">
+                    <i class="material-icons prefix clear-prefix">call</i>
+                    <input type="text" id="mobile" ng-model="appointment.mobile">
+                    <label for="mobile" class="update">เบอร์ติดต่อ</label>
+                </div>
+                <div class="col m6 s12 input-field">
+                    <i class="material-icons prefix clear-prefix">today</i>
+                    <input type="text" id="appointday" class="datepicker" ng-model="appointment.appointDay">
+                    <label for="appointday" class="update">วันที่</label>
+                </div>
+            </div>
+            <div class="row">
+                <div id="time-starttime"> 
+                    <div class="col m6 s12 input-field">
+                        <i class="material-icons prefix clear-prefix" id="prefix-starttime">today</i>
+                        <input type="text" id="startTime" value="" ng-model="startTime">
+                        <label for="startTime" class="update" id="label-starttime">เวลาเริ่ม</label>
+                    </div>
+                </div>
+                <div id="time-endtime">
+                    <div class="col m6 s12 input-field">
+                        <i class="material-icons prefix clear-prefix" id="prefix-endtime">today</i>
+                        <input type="text" id="endTime" value="" ng-model="endTime">
+                        <label for="endTime" class="update" id="label-endtime">เวลาสิ่นสุด</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="right">
+                    <a href="" class="btn btn-orenge waves-effect waves-light" ng-click="clearData()">Clear</a>
+                    <a href="" class="btn btn-green waves-effect waves-light" ng-click="saveAppointment()">Save</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="container">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title" style="color: black"><h4>ตารางการนัดหมาย</h4></span>
+        </div>
+    </div>
+</div>
+
+<div id="modal-patient" class="modal" style="height: inherit;border-radius: 10px;">
+    <div class="modal-content" style="padding: 10px">
+        <div class="row center">
+            <h4  class="margin-top-20 magin-buttom-20">เลือกคนไข้</h4>
+        </div>
+        <div class="row">
+            <div class="col m6 s12 input-field">
+                <i class="material-icons prefix">search</i>
+                <input type="text" id="search" ng-model="searchData.keyword">
+                <label for="search" >ค้นหา : </label>
+            </div>
+            <div class="col m3 s12 input-field">
+                <i class="material-icons prefix clear-prefix">language</i>
+                <div class="select-custom">
+                    <select class="browser-default" id="searchby" ng-model="searchData.searchBy" ng-init="searchData.searchBy = 'ชื่อ'"> 
+                        <option value="ชื่อ">ชื่อ</option>
+                        <option value="H/N">H/N</option>
+                        <option value="รหัสประชาชน">รหัสประชาชน</option>
+                    </select> 
+                </div>
+                <label class="active">ค้นหาจาก</label>
+            </div>
+            <div class="col m3 " style="margin-top: 20px;">
+                <input type="submit" value="ค้นหา" class="btn" ng-click="searchPatient()">
+            </div>
+        </div>
+        <div class="row">
+            <table class="responsive-table hoverable">
+                <thead>
+                    <tr>
+                        <th style="width:40%">ชื่อ</th>
+                        <th style="width:15%">H/N</th>
+                        <th style="width:30%">รหัสประชาชน</th>
+                        <th style="width:15%">เลือก</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="pat in patients.content">
+                        <td>{{pat.name}}</td>
+                        <th>{{pat.hn}}</th>
+                        <th>{{pat.pid}}</th>
+                        <th><a class="select-human modal-close" ng-click="selectPatient(pat)">เลือก</a></th>
+                    </tr>
+                </tbody>                  
+            </table>
+        </div>
+        <div class="row">
+            <div class="col m12">
+                <ul class="pagination right" style="margin-top: 10px;">
+                    <li class="btn waves-effect btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="model-footer right">
+        <a href="" class="magin-button btn btn-gray modal-action modal-close">Cancle</a>
+    </div>
+</div>
+
+<div id="modal-doctor" class="modal" style="height: inherit;border-radius: 10px;">
+    <div class="modal-content" style="padding: 10px">
+        <div class="row center">
+            <h4  class="margin-top-20 magin-buttom-20">เลือกทันตเเพทย์</h4>
+        </div>
+        <div class="row">
+            <div class="col m6 s12 input-field">
+                <i class="material-icons prefix">search</i>
+                <input type="text" id="search" ng-model="searchData.keyword">
+                <label for="search" >ค้นหา : </label>
+            </div>
+            <div class="col m3 s12 input-field">
+                <i class="material-icons prefix clear-prefix">language</i>
+                <div class="select-custom">
+                    <select class="browser-default" id="searchby" ng-model="searchData.searchBy" ng-init="searchData.searchBy = 'ชื่อ'"> 
+                        <option value="ชื่อ">ชื่อ</option>
+                        <option value="H/N">H/N</option>
+                        <option value="รหัสประชาชน">รหัสประชาชน</option>
+                    </select> 
+                </div>
+                <label class="active">ค้นหาจาก</label>
+            </div>
+            <div class="col m3 " style="margin-top: 20px;">
+                <input type="submit" value="ค้นหา" class="btn" ng-click="searchPatient()">
+            </div>
+        </div>
+        <div class="row">
+            <table class="responsive-table hoverable">
+                <thead>
+                    <tr>
+                        <th style="width:40%">ชื่อ</th>
+                        <th style="width:15%">H/N</th>
+                        <th style="width:30%">รหัสประชาชน</th>
+                        <th style="width:15%">เลือก</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="pat in patients.content">
+                        <td>{{pat.name}}</td>
+                        <th>{{pat.hn}}</th>
+                        <th>{{pat.pid}}</th>
+                        <th><a class="select-human modal-close" ng-click="selectPatient(pat)">เลือก</a></th>
+                    </tr>
+                </tbody>                  
+            </table>
+        </div>
+        <div class="row">
+            <div class="col m12">
+                <ul class="pagination right" style="margin-top: 10px;">
+                    <li class="btn waves-effect btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="model-footer right">
+        <a href="" class="magin-button btn btn-gray modal-action modal-close">Cancle</a>
+    </div>
+</div>
+
+

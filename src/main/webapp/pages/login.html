@@ -1,0 +1,63 @@
+
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!--<link type="text/css" rel="stylesheet" href="../materialize/css/materialize.min.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+    </head>
+    <body style="background: #f3f3f3;">
+
+        <div class="container">
+            <div class="row">
+                <div class="col m3">
+                    <div style="background: #f3f3f3;height:100px"></div>
+                </div>
+                <div class="card col m6 s12 card-panel hoverable" style="border: 3px solid #00bcd4;background: #f3f3f3;margin-top: 15%">
+                    <div class="card-title center"><h2 style="color: #00bcd4">Login</h2></div>
+                    <div class="card-content">
+                        <form action="/login" method="post">
+                            <div class="row">
+                                <div class="input-field">
+                                    <input id="email" type="text" name="email">
+                                    <label for="email">Email</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field">
+                                    <input id="email" type="password" name="password">
+                                    <label for="password">Password</label>
+                                </div>
+                            </div>
+                            <div class="right row">
+                                <button class="btn btn-login waves-effect waves-light">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col m3">
+                    <div style="background: #f3f3f3;height:100px"></div>
+                </div>
+            </div>
+        </div>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+<!--        <script type="text/javascript" src="../materialize/js/materialize.min.js"></script>
+        <script type="text/javascript" src="../materialize/js/materialize.min.js"></script>-->
+
+        <style>
+            .btn-login{
+                background: #00bcd4;
+                color: white;
+            }
+        </style>
+    </body>
+</html>

@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title" style="color: black;"><h4>Add Departmet</h4></span>
+            <div class="row">
+                <div class="col m6 input-field">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input type="text" id="id" disabled ng-model="department.id">
+                    <label class="active" for="id">ID</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col m6 input-field">
+                    <i class="material-icons prefix" >star_rate</i>
+                    <input type="text" id="name" ng-model="department.name">
+                    <label class="active" id="namedepartment" for="name">Department Name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col m6 center">
+                    <a href="" class="btn btn-green waves-effect waves-light" ng-click="saveDepartment()">Save</a>
+                    <a href="" class="btn btn-orenge waves-effect waves-light" ng-click="clearData()">Clear</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title" style="color: black;"><h4>Department</h4></span>
+            <table class="bordered hoverable responsive-table">
+                <thead>
+                <th style="width: 20px" class="table-department">ID</th>
+                <th style="width: 50px" class="table-department">Name</th>
+                <th style="width: 30px;"class="table-department">Action</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="dep in departments.content">
+                        <td>{{dep.id}}</td>
+                        <td>{{dep.name}}</td>
+                        <td>
+                            <a class="modal-trigger btn btn-red waves-effect waves-light" href="" ng-click="actionDelete(dep)" >Delete</a>
+                            <a href="" class="btn btn-blue2 waves-effect waves-light" ng-click="actionUpdate(dep)">Update</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+ </div>   
+
+<div id="modal-delete" class="modal" style="border-radius: 10px;">
+    <div class="modal-content">
+        <div class="row center">
+            <h4 style="background: red;color: white;padding: 20px;" class="margin-top-20 magin-buttom-20">Delete Department</h4>
+        </div>
+        <h4 class="margin-left-20">Delete Department : {{department.name}}</h4>
+    </div>
+    <div class="model-footer right">
+        <a href="" class="magin-button btn btn-gray modal-action modal-close" ng-click="clearData()">Cancle</a>
+        <a href="" class="magin-button btn btn-red modal-action modal-close" ng-click="deleteDepartment()">Delete</a>
+    </div>
+</div>
+
