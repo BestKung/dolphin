@@ -6,7 +6,7 @@ angular.module('doctor-information').controller('doctorInformationController', f
     $scope.preScroll;
     $scope.search = {};
     $scope.currentPage = 0;
-    $scope.size = 0;
+    $scope.size = 10;
     var page = 0;
     var totalDoctor = 0;
     var totalPage = 0;

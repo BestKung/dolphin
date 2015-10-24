@@ -5,12 +5,9 @@
  */
 package th.co.geniustree.dental.controller;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +29,11 @@ public class AppointmentController {
     private void saveAppointment(@RequestBody Appointment appointment){
         System.out.println("------------------------------------------->"+appointment.getPatient());
         appointmentRepo.save(appointment);
+    }
+    
+    @RequestMapping(value = "/getappointment" , method = RequestMethod.GET)
+    private Page<Appointment> getAppointment(Pageable pageable){
+    return appointmentRepo.findAll(pageable);
     }
 
 }

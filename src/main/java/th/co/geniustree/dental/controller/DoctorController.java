@@ -82,7 +82,7 @@ public class DoctorController {
         return doctorRepo.count();
     }
 
-    @RequestMapping(value = "/countsearchdoctor")
+    @RequestMapping(value = "/countsearchdoctor" , method = RequestMethod.POST)
     private Long countSearchDoctor(@RequestBody SearchData searchData) {
         String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();

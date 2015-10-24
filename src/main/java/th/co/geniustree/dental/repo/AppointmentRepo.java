@@ -5,14 +5,15 @@
  */
 package th.co.geniustree.dental.repo;
 
-import java.io.Serializable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import th.co.geniustree.dental.model.Appointment;
 
 /**
  *
  * @author Best
  */
-public interface AppointmentRepo extends JpaRepository<Appointment, Integer>{
+public interface AppointmentRepo extends JpaRepository<Appointment, Integer> , JpaSpecificationExecutor<Appointment>{
     
 }

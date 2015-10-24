@@ -23,13 +23,15 @@ body{
 .input-field .prefix ~ label{
     margin-left: 3.5rem;
 }
-table {
+table { 
     table-layout: fixed;
-    word-wrap: break-word;
 }
-
+table th, table td { 
+    overflow: hidden; 
+}
 #moredetail:hover{
     text-decoration: underline;
+    cursor: pointer;
 }
 .color1{
     background: #00bcd4;

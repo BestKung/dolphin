@@ -1,16 +1,30 @@
+/* global moment */
+
 angular.module('appointment', []);
 angular.module('appointment').controller('appointmentController', function ($scope, $http) {
 
     $scope.appointment = {};
+    $scope.appointments = {};
+    $scope.appointmentDetail = {};
     $scope.startTime = "";
     $scope.endTime = "";
     $scope.warpAppointmane = {};
     $scope.patients = {};
     $scope.searchData = {};
+    $scope.searchDataDoctor = {};
+    $scope.currentPage = 0;
+    $scope.currentPageDoctor = 0;
     $scope.totalPatient = 0;
     $scope.patient = {};
+    $scope.doctor = {};
+    $scope.doctors = {};
+    $scope.preScroll = 0;
+    var totalDoctor = 0;
+    var totalPageDoctor = 0;
+    var pageDoctor = 0;
     var pagePatient = 0;
     var totalPage = 0;
+
 
     $scope.saveAppointment = function () {
         console.log(moment($scope.appointment.appointDay));
@@ -18,36 +32,132 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $scope.warpAppointmane.appointment = $scope.appointment;
         $http.post('/saveappointment', $scope.appointment).success(function (data) {
             console.log('save Success');
+            getAppointment();
         });
     };
 
-    getPatient();
-    function getPatient() {
-        $http.get('/getpatient', {params: {page: pagePatient, size: 10}}).success(function (data) {
-            $scope.patients = data;
-            console.log(data);
+    getAppointment();
+    function getAppointment() {
+        $http.get('/getappointment').success(function (data) {
+            $scope.appointments = data;
         });
     }
 
-
-   $scope.selectPatient = function (patient){
-       $scope.appointment.patient = patient;
-       $scope.patient = patient;
-   };
-   
-    $scope.searchPatient = function () {
-        $http.post('/searchpatient', $scope.searchData).success(function (data) {
+    function getPatient() {
+        $http.get('/getpatient', {params: {page: pagePatient, size: 10}}).success(function (data) {
             $scope.patients = data;
+        });
+    }
+
+    $scope.moreDetail = function (app) {
+        $scope.preScroll = $(window).scrollTop();
+        $('body,html').animate({scrollTop: 400}, "400");
+        $scope.appointmentDetail = app;
+        $scope.appointmentDetail.startTime = moment(new Date(app.appointDay + " " + app.startTime)).format('HH:mm a');
+        $scope.appointmentDetail.endTime = moment(new Date(app.appointDay + " " + app.endTime)).format('HH:mm a');
+        var topic = document.getElementsByClassName('topic-detail');
+        for (var i = 0; i < topic.length; i++) {
+            if (topic[i].innerHTML == "") {
+                topic[i].innerHTML = '-';
+            }
+        }
+    };
+
+    $scope.cancel = function () {
+        toPreScroll();
+        $('span#close-card').trigger('click');
+    };
+    
+     function toPreScroll() {
+        $('body,html').animate({scrollTop: $scope.preScroll}, "0");
+    }
+
+    $scope.toPreScroll = function () {
+        toPreScroll();
+    };
+
+    function getDoctor() {
+        $http.get('getdoctor', {params: {page: pageDoctor, size: 10}}).success(function (data) {
+            $scope.doctors = data;
+        });
+    }
+
+    $scope.selectPatient = function (patient) {
+        $scope.appointment.patient = patient;
+        $scope.patient = patient;
+        $('#modal-patient').closeModal();
+        $('#label-appointment-patient').addClass('active');
+        $('#prefix-appointment-patient').css('color', '#00bcd4');
+    };
+
+    $scope.selectDoctor = function (doctor) {
+        $scope.appointment.doctor = doctor;
+        $scope.doctor = doctor;
+        $('#modal-doctor').closeModal();
+        $('#label-appointment-doctor').addClass('active');
+        $('#prefix-appointment-doctor').css('color', '#00bcd4');
+    };
+
+    $scope.searchPatient = function () {
+        $http.post('/searchpatient', $scope.searchData, {params: {page: pagePatient, size: 10}}).success(function (data) {
+            $scope.patients = data;
+            countSearchPatient();
+            console.log(totalPage);
         });
     };
 
-    countPatient();
+    function searchPatient() {
+        $http.post('/searchpatient', $scope.searchData, {params: {page: pagePatient, size: 10}}).success(function (data) {
+            $scope.patients = data;
+            console.log(totalPage);
+        });
+    }
+
+    $scope.searchDoctor = function () {
+        $http.post('/searchdoctor', $scope.searchDataDoctor, {params: {page: pageDoctor, size: 10}}).success(function (data) {
+            $scope.doctors = data;
+            countSearchDctor();
+        });
+    };
+
+    function searchDoctor() {
+        $http.post('/searchdoctor', $scope.searchDataDoctor, {params: {page: pageDoctor, size: 10}}).success(function (data) {
+            $scope.doctors = data;
+        });
+    }
+
     function countPatient() {
         $http.get('/countpatient').success(function (data) {
             $scope.totalPatient = data;
             findTotalPage();
             console.log('total page : ' + totalPage);
         });
+    }
+
+    function countDoctor() {
+        $http.get('/countdoctor').success(function (data) {
+            totalDoctor = data;
+            findTotalPageDoctor();
+        });
+    }
+
+    function findTotalPageDoctor() {
+        totalPageDoctor = parseInt(totalDoctor / 10);
+        if ((totalDoctor % 10) != 0) {
+            totalPageDoctor++;
+        }
+        console.log(totalPageDoctor + 'total  Doctor');
+        if (totalPageDoctor == 1) {
+            $('#first-page-doctor').addClass('disabled');
+            $('#pre-page-doctor').addClass('disabled');
+            $('#next-page-doctor').addClass('disabled');
+            $('#final-page-doctor').addClass('disabled');
+        }
+        if (totalPageDoctor > 1) {
+            $('#first-page-doctor').addClass('disabled');
+            $('#pre-page-doctor').addClass('disabled');
+        }
+
     }
 
     function selectGetOrSearch() {
@@ -61,16 +171,34 @@ angular.module('appointment').controller('appointmentController', function ($sco
         }
     }
 
+    function selectGetOrSearchDoctor() {
+        if (!!$scope.searchDataDoctor.keyword) {
+            searchDoctor();
+            console.log('true');
+        }
+        else {
+            getDoctor();
+            console.log('false');
+        }
+    }
+
     function countSearchPatient() {
-        $http.post('/countsearchpatient', $scope.search).success(function (data) {
+        $http.post('/countsearchpatient', $scope.searchData).success(function (data) {
             $scope.totalPatient = data;
             findTotalPage();
         });
     }
 
+    function countSearchDctor() {
+        $http.post('/countsearchdoctor', $scope.searchDataDoctor).success(function (data) {
+            totalDoctor = data;
+            findTotalPageDoctor();
+        });
+    }
+
     function findTotalPage() {
         var totalpages = parseInt($scope.totalPatient / 10);
-        if (($scope.totalPatient % $scope.size) != 0) {
+        if (($scope.totalPatient % 10) != 0) {
             totalpages++;
         }
         totalPage = totalpages;
@@ -92,7 +220,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             pagePatient = 0;
             $scope.currentPage = pagePatient;
             selectGetOrSearch();
-           //getPatient();
             if (pagePatient == 0) {
                 $('#first-page').addClass('disabled');
                 $('#pre-page').addClass('disabled');
@@ -107,7 +234,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             pagePatient--;
             $scope.currentPage = pagePatient;
             selectGetOrSearch();
-            //getPatient();
             if (pagePatient == 0) {
                 $('#first-page').addClass('disabled');
                 $('#pre-page').addClass('disabled');
@@ -122,13 +248,13 @@ angular.module('appointment').controller('appointmentController', function ($sco
             pagePatient++;
             $scope.currentPage = pagePatient;
             selectGetOrSearch();
-           //getPatient();
             if (pagePatient == totalPage - 1) {
                 $('#next-page').addClass('disabled');
                 $('#final-page').addClass('disabled');
             }
             $('#pre-page').removeClass('disabled');
             $('#first-page').removeClass('disabled');
+            console.log('next');
         }
     };
 
@@ -137,7 +263,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             pagePatient = totalPage - 1;
             $scope.currentPage = pagePatient;
             selectGetOrSearch();
-            //getPatient();
             if (pagePatient == totalPage - 1) {
                 $('#final-page').addClass('disabled');
                 $('#next-page').addClass('disabled');
@@ -146,6 +271,52 @@ angular.module('appointment').controller('appointmentController', function ($sco
             $('#first-page').removeClass('disabled');
         }
     };
+
+    $scope.firstPageDoctor = function () {
+        pageDoctor = 0;
+        $scope.currentPageDoctor = pageDoctor;
+        selectGetOrSearchDoctor();
+        $('#first-page-doctor').addClass('disabled');
+        $('#pre-page-doctor').addClass('disabled');
+        $('#next-page-doctor').removeClass('disabled');
+        $('#final-page-doctor').removeClass('disabled');
+    };
+
+    $scope.prePageDoctor = function () {
+        pageDoctor--;
+        $scope.currentPageDoctor = pageDoctor;
+        selectGetOrSearchDoctor();
+        if (pageDoctor == 0) {
+            $('#first-page-doctor').addClass('disabled');
+            $('#pre-page-doctor').addClass('disabled');
+        }
+        $('#next-page-doctor').removeClass('disabled');
+        $('#final-page-doctor').removeClass('disabled');
+    };
+
+    $scope.nextPageDoctor = function () {
+        pageDoctor++;
+        $scope.currentPageDoctor = pageDoctor;
+        selectGetOrSearchDoctor();
+        console.log(totalDoctor - 1);
+        if (pageDoctor == totalPageDoctor - 1) {
+            $('#next-page-doctor').addClass('disabled');
+            $('#final-page-doctor').addClass('disabled');
+        }
+        $('#first-page-doctor').removeClass('disabled');
+        $('#pre-page-doctor').removeClass('disabled');
+    };
+
+    $scope.finalPageDoctor = function () {
+        pageDoctor = totalPageDoctor - 1;
+        $scope.currentPageDoctor = pageDoctor;
+        selectGetOrSearchDoctor();
+        $('#next-page-doctor').addClass('disabled');
+        $('#final-page-doctor').addClass('disabled');
+        $('#first-page-doctor').removeClass('disabled');
+        $('#pre-page-doctor').removeClass('disabled');
+    };
+
 
     $('.datepicker').pickadate({
         selectMonths: true,
@@ -178,6 +349,14 @@ angular.module('appointment').controller('appointmentController', function ($sco
     });
 
     $scope.clickPatient = function () {
+        getPatient();
+        countPatient();
         $('#modal-patient').openModal();
+    };
+
+    $scope.clickDoctor = function () {
+        getDoctor();
+        countDoctor();
+        $('#modal-doctor').openModal();
     };
 });

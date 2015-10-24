@@ -17,14 +17,14 @@
             </div>
             <div class="row">
                 <div class="col m6 s12 input-field">
-                    <i class="material-icons prefix clear-prefix">person</i>
+                    <i class="material-icons prefix clear-prefix" id="prefix-appointment-patient">person</i>
                     <input type="text" id="appointment-patient" ng-model="patient.name" ng-click="clickPatient()">
-                    <label for="appointment-patient" class="update">คนไข้</label>
+                    <label for="appointment-patient" id="label-appointment-patient" class="update">คนไข้</label>
                 </div>
                 <div class="col m6 s12 input-field">
-                    <i class="material-icons prefix clear-prefix">assignment_ind</i>
-                    <input type="text" id="appointment-doctor" ng-model="appointment.doctor">
-                    <label for="appointment-doctor" class="update">ทันตเเพทย์</label>
+                    <i class="material-icons prefix clear-prefix" id="prefix-appointment-doctor">assignment_ind</i>
+                    <input type="text" id="appointment-doctor" ng-model="doctor.nameTh" ng-click="clickDoctor()">
+                    <label for="appointment-doctor" class="update" id="label-appointment-doctor">ทันตเเพทย์</label>
                 </div>
             </div>
             <div class="row">
@@ -65,13 +65,132 @@
     </div>
 </div> 
 
+
+
+
 <div class="container">
     <div class="card">
         <div class="card-content">
             <span class="card-title" style="color: black"><h4>ตารางการนัดหมาย</h4></span>
+            <div class="row">
+                <div class="col m6 input-field">
+                    <i class="material-icons prefix">search</i>
+                    <input type="text" id="search" ng-model="search.keyword">
+                    <label for="search" >ค้นหา : </label>
+                </div>
+                <div class="col m3">
+                    <span><h6>ค้นหาโดย : </h6></span>
+                    <div class="select-custom">
+                        <select class="browser-default" id="select-searchby" ng-model="search.searchBy" ng-init="search.searchBy = 'ชื่อคนไข้'">
+                            <option value="ชื่อคนไข้">ชื่อคนไข้</option>
+                            <option value="ชื่อทันคเเพทย์">ชื่อทันคเเพทย์</option>
+                            <option value="เบอร์โทรศัพท์">เบอร์โทรศัพท์</option>
+                            <option value="วันที่นัด">วันที่นัด (ปปปป/ดด/วว)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col m3">
+                    <a class="btn waves-effect waves-light" style="margin-top: 30px; margin-left:calc(3.8rem)" ng-click="searchData()">ค้นหา</a>
+                </div>
+            </div>
+            <div class="row">
+                <table class="responsive-table hoverable">
+                    <thead>
+                        <tr>
+                            <th style="width:10px ">Id</th>
+                            <th style="width:20px ">ชื่อคนไข้</th>
+                            <th style="width:20px ">ชื่อหมอ</th>
+                            <th style="width:15px ">วันที่</th>
+                            <th style="width:20px ">รายการรักษา</th>
+                            <th style="width:10px ">เพิ่มเติม</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="app in appointments.content">
+                            <td>{{app.id}}</td>
+                            <td>{{app.patient.name}}</td>
+                            <td>{{app.doctor.nameTh}}</td>
+                            <td>{{app.appointDay}}</td>
+                            <td>{{app.treatmentList}}</td>
+                            <td><a id="moredetail" class="activator" ng-click="moreDetail(app)">เพิ่มเติม</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-reveal">
+            <div id="card-height" class="card-height">
+                <span class="card-title grey-text text-darken-4" id="close-card">ข้อมูลการนัด<i class="material-icons right" ng-click="toPreScroll()">close</i></span>
+                <div class="row">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">ID : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{appointmentDetail.id}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">รายการรักษา : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail" style="word-wrap: break-word">{{appointmentDetail.treatmentList}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">ชื่อคนไข้ : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{appointmentDetail.patient.name}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">ชื่อทันตเเพทย์ : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{appointmentDetail.doctor.nameTh}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">เบอร์ติดต่อ : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{appointmentDetail.mobile}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">วันที่ : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{appointmentDetail.appointDay}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m3 s6">
+                        <label class="right topic-detail">เวลาเริ่ม : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{appointmentDetail.startTime}}</label>
+                    </div>
+                    <div class="col m2 s6">
+                        <label class="right topic-detail">เวลาสิ้นสุด : </label>
+                    </div>
+                    <div class="col m3 s6">
+                        <label class=" topic-detail">{{appointmentDetail.endTime}}</label>
+                    </div>
+                </div>
+
+                <div class="row margin-top center margin-top-20">
+                    <input type="submit" value="Cancel" class="btn btn-gray waves-effect waves-light" ng-click="cancel()">
+                    <input type="submit" value="Update" class="btn btn-blue2 waves-effect waves-light" ng-click="updateEmployee(employeeDetail)">
+                    <input type="submit" value="Delete" class="btn btn-red waves-effect waves-light" ng-click="clickDelete(employeeDetail)">
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+
+
+
 
 <div id="modal-patient" class="modal" style="height: inherit;border-radius: 10px;">
     <div class="modal-content" style="padding: 10px">
@@ -144,22 +263,22 @@
         <div class="row">
             <div class="col m6 s12 input-field">
                 <i class="material-icons prefix">search</i>
-                <input type="text" id="search" ng-model="searchData.keyword">
+                <input type="text" id="search" ng-model="searchDataDoctor.keyword">
                 <label for="search" >ค้นหา : </label>
             </div>
             <div class="col m3 s12 input-field">
                 <i class="material-icons prefix clear-prefix">language</i>
                 <div class="select-custom">
-                    <select class="browser-default" id="searchby" ng-model="searchData.searchBy" ng-init="searchData.searchBy = 'ชื่อ'"> 
+                    <select class="browser-default" id="searchby" ng-model="searchDataDoctor.searchBy" ng-init="searchDataDoctor.searchBy = 'ชื่อ'"> 
                         <option value="ชื่อ">ชื่อ</option>
-                        <option value="H/N">H/N</option>
-                        <option value="รหัสประชาชน">รหัสประชาชน</option>
+                        <option value="อีเมลล์">อีเมลล์</option>
+                        <option value="เบอร์โทร">เบอร์โทร</option>
                     </select> 
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
             <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searchPatient()">
+                <input type="submit" value="ค้นหา" class="btn" ng-click="searchDoctor()">
             </div>
         </div>
         <div class="row">
@@ -167,17 +286,17 @@
                 <thead>
                     <tr>
                         <th style="width:40%">ชื่อ</th>
-                        <th style="width:15%">H/N</th>
-                        <th style="width:30%">รหัสประชาชน</th>
-                        <th style="width:15%">เลือก</th>
+                        <th style="width:30%">อีเมลล์</th>
+                        <th style="width:20%">เบอร์โทร</th>
+                        <th style="width:10%">เลือก</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="pat in patients.content">
-                        <td>{{pat.name}}</td>
-                        <th>{{pat.hn}}</th>
-                        <th>{{pat.pid}}</th>
-                        <th><a class="select-human modal-close" ng-click="selectPatient(pat)">เลือก</a></th>
+                    <tr ng-repeat="doc in doctors.content">
+                        <td>{{doc.nameTh}}</td>
+                        <th>{{doc.email}}</th>
+                        <th>{{doc.mobile}}</th>
+                        <th><a class="select-human modal-close" ng-click="selectDoctor(doc)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
@@ -185,11 +304,11 @@
         <div class="row">
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
-                    <li class="btn waves-effect btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
-                    <li class="btn waves-effect btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="first-page-doctor" ng-click="firstPageDoctor()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="pre-page-doctor" ng-click="prePageDoctor()()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageDoctor + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination" id="next-page-doctor" ng-click="nextPageDoctor()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="final-page-doctor" ng-click="finalPageDoctor()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>
             </div>
         </div>
