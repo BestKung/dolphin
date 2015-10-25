@@ -26,17 +26,17 @@ public class AppointmentService {
     private AppointmentRepo appointmentRepo;
 
     public Page<Appointment> searchByDoctorName(String keyword, Pageable pageable) {
-        Specifications<Appointment> specifications = Specifications.where(AppointmentSpec.nameDoctorLike(" % " + keyword + " % "));
+        Specifications<Appointment> specifications = Specifications.where(AppointmentSpec.nameDoctorLike("%" + keyword + "%"));
         return appointmentRepo.findAll(specifications, pageable);
     }
 
     public Page<Appointment> searchByPatientName(String keyword, Pageable pageable) {
-        Specifications<Appointment> specifications = Specifications.where(AppointmentSpec.namePatientLike(" % " + keyword + " % "));
+        Specifications<Appointment> specifications = Specifications.where(AppointmentSpec.namePatientLike("%" + keyword + "%"));
         return appointmentRepo.findAll(specifications, pageable);
     }
 
     public Page<Appointment> searchByMobile(String keyword, Pageable pageable) {
-        Specifications<Appointment> specifications = Specifications.where(AppointmentSpec.mobileLike(" % " + keyword + " % "));
+        Specifications<Appointment> specifications = Specifications.where(AppointmentSpec.mobileLike("%" + keyword + "%"));
         return appointmentRepo.findAll(specifications, pageable);
     }
 

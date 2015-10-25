@@ -5,37 +5,37 @@
 
             <div class="row">
                 <div class="col m6 s12 input-field">
-                    <i class="material-icons prefix clear-prefix" id="id">label</i>
+                    <i class="material-icons prefix clear-prefix" id="prefix-appointment-id">label</i>
                     <input type="text" id="id" disabled ng-model="appointment.id">
-                    <label for="id" class="update">ID</label>
+                    <label for="id" class="update" id="label-appointment-id">ID</label>
                 </div>
                 <div class="col m6 s12 input-field">
-                    <i class="material-icons prefix clear-prefix">content_paste</i>
-                    <textarea type="text" id="treatmentlist" ng-model="appointment.treatmentList" class="materialize-textarea"></textarea>
+                    <i class="material-icons prefix clear-prefix treatmentlist">content_paste</i>
+                    <textarea type="text" id="treatmentlist" ng-model="appointment.treatmentList" class="materialize-textarea" ng-change="setBackgroundPrefixIdAppointment();changePrefix('.treatmentlist , #prefix-appointment-id')"></textarea>
                     <label for="treatmentlist" class="update">รายการรักษา</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-appointment-patient">person</i>
-                    <input type="text" id="appointment-patient" ng-model="patient.name" ng-click="clickPatient()">
+                    <input type="text" id="appointment-patient" ng-model="patient.name" ng-click="clickPatient()" ng-change="changePrefix('#prefix-appointment-patient')">
                     <label for="appointment-patient" id="label-appointment-patient" class="update">คนไข้</label>
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-appointment-doctor">assignment_ind</i>
-                    <input type="text" id="appointment-doctor" ng-model="doctor.nameTh" ng-click="clickDoctor()">
+                    <input type="text" id="appointment-doctor" ng-model="doctor.nameTh" ng-click="clickDoctor()" ng-change="changePrefix('#prefix-appointment-doctor')">
                     <label for="appointment-doctor" class="update" id="label-appointment-doctor">ทันตเเพทย์</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m6 s12 input-field">
-                    <i class="material-icons prefix clear-prefix">call</i>
-                    <input type="text" id="mobile" ng-model="appointment.mobile">
+                    <i class="material-icons prefix clear-prefix" id="prefix-appointment-mobile">call</i>
+                    <input type="text" id="mobile" ng-model="appointment.mobile" ng-change="changePrefix('#prefix-appointment-mobile')">
                     <label for="mobile" class="update">เบอร์ติดต่อ</label>
                 </div>
                 <div class="col m6 s12 input-field">
-                    <i class="material-icons prefix clear-prefix">today</i>
-                    <input type="text" id="appointday" class="datepicker" ng-model="appointment.appointDay">
+                    <i class="material-icons prefix clear-prefix" id="prefix-appointment-appointday">today</i>
+                    <input type="text" id="appointday" class="datepicker" ng-model="appointment.appointDay" ng-change="changePrefix('#prefix-appointment-appointday')">
                     <label for="appointday" class="update">วันที่</label>
                 </div>
             </div>
@@ -43,14 +43,14 @@
                 <div id="time-starttime"> 
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix" id="prefix-starttime">today</i>
-                        <input type="text" id="startTime" value="" ng-model="startTime">
+                        <input type="text" id="startTime" value="" ng-model="startTime" ng-change="changePrefix('#prefix-starttime')">
                         <label for="startTime" class="update" id="label-starttime">เวลาเริ่ม</label>
                     </div>
                 </div>
                 <div id="time-endtime">
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix" id="prefix-endtime">today</i>
-                        <input type="text" id="endTime" value="" ng-model="endTime">
+                        <input type="text" id="endTime" value="" ng-model="endTime" ng-change="changePrefix('#prefix-endtime')">
                         <label for="endTime" class="update" id="label-endtime">เวลาสิ่นสุด</label>
                     </div>
                 </div>
@@ -73,15 +73,15 @@
         <div class="card-content">
             <span class="card-title" style="color: black"><h4>ตารางการนัดหมาย</h4></span>
             <div class="row">
-                <div class="col m6 input-field">
+                <div class="col m5 input-field">
                     <i class="material-icons prefix">search</i>
-                    <input type="text" id="search" ng-model="search.keyword">
+                    <input type="text" id="search" ng-model="searchDataAppointment.keyword">
                     <label for="search" >ค้นหา : </label>
                 </div>
                 <div class="col m3">
                     <span><h6>ค้นหาโดย : </h6></span>
                     <div class="select-custom">
-                        <select class="browser-default" id="select-searchby" ng-model="search.searchBy" ng-init="search.searchBy = 'ชื่อคนไข้'">
+                        <select class="browser-default" id="select-searchby" ng-model="searchDataAppointment.searchBy" ng-init="searchDataAppointment.searchBy = 'ชื่อคนไข้'">
                             <option value="ชื่อคนไข้">ชื่อคนไข้</option>
                             <option value="ชื่อทันคเเพทย์">ชื่อทันคเเพทย์</option>
                             <option value="เบอร์โทรศัพท์">เบอร์โทรศัพท์</option>
@@ -89,8 +89,19 @@
                         </select>
                     </div>
                 </div>
-                <div class="col m3">
-                    <a class="btn waves-effect waves-light" style="margin-top: 30px; margin-left:calc(3.8rem)" ng-click="searchData()">ค้นหา</a>
+                <div class="col m2">
+                    <a class="btn waves-effect waves-light" style="margin-top: 30px; margin-left:calc(3.8rem)" ng-click="searchAppointment()">ค้นหา</a>
+                </div>
+                <div class="col m2">
+                    <div class="right">
+                        <span class="">Show Page : </span>
+                        <select class="browser-default" ng-change="selectGetOrSearchAppointment()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="sizeAppointment" ng-init="sizeAppointment = '10'">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -116,6 +127,17 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="row">
+                    <div class="col m12">
+                        <ul class="pagination right" style="margin-top: 10px;">
+                            <li class="btn waves-effect btn-pagination" id="first-page-appointment" ng-click="firstPageAppointment()()"><p style="margin-top: 2px;">&Lt;</p></li>
+                            <li class="btn waves-effect btn-pagination" id="pre-page-appointment" ng-click="prePageAppointment()()"><p style="margin-top: 2px;">&LT</p>;</li>
+                            <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
+                            <li class="btn waves-effect btn-pagination" id="next-page-appointment" ng-click="nextPageAppointment()()"><p style="margin-top: 2px;">&GT;</p></li>
+                            <li class="btn waves-effect btn-pagination" id="final-page-appointment" ng-click="finalPageAppointment()()"><p style="margin-top: 2px;">&Gt;</p></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card-reveal">

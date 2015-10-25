@@ -12,6 +12,7 @@ angular.module('appointment').controller('appointmentController', function ($sco
     $scope.patients = {};
     $scope.searchData = {};
     $scope.searchDataDoctor = {};
+    $scope.searchDataAppointment = {};
     $scope.currentPage = 0;
     $scope.currentPageDoctor = 0;
     $scope.totalPatient = 0;
@@ -19,11 +20,15 @@ angular.module('appointment').controller('appointmentController', function ($sco
     $scope.doctor = {};
     $scope.doctors = {};
     $scope.preScroll = 0;
+    $scope.sizeAppointment = 10;
     var totalDoctor = 0;
     var totalPageDoctor = 0;
     var pageDoctor = 0;
     var pagePatient = 0;
     var totalPage = 0;
+    var totalAppointment = 0;
+    var totalPageAppointment = 0;
+    var pageAppointment = 0;
 
 
     $scope.saveAppointment = function () {
@@ -33,15 +38,164 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $http.post('/saveappointment', $scope.appointment).success(function (data) {
             console.log('save Success');
             getAppointment();
+            //  $scope.clearData();
+            countAppointment();
         });
     };
 
     getAppointment();
     function getAppointment() {
-        $http.get('/getappointment').success(function (data) {
+        $http.get('/getappointment', {params: {page: pageAppointment, size: $scope.sizeAppointment}}).success(function (data) {
             $scope.appointments = data;
         });
     }
+
+    $scope.getAppointment = function () {
+        pageAppointment = 0;
+        getAppointment();
+        $scope.currentPage = pageAppointment;
+        countAppointment();
+        findTotalPageAppointment();
+    };
+
+    $scope.searchAppointment = function () {
+        searchAppointment();
+        countSearchAppointment();
+        console.log('search count : '+totalPage);
+    };
+
+    function searchAppointment() {
+        $http.post('/searchappointment', $scope.searchDataAppointment, {params: {page: pageAppointment, size: $scope.sizeAppointment}}).success(function (data) {
+            $scope.appointments = data;
+        });
+    }
+
+    $scope.clearData = function () {
+        $scope.appointment = {};
+        $scope.startTime = "";
+        $scope.endTime = "";
+        $scope.patient = {};
+        $scope.doctor = {};
+        $('.update').removeClass('active');
+        $('.clear-prefix').css('color', 'black');
+
+    };
+
+    countAppointment();
+    function countAppointment() {
+        $http.get('/countappointment').success(function (data) {
+            totalAppointment = data;
+            findTotalPageAppointment();
+        });
+    }
+
+    function countSearchAppointment() {
+        $http.post('/countsearchappointment', $scope.searchDataAppointment).success(function (data) {
+            totalAppointment = data;
+            findTotalPageAppointment();
+        });
+    }
+
+    function findTotalPageAppointment() {
+        totalPageAppointment = parseInt(totalAppointment / $scope.sizeAppointment);
+        if ((totalAppointment % $scope.sizeAppointment) != 0) {
+            totalPageAppointment++;
+        }
+        console.log(totalAppointment + 'total  Appointment');
+        console.log(totalPageAppointment);
+        if (totalPageAppointment == 1) {
+            $('#first-page-appointment').addClass('disabled');
+            $('#pre-page-appointment').addClass('disabled');
+            $('#next-page-appointment').addClass('disabled');
+            $('#final-page-appointment').addClass('disabled');
+        }
+        if (totalPageAppointment > 1) {
+            $('#first-page-appointment').addClass('disabled');
+            $('#pre-page-appointment').addClass('disabled');
+            $('#next-page-appointment').removeClass('disabled');
+            $('#final-page-appointment').removeClass('disabled');
+        }
+
+    }
+
+    $scope.selectGetOrSearchAppointment = function () {
+        pageAppointment = 0;
+        $scope.currentPage = pageAppointment;
+        if (!!$scope.searchDataAppointment.keyword) {
+            searchAppointment();
+            countSearchAppointment();
+        }
+        else {
+            getAppointment();
+            countAppointment();
+        }
+    };
+
+    function selectGetOrSearchAppointment() {
+        if (!!$scope.searchDataAppointment.keyword) {
+            searchAppointment();
+        }
+        else {
+            getAppointment();
+        }
+    }
+
+    $scope.firstPageAppointment = function () {
+        if (!$('#first-page-appointment').hasClass('disabled')) {
+            pageAppointment = 0;
+            $scope.currentPage = pageAppointment;
+            selectGetOrSearchAppointment();
+            if (pageAppointment == 0) {
+                $('#first-page-appointment').addClass('disabled');
+                $('#pre-page-appointment').addClass('disabled');
+            }
+            $('#next-page-appointment').removeClass('disabled');
+            $('#final-page-appointment').removeClass('disabled');
+        }
+    };
+
+    $scope.prePageAppointment = function () {
+        if (!$('#first-page-appointment').hasClass('disabled')) {
+            pageAppointment--;
+            $scope.currentPage = pageAppointment;
+            selectGetOrSearchAppointment();
+            if (pageAppointment == 0) {
+                $('#first-page-appointment').addClass('disabled');
+                $('#pre-page-appointment').addClass('disabled');
+            }
+            $('#next-page-appointment').removeClass('disabled');
+            $('#final-page-appointment').removeClass('disabled');
+        }
+    };
+
+    $scope.nextPageAppointment = function () {
+        if (!$('#final-page-appointment').hasClass('disabled')) {
+            pageAppointment++;
+            $scope.currentPage = pageAppointment;
+            selectGetOrSearchAppointment();
+            if (pageAppointment == totalPageAppointment - 1) {
+                $('#next-page-appointment').addClass('disabled');
+                $('#final-page-appointment').addClass('disabled');
+            }
+            $('#pre-page-appointment').removeClass('disabled');
+            $('#first-page-appointment').removeClass('disabled');
+            console.log('next');
+        }
+    };
+
+    $scope.finalPageAppointment = function () {
+        if (!$('#final-page-appointment').hasClass('disabled')) {
+            pageAppointment = totalPageAppointment - 1;
+            $scope.currentPage = pageAppointment;
+            selectGetOrSearchAppointment();
+            if (pageAppointment == totalPageAppointment - 1) {
+                $('#final-page-appointment').addClass('disabled');
+                $('#next-page-appointment').addClass('disabled');
+            }
+            $('#pre-page-appointment').removeClass('disabled');
+            $('#first-page-appointment').removeClass('disabled');
+        }
+    };
 
     function getPatient() {
         $http.get('/getpatient', {params: {page: pagePatient, size: 10}}).success(function (data) {
@@ -67,8 +221,8 @@ angular.module('appointment').controller('appointmentController', function ($sco
         toPreScroll();
         $('span#close-card').trigger('click');
     };
-    
-     function toPreScroll() {
+
+    function toPreScroll() {
         $('body,html').animate({scrollTop: $scope.preScroll}, "0");
     }
 
@@ -317,6 +471,14 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $('#pre-page-doctor').removeClass('disabled');
     };
 
+    $scope.setBackgroundPrefixIdAppointment = function () {
+        $('#label-appointment-id').addClass('active');
+        $('#prefix-appointment-id').addClass('active');
+    };
+
+    $scope.changePrefix = function (my) {
+        $(my).css('color', '#00bcd4');
+    };
 
     $('.datepicker').pickadate({
         selectMonths: true,
