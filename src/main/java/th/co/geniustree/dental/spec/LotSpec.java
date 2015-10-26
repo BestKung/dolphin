@@ -30,7 +30,7 @@ public class LotSpec {
         };
     }
     
-    public static Specification<Lot> dateInLike(final Date keyword){
+    public static Specification<Lot> dateInBetween(final Date keyword){
         return new Specification<Lot>() {
 
             @Override
@@ -40,7 +40,7 @@ public class LotSpec {
         };
     }
     
-    public static  Specification<Lot> dateOutLike(final Date keyword){
+    public static  Specification<Lot> dateOutBetween(final Date keyword){
         return new Specification<Lot>() {
 
             @Override
