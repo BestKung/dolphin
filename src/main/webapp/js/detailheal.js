@@ -8,16 +8,22 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.doctors = {};
     $scope.listSelectHeals = {};
     $scope.preScroll = 0;
-    
+
 //    $scope.deleteOrderHeal = [];
 //    $scope.updateOrderHeal = {};
 //    var updateDeleteOrderHeal = [];
 //    var updateCount = 0;
 //    var count = 0;
-    
+
+    $scope.row = 10;
+    $scope.page = 0;
+    $scope.currentPage = 1;
+    var totalPage = 0;
+    var totalList = 0;
+
     loadDetailHeal();
     function loadDetailHeal() {
-        $http.get('/loaddetailheal').success(function (data) {
+        $http.get('/loaddetailheal', {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
             $scope.detailHeals = data;
         }).error(function (data) {
 
@@ -129,9 +135,11 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
                 $scope.orderHeals = [];
                 $scope.nameListPayHeal = '';
                 $scope.amountListPayHeal = '';
-                loadListSelectHeal();
-                loadPatient();
-                loadDoctor();
+                getTotalList();
+                loadListSelectHeal(0);
+                loadPatient(0);
+                loadDoctor(0);
+
 
             }).error(function (data, status, header, cofig) {
                 Materialize.toast('ผิดพลาดsavedetailHeal', 3000, 'rounded');
@@ -163,6 +171,8 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $http.post('/deletedetailheal', $scope.seeDetail).success(function (data) {
             Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
             loadDetailHeal();
+            getTotalList();
+            $scope.firstPage();
             $('span#close-card').trigger('click');
         }).error(function (data) {
 
@@ -207,6 +217,115 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.cancel = function () {
         toPreScroll();
         $('span#close-card').trigger('click');
+    };
+
+    // pagegin
+    $scope.selectGetOrSearch = function () {
+        loadDetailHeal();
+        getTotalList();
+        $scope.firstPage();
+        if (totalPage >= $scope.currentPage) {
+            $('#next-page').removeClass('disabled');
+            $('#final-page').removeClass('disabled');
+        }
+    };
+
+    getTotalList();
+    function getTotalList() {
+        $http.get('/totaldetailheal').success(function (data) {
+            totalList = data;
+            totalPages();
+        });
+    }
+
+    function totalPages() {
+        var totalPages = parseInt(totalList / $scope.row);
+        if ((totalList % $scope.row) !== 0) {  //บรรทัดนี้ทำงาน ถ้าค่ามากกว่าจำนวนหน้า แต่ไม่เต็มอีกหน้า ให้บวกอีกหน้า
+            totalPages++;
+        }
+
+        totalPage = totalPages;
+
+        if ($scope.currentPage === 1) {
+            $('#first-page').addClass('disabled');
+            $('#pre-page').addClass('disabled');
+        }
+        if ($scope.currentPage === totalPage) {
+            $('#next-page').addClass('disabled');
+            $('#final-page').addClass('disabled');
+        }
+        if ($scope.currentPage < totalPage && $scope.currentPage > 1) {
+            $('#first-page').removeClass('disabled');
+            $('#pre-page').removeClass('disabled');
+            $('#next-page').removeClass('disabled');
+            $('#final-page').removeClass('disabled');
+        }
+    }
+
+    $scope.firstPage = function () {
+        if (!$('#first-page').hasClass('disabled')) {
+            $scope.page = 0;
+            loadDetailHeal();
+            $scope.currentPage = 1;
+            $('#first-page').addClass('disabled');
+            $('#pre-page').addClass('disabled');
+            $('#next-page').removeClass('disabled');
+            $('#final-page').removeClass('disabled');
+        }
+    };
+    $scope.finalPage = function () {
+        if (!$('#final-page').hasClass('disabled')) {
+            $scope.page = totalPage - 1;
+            loadDetailHeal();
+            $scope.currentPage = totalPage;
+            $('#first-page').removeClass('disabled');
+            $('#pre-page').removeClass('disabled');
+            $('#next-page').addClass('disabled');
+            $('#final-page').addClass('disabled');
+        }
+    };
+
+    $scope.prePage = function () {
+        if (!$('#first-page').hasClass('disabled')) {
+            $scope.page--;
+            loadDetailHeal();
+            $scope.currentPage = $scope.page + 1;
+            if ($scope.page === 0) {
+                $('#first-page').addClass('disabled');
+                $('#pre-page').addClass('disabled');
+            }
+            $('#next-page').removeClass('disabled');
+            $('#final-page').removeClass('disabled');
+        }
+    };
+
+    $scope.nextPage = function () {
+        if (!$('#final-page').hasClass('disabled')) {
+            $scope.page++;
+            loadDetailHeal();
+            $scope.currentPage = $scope.page + 1;
+            if ($scope.page === totalPage - 1) {
+                $('#next-page').addClass('disabled');
+                $('#final-page').addClass('disabled');
+            }
+            $('#first-page').removeClass('disabled');
+            $('#pre-page').removeClass('disabled');
+        }
+
+    };
+
+    $scope.searchData = {};
+    $scope.searcDataContent = function () {
+        if (!$scope.searchData.keyword) {
+            loadDetailHeal();
+        }
+        else {
+            $http.post('/loaddetailheal/searchdetailheal', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
+                $scope.detailHeals = data;
+            }).error(function (data) {
+
+            });
+        }
     };
 
 });

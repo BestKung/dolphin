@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import th.co.geniustree.dental.model.ListSelectHeal;
+import th.co.geniustree.dental.model.SearchData;
 import th.co.geniustree.dental.repo.ListSelectHealRepo;
+import th.co.geniustree.dental.service.ListSelectHealService;
 
 /**
  *
@@ -29,20 +31,39 @@ public class ListSelectHealController {
     public Page<ListSelectHeal> loadListSelectHeal(Pageable pageable) {
         return listSelectHealRepo.findAll(pageable);
     }
-    
-    @RequestMapping(value = "/savelistselectheal",method = RequestMethod.POST)
-    public void saveListSelectHeal(@RequestBody ListSelectHeal listSelectHeal){
+
+    @RequestMapping(value = "/savelistselectheal", method = RequestMethod.POST)
+    public void saveListSelectHeal(@RequestBody ListSelectHeal listSelectHeal) {
         listSelectHealRepo.save(listSelectHeal);
     }
-    
-    
-    @RequestMapping(value = "/deletelistselectheal",method = RequestMethod.POST)
-    public void deleteListSelectHeal(@RequestBody ListSelectHeal listSelectHeal){
+
+    @RequestMapping(value = "/deletelistselectheal", method = RequestMethod.POST)
+    public void deleteListSelectHeal(@RequestBody ListSelectHeal listSelectHeal) {
         listSelectHealRepo.delete(listSelectHeal.getId());
     }
-    
-     @RequestMapping(value = "/totallistselectheal", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/totallistselectheal", method = RequestMethod.GET)
     public Long getTotalListSelectHeal() {
         return listSelectHealRepo.count();
     }
+    
+    @Autowired
+    private ListSelectHealService listSelectHealService;
+
+    @RequestMapping(value = "/loadlistselectheal/searchlistselectheal", method = RequestMethod.POST)
+    public Page<ListSelectHeal> search(@RequestBody SearchData searchData,Pageable pageable){
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        Page<ListSelectHeal> listSelectHeals = null;
+        if("Name".equals(searchBy)){
+            listSelectHeals = listSelectHealService.searchByName(keyword, pageable);
+        }
+        if("Price".equals(searchBy)){
+            Double keywordDouble = Double.parseDouble(keyword);
+            listSelectHeals = listSelectHealService.searchByPrice(keywordDouble, pageable);
+        }
+        return listSelectHeals;
+    }
+    
+
 }

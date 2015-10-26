@@ -21,8 +21,11 @@ angular.module('patient').controller('patientController', function (patientServi
     $scope.savePatient = function () {
         console.log($scope.patient.patientPicture);
         $http.post('/savepatient', $scope.patient).success(function (data) {
+             Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
             console.log('success');
             clearData();
+        }).error(function (data){
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
 

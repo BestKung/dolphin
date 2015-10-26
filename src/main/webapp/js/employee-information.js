@@ -135,13 +135,14 @@ angular.module('employee-information').controller('employeeInformationController
     $scope.deleteEmployee = function () {
         console.log('delete' + $scope.selectEmployee);
         $http.post('/deletestaff', $scope.selectEmployee).success(function (data) {
+             Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
             console.log('delete success');
             $scope.selectEmployee = {};
             selectGetOrSearch();
             toPreScroll();
             $('span#close-card').trigger('click');
         }).error(function (data) {
-
+        Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
         $('i#close-card').trigger('click');
     };

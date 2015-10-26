@@ -30,7 +30,7 @@ public class ListSelectHealService {
     }
 
     public Page<ListSelectHeal> searchByPrice(Double keyword, Pageable pageable) {
-        Specifications<ListSelectHeal> specifications = Specifications.where(ListSelectHealSpec.priceLike("%" + keyword + "%"));
+        Specifications<ListSelectHeal> specifications = Specifications.where(ListSelectHealSpec.priceLike(keyword));
         return listSelectHealRepo.findAll(specifications, pageable);
     }
 }
