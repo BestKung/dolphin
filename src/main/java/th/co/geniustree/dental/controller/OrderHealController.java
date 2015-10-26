@@ -39,11 +39,11 @@ public class OrderHealController {
         return orderHealRepo.findAll(pageable);
     }
 
-    @RequestMapping(value = "/savedetailheal", method = RequestMethod.POST)
-    public void saveDetailHeal(@RequestBody DetailHeal detailHeal) {
-        detailHeal_Id = detailHeal;
-        detailHealRepo.save(detailHeal);
-    }
+//    @RequestMapping(value = "/savedetailheal", method = RequestMethod.POST)
+//    public void saveDetailHeal(@RequestBody DetailHeal detailHeal) {
+//        detailHeal_Id = detailHeal;
+//        detailHealRepo.save(detailHeal);
+//    }
 
     @RequestMapping(value = "/saveorderheal", method = RequestMethod.POST)
     public void saveDetailHeal(@RequestBody OrderHeal[] orderHeals) {

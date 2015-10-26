@@ -32,6 +32,11 @@ public class DetailHealController {
      @Autowired
      private DetailHealRepo detailHealRepo;
     
+     @RequestMapping(value = "/savedetailheal" , method = RequestMethod.POST)
+     public void saveDetailHeal(@RequestBody DetailHeal detailHeal){
+     detailHealRepo.save(detailHeal);
+     }
+     
     @RequestMapping(value = "/loaddetailheal")
     public Page<DetailHeal> loadOrderHeal(Pageable pageable){
         return detailHealRepo.findAll(pageable);
