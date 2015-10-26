@@ -99,9 +99,12 @@ angular.module('doctor-information').controller('doctorInformationController', f
 
     $scope.deleteDoctor = function () {
         $http.post('/deletedoctor', $scope.doctorDetail).success(function (data) {
+            Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
             selectGetOrSearch();
             toPreScroll();
             $('span#close-card').trigger('click');
+        }).error(function (data){
+             Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
 

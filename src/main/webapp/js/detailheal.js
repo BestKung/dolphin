@@ -138,9 +138,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         countPatient();
     };
     
-    $scope.clickDoctor = function (){
-        $('#modal-doctor').openModal();
-    };
+    $scope.clickDoctor = function (){};
 
     $('.datepicker').pickadate({
         selectMonths: true,

@@ -60,7 +60,7 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
         loadListSelectHeal();
         getTotalList();
         $scope.firstPage();
-        if(totalPage >= $scope.currentPage){
+        if (totalPage >= $scope.currentPage) {
             $('#next-page').removeClass('disabled');
             $('#final-page').removeClass('disabled');
         }
@@ -150,6 +150,19 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
 
     };
 
+    $scope.searchData = {};
+    $scope.searcDataContent = function () {
+        if (!$scope.searchData.keyword) {
+            loadListSelectHeal();
+        }
+        else {
+            $http.post('/loadlistselectheal/searchlistselectheal', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
+                $scope.listSelectHeals = data;
+            }).error(function (data) {
+
+            });
+        }
+    };
 
 });
 

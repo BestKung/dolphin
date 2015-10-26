@@ -23,8 +23,10 @@ angular.module('doctor').controller('doctorController', function (employeeServic
     $scope.saveDoctor = function () {
         if (confirmPassword()) {
             $http.post('/savedoctor', $scope.doctor).success(function (data) {
+                Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
                 clearData();
             }).error(function (data) {
+                Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
                 $scope.error = data;
                 $('body,html').animate({scrollTop: 0}, "600");
             });
@@ -124,8 +126,8 @@ angular.module('doctor').controller('doctorController', function (employeeServic
         clearData();
     };
 
-    $scope.changePrefix = function (my){
-       $(my).css('color', '#00bcd4');
+    $scope.changePrefix = function (my) {
+        $(my).css('color', '#00bcd4');
     };
 
     $scope.setBackgroundPrefixId = function () {

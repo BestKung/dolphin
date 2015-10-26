@@ -28,7 +28,7 @@ public class ListSelectHealSpec {
             }           
         };
     }
-    public static Specification<ListSelectHeal> priceLike(final String keyword){
+    public static Specification<ListSelectHeal> priceLike(final Double keyword){
         return new Specification<ListSelectHeal>(){
 
             @Override

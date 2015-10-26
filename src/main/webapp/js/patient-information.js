@@ -39,8 +39,11 @@ angular.module('patient-information').controller('patientInformationController',
 
     $scope.deletePatient = function (){
         $http.post('/deletepatient' , $scope.patientDetail).success(function (data){
+            Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
             console.log('delete success');
             $scope.cancel();
+        }).error(function (data){
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
     
