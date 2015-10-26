@@ -15,5 +15,5 @@ import th.co.geniustree.dental.model.DetailHeal;
  * @author User
  */
 public interface DetailHealRepo extends JpaRepository<DetailHeal, Integer>,JpaSpecificationExecutor<DetailHeal>{
-    
+//    public DetailHeal findBy
 }

@@ -81,8 +81,7 @@ angular.module('appointment').controller('appointmentController', function ($sco
     $scope.searchAppointment = function () {
         searchAppointment();
         countSearchAppointment();
-        console.log('search count : ' + totalPage);
-    };
+     };
 
     function searchAppointment() {
         $http.post('/searchappointment', $scope.searchDataAppointment, {params: {page: pageAppointment, size: $scope.sizeAppointment}}).success(function (data) {

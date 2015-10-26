@@ -16,14 +16,14 @@
             </div>
             <div class="row">
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix">android</i>
+                    <i class="material-icons prefix" id="prefix-detailheal-patient">android</i>
                     <input type="text" id="patient-detailheal" ng-model="patient.name" ng-click="clickPatient()">
-                    <label class="active" for="patient-detailheal">ชื่อคนไข้</label>
+                    <label class="active" for="patient-detailheal" id="label-detailheal-patient">ชื่อคนไข้</label>
                 </div>
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix">android</i>
-                    <input type="text" id="doctor-detailheal" ng-model="" ng-click="clickDoctor()">
-                    <label class="active" for="doctor-detailheal">ชื่อทันตเเพทย์</label>
+                    <i class="material-icons prefix" id="prefix-detailheal-doctor">android</i>
+                    <input type="text" id="doctor-detailheal" ng-model="doctor.nameTh" ng-click="clickDoctor()">
+                    <label class="active" for="doctor-detailheal" id="label-detailheal-doctor">ชื่อทันตเเพทย์</label>
                 </div>
             </div>
             <div class="row" >
@@ -373,7 +373,7 @@
                 <ul class="pagination right" style="margin-top: 10px;">
                     <li class="btn waves-effect btn-pagination" id="first-page-doctor" ng-click="firstPageDoctor()"><p style="margin-top: 2px;">&Lt;</p></li>
                     <li class="btn waves-effect btn-pagination" id="pre-page-doctor" ng-click="prePageDoctor()()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageDoctor + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
                     <li class="btn waves-effect btn-pagination" id="next-page-doctor" ng-click="nextPageDoctor()"><p style="margin-top: 2px;">&GT;</p></li>
                     <li class="btn waves-effect btn-pagination" id="final-page-doctor" ng-click="finalPageDoctor()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>
