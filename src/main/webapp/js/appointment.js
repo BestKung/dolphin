@@ -36,7 +36,7 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $scope.appointment.endTime = new Date(moment(new Date($scope.appointment.appointDay + " " + $scope.endTime)).format('YYYY-MM-d HH:mm:ss'));
         $http.post('/saveappointment', $scope.appointment).success(function (data) {
             console.log('save Success');
-            getAppointment();
+            selectGetOrSearchAppointment();
             $scope.clearData();
             countAppointment();
             console.log(data);

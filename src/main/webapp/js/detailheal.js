@@ -1,189 +1,146 @@
 angular.module('detailHeal', []);
 angular.module('detailHeal').controller('detailHealController', function ($scope, $http) {
 
-    $scope.detailHeals = {};
     $scope.detailHeal = {};
-    $scope.orderHeals = [];
+    $scope.searchDataPatient = {};
+    $scope.patient = {};
     $scope.patients = {};
-    $scope.doctors = {};
-    $scope.listSelectHeals = {};
-    $scope.preScroll = 0;
-    
-//    $scope.deleteOrderHeal = [];
-//    $scope.updateOrderHeal = {};
-//    var updateDeleteOrderHeal = [];
-//    var updateCount = 0;
-//    var count = 0;
-    
-    loadDetailHeal();
-    function loadDetailHeal() {
-        $http.get('/loaddetailheal').success(function (data) {
-            $scope.detailHeals = data;
-        }).error(function (data) {
+    $scope.doctor = {};
+    $scope.currentPage = 0;
+    var totalPagePatient = 0;
+    var totalPatient = 0;
+    var pagePatient = 0;
 
-        });
-    }
 
-    loadPatient(0);
-    function loadPatient(id) {
-        $http.get('/getpatient').success(function (data) {
+
+    function getPatient() {
+        $http.get('/getpatient',{params:{page:pagePatient , size:10}}).success(function (data) {
             $scope.patients = data;
-            $scope.detailHeal.patient = data.content[id];
-            for (i = 0; i < data.content.length; i++) {
-                if (id === data.content[i].id) {
-                    $scope.detailHeal.patient = data.content[i];
-                }
-            }
+        });
+        ;
+    }
+    
+     function selectGetOrSearchPatient() {
+        if (!!$scope.searchData.keyword) {
+            searchPatient();
+        }
+        else {
+            getPatient();
+        }
+    }
+    
+    $scope.selectPatient = function (pat){
+        $scope.patient = pat;
+        $scope.detailHeal.patient = pat;
+        $('#modal-patient').closeModal();
+    };
 
+    $scope.searchPatient = function () {
+        $http.post('/searchpatient', $scope.searchDataPatient , {params:{page:pagePatient , size:10}}).success(function (data) {
+            $scope.patients = data;
+            countSearchPatient();
+        });
+    };
+    
+     function countSearchPatient() {
+        $http.post('/countsearchpatient', $scope.searchData).success(function (data) {
+            $scope.totalPatient = data;
+            findTotalPagePatient();
         });
     }
 
-    loadDoctor(0);
-    function loadDoctor(id) {
-        $http.get('/getdoctor').success(function (data) {
-            $scope.doctors = data;
-            $scope.detailHeal.doctor = data.content[id];
-            for (j = 0; j < data.content.length; j++) {
-                if (id === data.content[j].id) {
-                    $scope.detailHeal.doctor = data.content[j];
-                }
-            }
+    function countPatient() {
+        $http.get('/countpatient').success(function (data) {
+            totalPatient = data;
+            findTotalPagePatient();
         });
     }
 
-    loadListSelectHeal();
-    function loadListSelectHeal() {
-        $http.get('/loadlistselectheal').success(function (data) {
-            $scope.listSelectHeals = data;
-            $scope.nameListOrderheal = data.content[0];
-        }).error(function (data) {
-        });
+    function findTotalPagePatient() {
+        var totalpages = parseInt(totalPatient / 10);
+        if ((totalPatient % 10) != 0) {
+            totalpages++;
+        }
+        totalPagePatient = totalpages;
+         if (totalpages == 1) {
+            $('#first-page-patient').addClass('disabled');
+            $('#pre-page-patient').addClass('disabled');
+            $('#next-page-patient').addClass('disabled');
+            $('#final-page-patient').addClass('disabled');
+        }
+        if (totalpages > 1) {
+            $('#first-page-patient').addClass('disabled');
+            $('#pre-page-patient').addClass('disabled');
+             $('#next-page-patient').removeClass('disabled');
+            $('#final-page-patient').removeClass('disabled')
+        }
     }
-
-
-    $scope.addSelectHeal = function (name) {
-        if (!$scope.amountListSelectHeal || $scope.amountListSelectHeal === 0 || $scope.amountListSelectHeal < 0) {
-            Materialize.toast('การุณากรอกจำนวนให้ถูกต้องด้วยครับ', 3000, 'rounded');
-        } else {
-            if ($scope.orderHeals.length === 0) {
-                $scope.orderHeals.push({'listSelectHeal': $scope.nameListOrderheal,
-                    'value': $scope.amountListSelectHeal});
-                $scope.nameListOrderheal = '';
-                $scope.amountListSelectHeal = '';
-            } else {
-                var flag = false;
-                var temp = 0;
-                for (var i = 0; i < $scope.orderHeals.length; i++) {
-                    if ($scope.orderHeals[i].listSelectHeal.name === name.name) {
-//                        updateDeleteOrderHeal[updateCount] = $scope.orderHeals[i];
-                        temp = Number($scope.orderHeals[i].value) + Number($scope.amountListSelectHeal);
-                        $scope.orderHeals[i] = {'listSelectHeal': $scope.nameListOrderheal,
-                            'value': temp};
-                        $scope.nameListOrderheal = '';
-                        $scope.amountListSelectHeal = '';
-                        flag = true;
-//                        updateCount++;
-                        break;
-                    }
-                }
-                if (flag === false) {
-                    $scope.orderHeals.push({'listSelectHeal': $scope.nameListOrderheal,
-                        'value': $scope.amountListSelectHeal});
-                    $scope.nameListOrderheal = '';
-                    $scope.amountListSelectHeal = '';
-                }
+    
+    $scope.firstPagePatient = function () {
+        if (!$('#first-page-patient').hasClass('disabled')) {
+            pagePatient = 0;
+            $scope.currentPage = pagePatient;
+            selectGetOrSearchPatient();
+            if (pagePatient == 0) {
+                $('#first-page-patient').addClass('disabled');
+                $('#pre-page-patient').addClass('disabled');
             }
-
+            $('#next-page-patient').removeClass('disabled');
+            $('#final-page-patient').removeClass('disabled');
         }
-        loadListSelectHeal();
     };
-    $scope.removeSelectHeal = function (name, id) {
-        var index = -1;
-        for (var i = 0; i < $scope.orderHeals.length; i++) {
-            if ($scope.orderHeals[i].listSelectHeal.name === name) {
-                index = i;
-                break;
+
+    $scope.prePagePatient = function () {
+        if (!$('#first-page-patient').hasClass('disabled')) {
+            pagePatient--;
+            $scope.currentPage = pagePatient;
+            selectGetOrSearchPatient();
+            if (pagePatient == 0) {
+                $('#first-page-patient').addClass('disabled');
+                $('#pre-page-patient').addClass('disabled');
             }
+            $('#next-page-patient').removeClass('disabled');
+            $('#final-page-patient').removeClass('disabled');
         }
-        if (index === -1) {
-            Materialize.toast('บางอย่างผิดพลาด', 3000, 'rounded');
+    };
+
+    $scope.nextPagePatient = function () {
+        if (!$('#final-page-patient').hasClass('disabled')) {
+            pagePatient++;
+            $scope.currentPage = pagePatient;
+            selectGetOrSearchPatient();
+            if (pagePatient == totalPagePatient - 1) {
+                $('#next-page-patient').addClass('disabled');
+                $('#final-page-patient').addClass('disabled');
+            }
+            $('#pre-page-patient').removeClass('disabled');
+            $('#first-page-patient').removeClass('disabled');
+         }
+    };
+
+    $scope.finalPagePatient = function () {
+        if (!$('#final-page-patient').hasClass('disabled')) {
+            pagePatient = totalPagePatient - 1;
+            $scope.currentPage = pagePatient;
+            selectGetOrSearchPatient();
+            if (pagePatient == totalPagePatient - 1) {
+                $('#final-page-patient').addClass('disabled');
+                $('#next-page-patient').addClass('disabled');
+            }
+            $('#pre-page-patient').removeClass('disabled');
+            $('#first-page-patient').removeClass('disabled');
         }
-        $scope.orderHeals.splice(index, 1);
-//        $scope.deleteOrderHeal[count] = id;
-//        count++;
     };
 
-    $scope.saveDetailheal = function () {
-//        $scope.updateOrderHeal.deleteOrderHeal = updateDeleteOrderHeal;
-//        console.log(updateDeleteOrderHeal);
-//        $scope.updateOrderHeal.orderHeal = $scope.orderHeals;
-//        $scope.updateOrderHeal.id = $scope.deleteOrderHeal;
-//        updateCount = 0;
-//        count = 0;
-        $http.post('/savedetailheal', $scope.detailHeal).success(function (data) {
-            $http.post('/saveorderheal', $scope.orderHeals).success(function (data) {
-                Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
-                loadDetailHeal();
-//                $scope.updateOrderHeal = {};
-                $scope.detailHeal = {};
-                $scope.orderHeals = [];
-                $scope.nameListPayHeal = '';
-                $scope.amountListPayHeal = '';
-                loadListSelectHeal();
-                loadPatient();
-                loadDoctor();
-
-            }).error(function (data, status, header, cofig) {
-                Materialize.toast('ผิดพลาดsavedetailHeal', 3000, 'rounded');
-            });
-        }).error(function (data, status, header, cofig) {
-
-        });
-
+    $scope.clickPatient = function () {
+        $('#modal-patient').openModal();
+        getPatient();
+        countPatient();
     };
-
-    $scope.clearData = function () {
-        $scope.detailHeal = {};
-        $scope.orderHeals = [];
-        $scope.nameListPayHeal = '';
-        $scope.amountListPayHeal = '';
-        loadListSelectHeal();
-        loadPatient();
-        loadDoctor();
-        $('#namedepartment').removeClass('active');
+    
+    $scope.clickDoctor = function (){
+        $('#modal-doctor').openModal();
     };
-
-    $scope.seeDetail = {};
-    $scope.seeDatailHeal = function (dh) {
-        $scope.preScroll = $(window).scrollTop();
-        $scope.seeDetail = dh;
-    };
-
-    $scope.deleteDetailHeal = function () {
-        $http.post('/deletedetailheal', $scope.seeDetail).success(function (data) {
-            Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
-            loadDetailHeal();
-            $('span#close-card').trigger('click');
-        }).error(function (data) {
-
-        });
-    };
-
-
-    $scope.actionUpdate = function (seeDetail) {
-        $('body,html').animate({scrollTop: 0}, "600");
-        $scope.detailHeal.id = seeDetail.id;
-        $scope.detailHeal.dateHeal = new Date(seeDetail.dateHeal);
-        loadPatient(seeDetail.patient.id);
-        loadDoctor(seeDetail.doctor.id);
-        $scope.detailHeal.detail = seeDetail.detail;
-
-        $scope.orderHeals = seeDetail.orderHealDetailHeals;
-        $('#namedate').addClass('active');
-        $('#namedatail').addClass('active');
-    };
-
-
 
     $('.datepicker').pickadate({
         selectMonths: true,
@@ -191,23 +148,4 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         format: 'yyyy-mm-dd',
         container: 'body'
     });
-
-    $(document).ready(function () {
-        $('.modal-trigger').leanModal();
-    });
-
-    function toPreScroll() {
-        $('body,html').animate({scrollTop: $scope.preScroll}, "0");
-    }
-
-    $scope.toPreScroll = function () {
-        toPreScroll();
-    };
-
-    $scope.cancel = function () {
-        toPreScroll();
-        $('span#close-card').trigger('click');
-    };
-
 });
-
