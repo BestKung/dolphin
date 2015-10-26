@@ -36,8 +36,7 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @RequestMapping(value = "/saveappointment", method = RequestMethod.POST)
-    private void saveAppointment(@RequestBody Appointment appointment) {
-        System.out.println("------------------------------------------->" + appointment.getPatient());
+    private void saveAppointment(@RequestBody Appointment appointment, Pageable pageable) throws ParseException {
         appointmentRepo.save(appointment);
     }
 
@@ -78,7 +77,7 @@ public class AppointmentController {
         return appointmentRepo.count();
     }
 
-    @RequestMapping(value = "/countsearchappointment" , method = RequestMethod.POST)
+    @RequestMapping(value = "/countsearchappointment", method = RequestMethod.POST)
     private long countSearchAppointment(@RequestBody SearchData searchData) throws ParseException {
         String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
@@ -102,6 +101,11 @@ public class AppointmentController {
             count = appointmentRepo.count(AppointmentSpec.appointmentDate(date));
         }
         return count;
+    }
+
+    @RequestMapping(value = "/deleteappointment", method = RequestMethod.POST)
+    private void deleteAppointment(@RequestBody Integer id) {
+        appointmentRepo.delete(id);
     }
 
 }

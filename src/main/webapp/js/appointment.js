@@ -32,14 +32,14 @@ angular.module('appointment').controller('appointmentController', function ($sco
 
 
     $scope.saveAppointment = function () {
-        console.log(moment($scope.appointment.appointDay));
-        console.log(new Date($scope.appointment.appointDay));
-        $scope.warpAppointmane.appointment = $scope.appointment;
+        $scope.appointment.startTime = new Date(moment(new Date($scope.appointment.appointDay + " " + $scope.startTime)).format('YYYY-MM-d HH:mm:ss'));
+        $scope.appointment.endTime = new Date(moment(new Date($scope.appointment.appointDay + " " + $scope.endTime)).format('YYYY-MM-d HH:mm:ss'));
         $http.post('/saveappointment', $scope.appointment).success(function (data) {
             console.log('save Success');
             getAppointment();
-            //  $scope.clearData();
+            $scope.clearData();
             countAppointment();
+            console.log(data);
         });
     };
 
@@ -49,6 +49,26 @@ angular.module('appointment').controller('appointmentController', function ($sco
             $scope.appointments = data;
         });
     }
+
+    $scope.deleteAppointment = function (app) {
+        $http.post('/deleteappointment', app.id).success(function (data) {
+            selectGetOrSearchAppointment();
+            toPreScroll();
+            $('span#close-card').trigger('click');
+        });
+    };
+
+    $scope.updateAppointment = function (app) {
+        $scope.appointment = app;
+        $scope.startTime = app.startTime;
+        $scope.endTime = app.endTime;
+        $scope.doctor = app.doctor;
+        $scope.patient = app.patient;
+        $('.update').addClass('active');
+        $('#prefix-appointment-id , .treatmentlist , #prefix-appointment-appointday , #prefix-appointment-doctor , #prefix-appointment-mobile , #prefix-appointment-patient , #prefix-endtime , #prefix-starttime').css('color', '#00bcd4');
+        $('body,html').animate({scrollTop: 0}, "600");
+        $('span#close-card').trigger('click');
+    };
 
     $scope.getAppointment = function () {
         pageAppointment = 0;
@@ -61,7 +81,7 @@ angular.module('appointment').controller('appointmentController', function ($sco
     $scope.searchAppointment = function () {
         searchAppointment();
         countSearchAppointment();
-        console.log('search count : '+totalPage);
+        console.log('search count : ' + totalPage);
     };
 
     function searchAppointment() {
@@ -103,17 +123,19 @@ angular.module('appointment').controller('appointmentController', function ($sco
         }
         console.log(totalAppointment + 'total  Appointment');
         console.log(totalPageAppointment);
-        if (totalPageAppointment == 1) {
+        if (totalPageAppointment == 1 || totalPageAppointment == 0) {
             $('#first-page-appointment').addClass('disabled');
             $('#pre-page-appointment').addClass('disabled');
             $('#next-page-appointment').addClass('disabled');
             $('#final-page-appointment').addClass('disabled');
+            console.log('true1');
         }
         if (totalPageAppointment > 1) {
             $('#first-page-appointment').addClass('disabled');
             $('#pre-page-appointment').addClass('disabled');
             $('#next-page-appointment').removeClass('disabled');
             $('#final-page-appointment').removeClass('disabled');
+            console.log('true2');
         }
 
     }
@@ -207,8 +229,8 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $scope.preScroll = $(window).scrollTop();
         $('body,html').animate({scrollTop: 400}, "400");
         $scope.appointmentDetail = app;
-        $scope.appointmentDetail.startTime = moment(new Date(app.appointDay + " " + app.startTime)).format('HH:mm a');
-        $scope.appointmentDetail.endTime = moment(new Date(app.appointDay + " " + app.endTime)).format('HH:mm a');
+        $scope.appointmentDetail.startTime = moment(new Date(app.appointDay + " " + app.startTime)).format('hh:mm a');
+        $scope.appointmentDetail.endTime = moment(new Date(app.appointDay + " " + app.endTime)).format('hh:mm a');
         var topic = document.getElementsByClassName('topic-detail');
         for (var i = 0; i < topic.length; i++) {
             if (topic[i].innerHTML == "") {
@@ -238,7 +260,7 @@ angular.module('appointment').controller('appointmentController', function ($sco
 
     $scope.selectPatient = function (patient) {
         $scope.appointment.patient = patient;
-        $scope.patient = patient;
+        $scope.patient = $scope.appointment.patient;
         $('#modal-patient').closeModal();
         $('#label-appointment-patient').addClass('active');
         $('#prefix-appointment-patient').css('color', '#00bcd4');
@@ -246,7 +268,7 @@ angular.module('appointment').controller('appointmentController', function ($sco
 
     $scope.selectDoctor = function (doctor) {
         $scope.appointment.doctor = doctor;
-        $scope.doctor = doctor;
+        $scope.doctor = $scope.appointment.doctor;
         $('#modal-doctor').closeModal();
         $('#label-appointment-doctor').addClass('active');
         $('#prefix-appointment-doctor').css('color', '#00bcd4');
@@ -490,7 +512,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
     $('#time-starttime input').ptTimeSelect({
         onClose: function (i) {
             $scope.startTime = $(i).val() + "";
-            $scope.appointment.startTime = new Date(moment(new Date($scope.appointment.appointDay + " " + $scope.startTime)).format('YYYY-MM-d HH:mm:ss'));
             var m = moment(new Date($scope.appointment.appointDay + " " + $scope.startTime)).format('YYYY-MM-dd HH:mm:ss') + "";
             var dd = new Date(moment(new Date('2015-10-09 11:13 PM')).format('EEE, dd MMM YYYY HH:mm:ss zzz'));
             console.log(moment(new Date('2015-10-09 11:23 PM')).format('YYYY-MM-d HH:mm:ss') + ',,,,,,,,,,,,,,,,,,,,,,,');
@@ -503,12 +524,15 @@ angular.module('appointment').controller('appointmentController', function ($sco
     $('#time-endtime input').ptTimeSelect({
         onClose: function (i) {
             $scope.endTime = $(i).val() + "";
-            $scope.appointment.endTime = new Date(moment(new Date($scope.appointment.appointDay + " " + $scope.endTime)).format('YYYY-MM-d HH:mm:ss'));
             console.log($scope.endTime);
             $('#label-endtime').addClass('active');
             $('#prefix-endtime').addClass('active');
         }
     });
+
+    $scope.clickDelete = function () {
+        $('#modal-delete-appointment').openModal();
+    };
 
     $scope.clickPatient = function () {
         getPatient();

@@ -202,8 +202,8 @@
 
                 <div class="row margin-top center margin-top-20">
                     <input type="submit" value="Cancel" class="btn btn-gray waves-effect waves-light" ng-click="cancel()">
-                    <input type="submit" value="Update" class="btn btn-blue2 waves-effect waves-light" ng-click="updateEmployee(employeeDetail)">
-                    <input type="submit" value="Delete" class="btn btn-red waves-effect waves-light" ng-click="clickDelete(employeeDetail)">
+                    <input type="submit" value="Update" class="btn btn-blue2 waves-effect waves-light" ng-click="updateAppointment(appointmentDetail)">
+                    <input type="submit" value="Delete" class="btn btn-red waves-effect waves-light" ng-click="clickDelete(appointmentDetail)">
                 </div>
             </div>
         </div>
@@ -340,4 +340,18 @@
     </div>
 </div>
 
+
+
+<div id="modal-delete-appointment" class="modal" style="border-radius: 10px;">
+    <div class="modal-content">
+        <div class="row center">
+            <h4 style="background: red;color: white;padding: 20px;" class="margin-top-20 magin-buttom-20">ลบการนัด</h4>
+        </div>
+        <h5 class="margin-left-20">ลบ : การนัด {{appointmentDetail.patient.name+' วันที่ : '+appointmentDetail.appointDay}}</h5>
+    </div>
+    <div class="model-footer right">
+        <a href="" class="magin-button btn btn-gray modal-action modal-close">Cancle</a>
+        <a href="" class="magin-button btn btn-red modal-action modal-close" ng-click="deleteAppointment(appointmentDetail)">Delete</a>
+    </div>
+</div>
 
