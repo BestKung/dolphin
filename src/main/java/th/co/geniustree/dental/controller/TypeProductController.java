@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import th.co.geniustree.dental.model.SearchData;
 import th.co.geniustree.dental.model.TypeProduct;
 import th.co.geniustree.dental.repo.TypeProductRepo;
+import th.co.geniustree.dental.service.TypeProductService;
+import th.co.geniustree.dental.spec.TypeProductSpec;
+
 
 /**
  *
@@ -43,6 +47,31 @@ public class TypeProductController {
     @RequestMapping(value = "/totaltypeproduct", method = RequestMethod.GET)
     public Long getTotalTypeProduct() {
         return typeProductRepo.count();
+    }
+    
+        @Autowired
+    private TypeProductService typeProductService;
+
+    @RequestMapping(value = "/loadtypeproduct/searchtypeproduct", method = RequestMethod.POST)
+    public Page<TypeProduct> search(@RequestBody SearchData searchData, Pageable pageable) {
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        Page<TypeProduct> typeProducts = null;
+        if ("Name".equals(searchBy)) {
+            typeProducts = typeProductService.searchByName(keyword, pageable);
+        }
+        return typeProducts;
+    }
+
+    @RequestMapping(value = "/countsearchtypeproduct", method = RequestMethod.POST)
+    public long countSearchTypeProduct(@RequestBody SearchData searchData) {
+        long count = 0;
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        if ("Name".equals(searchBy)) {
+            count = typeProductRepo.count(TypeProductSpec.nameLike("%"+keyword+"%"));
+        }
+        return count;
     }
 
 }

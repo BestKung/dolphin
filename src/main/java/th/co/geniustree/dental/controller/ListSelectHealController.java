@@ -76,5 +76,18 @@ public class ListSelectHealController {
         }
         return listSelectHeals;
     }
-    
+
+    @RequestMapping(value = "/countsearchlistselectheal" , method = RequestMethod.POST)
+    private long countSearchListSelectHeal(@RequestBody SearchData searchData){
+        long count = 0 ;
+        String searchBy = searchData.getSearchBy();
+        String keyword = searchData.getKeyword();
+        if("Name".equals(searchBy)){
+        count = listSelectHealRepo.count(ListSelectHealSpec.nameLike("%"+keyword+"%"));
+        }
+        if("Price".equals(searchBy)){
+        count = listSelectHealRepo.count(ListSelectHealSpec.priceLike(new Double(keyword)));
+        }
+    return count;
+    }
 }

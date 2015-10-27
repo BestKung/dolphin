@@ -9,6 +9,7 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
     $scope.currentPage = 1;
     var totalPage = 0;
     var totalList = 0;
+    $scope.searchData = {};
 
     loadUnitProduct();
     function loadUnitProduct() {
@@ -58,17 +59,8 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
         $('body,html').animate({scrollTop: 0}, "600");
     };
 
-    // pagegin
-    $scope.selectGetOrSearch = function () {
-        loadUnitProduct();
-        getTotalList();
-        $scope.firstPage();
-        if (totalPage >= $scope.currentPage) {
-            $('#next-page').removeClass('disabled');
-            $('#final-page').removeClass('disabled');
-        }
-    };
 
+    // pagegin
     getTotalList();
     function getTotalList() {
         $http.get('/totalunitproduct').success(function (data) {
@@ -82,30 +74,82 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
         if ((totalList % $scope.row) !== 0) {  //บรรทัดนี้ทำงาน ถ้าค่ามากกว่าจำนวนหน้า แต่ไม่เต็มอีกหน้า ให้บวกอีกหน้า
             totalPages++;
         }
-
         totalPage = totalPages;
-
+        console.log(totalPage);
         if ($scope.currentPage === 1) {
             $('#first-page').addClass('disabled');
             $('#pre-page').addClass('disabled');
+            $('#next-page').removeClass('disabled');
+            $('#final-page').removeClass('disabled');
+            console.log('1');
         }
         if ($scope.currentPage === totalPage) {
             $('#next-page').addClass('disabled');
             $('#final-page').addClass('disabled');
+            $('#first-page').removeClass('disabled');
+            $('#pre-page').removeClass('disabled');
+            console.log('2');
+        }
+        if ($scope.currentPage === 1 && $scope.currentPage === totalPage) {
+            $('#next-page').addClass('disabled');
+            $('#final-page').addClass('disabled');
+            $('#first-page').addClass('disabled');
+            $('#pre-page').addClass('disabled');
         }
         if ($scope.currentPage < totalPage && $scope.currentPage > 1) {
             $('#first-page').removeClass('disabled');
             $('#pre-page').removeClass('disabled');
             $('#next-page').removeClass('disabled');
             $('#final-page').removeClass('disabled');
+            console.log('3');
         }
+    }
+
+    $scope.selectGetOrSearch = function () {
+        if (!!$scope.searchData.keyword) {
+            $scope.searcDataContent();
+        }
+        else {
+            $scope.page = 0;
+            $scope.currentPage = $scope.page + 1;
+            loadUnitProduct();
+        }
+    };
+
+
+    $scope.searcDataContent = function () {
+        $scope.page = 0;
+        $scope.currentPage = $scope.page + 1;
+        searcDataContent();
+    };
+    function countSearchListselectHeal() {
+        $http.post('/countsearchunitproduct', $scope.searchData).success(function (data) {
+            totalList = data;
+            totalPages();
+        });
+    }
+
+    function selectGetOrSearch() {
+        if (!!$scope.searchData.keyword) {
+            searcDataContent();
+        }
+        else {
+            loadUnitProduct();
+        }
+    }
+
+    function searcDataContent() {
+        $http.post('/loadunitproduct/searchunitproduct', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
+            $scope.listSelectHeals = data;
+            countSearchListselectHeal();
+        });
     }
 
     $scope.firstPage = function () {
         if (!$('#first-page').hasClass('disabled')) {
             $scope.page = 0;
-            loadUnitProduct();
             $scope.currentPage = 1;
+            selectGetOrSearch();
             $('#first-page').addClass('disabled');
             $('#pre-page').addClass('disabled');
             $('#next-page').removeClass('disabled');
@@ -115,7 +159,7 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
     $scope.finalPage = function () {
         if (!$('#final-page').hasClass('disabled')) {
             $scope.page = totalPage - 1;
-            loadUnitProduct();
+            selectGetOrSearch();
             $scope.currentPage = totalPage;
             $('#first-page').removeClass('disabled');
             $('#pre-page').removeClass('disabled');
@@ -127,7 +171,7 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
     $scope.prePage = function () {
         if (!$('#first-page').hasClass('disabled')) {
             $scope.page--;
-            loadUnitProduct();
+            selectGetOrSearch();
             $scope.currentPage = $scope.page + 1;
             if ($scope.page === 0) {
                 $('#first-page').addClass('disabled');
@@ -141,7 +185,7 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
     $scope.nextPage = function () {
         if (!$('#final-page').hasClass('disabled')) {
             $scope.page++;
-            loadUnitProduct();
+            selectGetOrSearch();
             $scope.currentPage = $scope.page + 1;
             if ($scope.page === totalPage - 1) {
                 $('#next-page').addClass('disabled');
@@ -152,6 +196,8 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
         }
 
     };
+
+
 
 
 });

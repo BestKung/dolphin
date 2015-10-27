@@ -57,14 +57,24 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
 
     // pagegin
     $scope.selectGetOrSearch = function () {
-        loadListSelectHeal();
-        getTotalList();
-        $scope.firstPage();
-        if (totalPage >= $scope.currentPage) {
-            $('#next-page').removeClass('disabled');
-            $('#final-page').removeClass('disabled');
+        if (!!$scope.searchData.keyword) {
+            $scope.searcDataContent();
+        }
+        else {
+            $scope.page = 0;
+            $scope.currentPage = $scope.page + 1;
+            loadListSelectHeal();
         }
     };
+
+    function selectGetOrSearch() {
+        if (!!$scope.searchData.keyword) {
+            searcDataContent();
+        }
+        else {
+            loadListSelectHeal();
+        }
+    }
 
     getTotalList();
     function getTotalList() {
@@ -81,28 +91,62 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
         }
 
         totalPage = totalPages;
-
+        console.log(totalPage);
         if ($scope.currentPage === 1) {
             $('#first-page').addClass('disabled');
             $('#pre-page').addClass('disabled');
+            $('#next-page').removeClass('disabled');
+            $('#final-page').removeClass('disabled');
+            console.log('1');
         }
         if ($scope.currentPage === totalPage) {
             $('#next-page').addClass('disabled');
             $('#final-page').addClass('disabled');
+            $('#first-page').removeClass('disabled');
+            $('#pre-page').removeClass('disabled');
+            console.log('2');
+        }
+        if ($scope.currentPage === 1 && $scope.currentPage === totalPage) {
+            $('#next-page').addClass('disabled');
+            $('#final-page').addClass('disabled');
+            $('#first-page').addClass('disabled');
+            $('#pre-page').addClass('disabled');
         }
         if ($scope.currentPage < totalPage && $scope.currentPage > 1) {
             $('#first-page').removeClass('disabled');
             $('#pre-page').removeClass('disabled');
             $('#next-page').removeClass('disabled');
             $('#final-page').removeClass('disabled');
+            console.log('3');
         }
+    }
+
+    $scope.searchData = {};
+    $scope.searcDataContent = function () {
+        $scope.page = 0;
+        $scope.currentPage = $scope.page + 1;
+        searcDataContent();
+    };
+
+    function searcDataContent() {
+        $http.post('/loadlistselectheal/searchlistselectheal', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
+            $scope.listSelectHeals = data;
+            countSearchListselectHeal();
+        });
+    }
+
+    function countSearchListselectHeal() {
+        $http.post('/countsearchlistselectheal', $scope.searchData).success(function (data) {
+            totalList = data;
+            totalPages();
+        });
     }
 
     $scope.firstPage = function () {
         if (!$('#first-page').hasClass('disabled')) {
             $scope.page = 0;
-            loadListSelectHeal();
             $scope.currentPage = 1;
+            selectGetOrSearch();
             $('#first-page').addClass('disabled');
             $('#pre-page').addClass('disabled');
             $('#next-page').removeClass('disabled');
@@ -112,7 +156,7 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
     $scope.finalPage = function () {
         if (!$('#final-page').hasClass('disabled')) {
             $scope.page = totalPage - 1;
-            loadListSelectHeal();
+            selectGetOrSearch();
             $scope.currentPage = totalPage;
             $('#first-page').removeClass('disabled');
             $('#pre-page').removeClass('disabled');
@@ -124,7 +168,7 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
     $scope.prePage = function () {
         if (!$('#first-page').hasClass('disabled')) {
             $scope.page--;
-            loadListSelectHeal();
+            selectGetOrSearch();
             $scope.currentPage = $scope.page + 1;
             if ($scope.page === 0) {
                 $('#first-page').addClass('disabled');
@@ -138,7 +182,7 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
     $scope.nextPage = function () {
         if (!$('#final-page').hasClass('disabled')) {
             $scope.page++;
-            loadListSelectHeal();
+            selectGetOrSearch();
             $scope.currentPage = $scope.page + 1;
             if ($scope.page === totalPage - 1) {
                 $('#next-page').addClass('disabled');
@@ -150,19 +194,7 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
 
     };
 
-    $scope.searchData = {};
-    $scope.searcDataContent = function () {
-        if (!$scope.searchData.keyword) {
-            loadListSelectHeal();
-        }
-        else {
-            $http.post('/loadlistselectheal/searchlistselectheal', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
-                $scope.listSelectHeals = data;
-            }).error(function (data) {
 
-            });
-        }
-    };
 
 });
 

@@ -5,6 +5,11 @@
  */
 package th.co.geniustree.dental.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import th.co.geniustree.dental.model.Lot;
+import th.co.geniustree.dental.model.SearchData;
 import th.co.geniustree.dental.repo.LotRepo;
+import th.co.geniustree.dental.service.LotService;
+import th.co.geniustree.dental.spec.LotSpec;
 
 /**
  *
@@ -43,5 +51,46 @@ public class LotController {
     @RequestMapping(value = "/totallot", method = RequestMethod.GET)
     public Long getTotalLot() {
         return lotRepo.count();
+    }
+
+    @Autowired
+    private LotService lotService;
+
+    @RequestMapping(value = "/loadlot/searchlot", method = RequestMethod.POST)
+    public Page<Lot> search(@RequestBody SearchData searchData, Pageable pageable) throws ParseException {
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        Page<Lot> lots = null;
+        DateFormat df = new SimpleDateFormat("yyy-MM-dd", Locale.US);
+        Date keywordDate = df.parse(keyword);
+        if ("Name".equals(searchBy)) {
+            lots = lotService.searchByNameStaffReam(keyword, pageable);
+        }
+        if ("DateIn".equals(searchBy)) {
+            lots = lotService.searchByDateIn(keywordDate, pageable);
+        }
+        if ("DateOut".equals(searchBy)) {
+            lots = lotService.searchByDateOut(keywordDate, pageable);
+        }
+        return lots;
+    }
+
+    @RequestMapping(value = "/countsearchlot", method = RequestMethod.POST)
+    public long countSearchLot(@RequestBody SearchData searchData) throws ParseException {
+        long count = 0;
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        Date keywordDate = df.parse(keyword);
+        if ("Name".equals(searchBy)) {
+            count = lotRepo.count(LotSpec.nameStaffReamLike("%" + keyword + "%"));
+        }
+        if ("DateIn".equals(searchBy)) {
+            count = lotRepo.count(LotSpec.dateInBetween(keywordDate));
+        }
+        if ("DateOut".equals(searchBy)) {
+            count = lotRepo.count(LotSpec.dateOutBetween(keywordDate));
+        }
+        return count;
     }
 }

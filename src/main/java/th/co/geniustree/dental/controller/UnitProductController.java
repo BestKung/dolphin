@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import th.co.geniustree.dental.model.SearchData;
 import th.co.geniustree.dental.model.UnitProduct;
 import th.co.geniustree.dental.repo.UnitProductRepo;
+import th.co.geniustree.dental.service.UnitProductService;
+import th.co.geniustree.dental.spec.UnitProductSpec;
 
 /**
  *
@@ -43,5 +46,30 @@ public class UnitProductController {
     @RequestMapping(value = "/totalunitproduct", method = RequestMethod.GET)
     public Long getTotalUnitProduct() {
         return unitProductRepo.count();
+    }
+
+    @Autowired
+    private UnitProductService unitProductService;
+
+    @RequestMapping(value = "/loadunitproduct/searchunitproduct", method = RequestMethod.POST)
+    public Page<UnitProduct> search(@RequestBody SearchData searchData, Pageable pageable) {
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        Page<UnitProduct> unitProducts = null;
+        if ("Name".equals(searchBy)) {
+            unitProducts = unitProductService.searchByName(keyword, pageable);
+        }
+        return unitProducts;
+    }
+
+    @RequestMapping(value = "/countsearchunitproduct", method = RequestMethod.POST)
+    public long countSearchUnitProduct(@RequestBody SearchData searchData) {
+        long count = 0;
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        if ("Name".equals(searchBy)) {
+            count = unitProductRepo.count(UnitProductSpec.nameLike("%"+keyword+"%"));
+        }
+        return count;
     }
 }

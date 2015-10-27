@@ -31,12 +31,12 @@ public class LotService {
     }
     
      public Page<Lot> searchByDateIn(Date keyword,Pageable pageable){
-        Specifications<Lot> specifications = Specifications.where(LotSpec.dateInLike(keyword));
+        Specifications<Lot> specifications = Specifications.where(LotSpec.dateInBetween(keyword));
         return lotRepo.findAll(specifications, pageable);
     }
      
       public Page<Lot> searchByDateOut(Date keyword,Pageable pageable){
-        Specifications<Lot> specifications = Specifications.where(LotSpec.dateOutLike(keyword));
+        Specifications<Lot> specifications = Specifications.where(LotSpec.dateOutBetween(keyword));
         return lotRepo.findAll(specifications, pageable);
     }
 }
