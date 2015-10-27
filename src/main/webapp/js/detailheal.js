@@ -4,23 +4,53 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.detailHeal = {};
     $scope.searchDataPatient = {};
     $scope.searchDataDoctor = {};
+    $scope.searchDataTypeOfMedical = {};
     $scope.patient = {};
     $scope.patients = {};
     $scope.doctor = {};
     $scope.doctors = {};
+    $scope.typeOfMedical = {};
+    $scope.typeOfMedicals = {};
     $scope.currentPage = 0;
+    $scope.orderHeals = {};
+    var user = "";
+    var typeOfMedicalForSave = {};
     var totalPagePatient = 0;
     var totalPatient = 0;
     var pagePatient = 0;
     var totalDoctor = 0;
     var totalPageDoctor = 0;
     var pageDoctor = 0;
+    var totalTypeOfMedical = 0;
+    var totalPageTypeOfMedical = 0;
+    var pageTypeOfMedical = 0;
 
     $scope.saveDetailheal = function () {
         $http.post('/savedetailheal', $scope.detailHeal).success(function (data) {
-            console.log('save Success');
         });
     };
+    
+    getUser();
+    function getUser(){
+        $http.get('/startpagestaff').success(function (data){
+           user =  data.nameTh;
+        });
+    }
+
+    getOrderHeals();
+    function getOrderHeals(){
+        console.log(user);
+        $http.post('/gettypeofmedical' , user).success(function (data){
+            $scope.orderHeals = data;
+        });
+    }
+
+    function getTypeOfMedical() {
+        $http.get('/loadlistselectheal', {params: {page: pageTypeOfMedical, size: 10}}).success(function (data) {
+            $scope.typeOfMedicals = data;
+        });
+    }
+    ;
 
     function getPatient() {
         $http.get('/getpatient', {params: {page: pagePatient, size: 10}}).success(function (data) {
@@ -52,6 +82,17 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             getDoctor();
         }
     }
+    
+      function selectGetOrSearchTypeOfMedical() {
+        if (!!$scope.searchDataTypeOfMedical.keyword) {
+            searchTypeOfMedical();
+            console.log('search');
+        }
+        else {
+            getTypeOfMedical();
+            console.log('get');
+        }
+    }
 
     $scope.selectPatient = function (pat) {
         $scope.patient = pat;
@@ -67,6 +108,17 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $('#modal-doctor').closeModal();
         $('#prefix-detailheal-doctor').css('color', '#00bcd4');
         $('#label-detailheal-doctor').addClass('active');
+    };
+
+    $scope.selectTypeOfMedical = function (type,value){
+         typeOfMedicalForSave.userName = user;
+        console.log(user);
+        typeOfMedicalForSave.value = value;
+        typeOfMedicalForSave.listSelectHeal = type;
+        $http.post('/savetypeofmedical' , typeOfMedicalForSave).success(function (data){
+            console.log('save success');
+            getTypeOfMedical();
+        });
     };
 
     $scope.searchPatient = function () {
@@ -108,6 +160,21 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         });
     }
 
+    $scope.searchTypeOfMedical = function () {
+        pageTypeOfMedical = 0 ;
+        $scope.currentPage = pageTypeOfMedical;
+        searchTypeOfMedical();
+             countSearchTypoOfMedical();
+       
+    };
+    
+    function searchTypeOfMedical(){
+        $scope.searchDataTypeOfMedical.searchBy = "Name";
+        $http.post('/loadlistselectheal/searchlistselectheal', $scope.searchDataTypeOfMedical , {params: {page: pageTypeOfMedical, size: 10}}).success(function (data) {
+            $scope.typeOfMedicals = data;
+        });
+    }
+
     function countSearchDctor() {
         $http.post('/countsearchdoctor', $scope.searchDataDoctor).success(function (data) {
             totalDoctor = data;
@@ -136,6 +203,20 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         });
     }
 
+    function countTypeOfMedical() {
+        $http.get('/totallistselectheal').success(function (data) {
+            totalTypeOfMedical = data;
+            findTotalPageTypeOfMedical();
+        });
+    }
+    
+    function countSearchTypoOfMedical(){
+        $http.post('/countsearchlistselectheal' , $scope.searchDataTypeOfMedical).success(function (data){
+            totalTypeOfMedical = data;
+            findTotalPageTypeOfMedical();
+        });
+    }
+
     function findTotalPagePatient() {
         var totalpages = parseInt(totalPatient / 10);
         if ((totalPatient % 10) != 0) {
@@ -152,7 +233,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#first-page-patient').addClass('disabled');
             $('#pre-page-patient').addClass('disabled');
             $('#next-page-patient').removeClass('disabled');
-            $('#final-page-patient').removeClass('disabled')
+            $('#final-page-patient').removeClass('disabled');
         }
         console.log(totalpages);
     }
@@ -276,6 +357,72 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $('#pre-page-doctor').removeClass('disabled');
     };
 
+    function findTotalPageTypeOfMedical() {
+        var totalpages = parseInt(totalTypeOfMedical / 10);
+        if ((totalTypeOfMedical % 10) != 0) {
+            totalpages++;
+        }
+        totalPageTypeOfMedical = totalpages;
+        if (totalpages == 1) {
+            $('#first-page-typeofmedical').addClass('disabled');
+            $('#pre-page-typeofmedical').addClass('disabled');
+            $('#next-page-typeofmedical').addClass('disabled');
+            $('#final-page-typeofmedical').addClass('disabled');
+        }
+        if (totalpages > 1) {
+            $('#first-page-typeofmedical').addClass('disabled');
+            $('#pre-page-typeofmedical').addClass('disabled');
+            $('#next-page-typeofmedical').removeClass('disabled');
+            $('#final-page-typeofmedical').removeClass('disabled');
+        }
+        console.log(totalpages);
+    }
+
+    $scope.firstPageTypeOfMedical = function () {
+        pageTypeOfMedical = 0;
+        $scope.currentPage = pageTypeOfMedical;
+        selectGetOrSearchTypeOfMedical();
+        $('#first-page-typeofmedical').addClass('disabled');
+        $('#pre-page-typeofmedical').addClass('disabled');
+        $('#next-page-typeofmedical').removeClass('disabled');
+        $('#final-page-typeofmedical').removeClass('disabled');
+    };
+
+    $scope.prePageTypeOfMedical = function () {
+        pageTypeOfMedical--;
+        $scope.currentPage = pageTypeOfMedical;
+        selectGetOrSearchTypeOfMedical();
+        if (pageDoctor == 0) {
+            $('#first-page-typeofmedical').addClass('disabled');
+            $('#pre-page-typeofmedical').addClass('disabled');
+        }
+        $('#next-page-typeofmedical').removeClass('disabled');
+        $('#final-page-typeofmedical').removeClass('disabled');
+    };
+
+    $scope.nextPageTypeOfMedical = function () {
+        pageTypeOfMedical++;
+        $scope.currentPage = pageTypeOfMedical;
+        selectGetOrSearchTypeOfMedical();
+        if (pageTypeOfMedical == totalPageTypeOfMedical - 1) {
+            $('#next-page-typeofmedical').addClass('disabled');
+            $('#final-page-typeofmedical').addClass('disabled');
+        }
+        $('#first-page-typeofmedical').removeClass('disabled');
+        $('#pre-page-typeofmedical').removeClass('disabled');
+        console.log('page '+pageTypeOfMedical);
+    };
+
+    $scope.finalPageTypeOfMedical = function () {
+        pageTypeOfMedical = totalPageTypeOfMedical - 1;
+        $scope.currentPage = pageTypeOfMedical;
+        selectGetOrSearchTypeOfMedical();
+        $('#next-page-typeofmedical').addClass('disabled');
+        $('#final-page-typeofmedical').addClass('disabled');
+        $('#first-page-typeofmedical').removeClass('disabled');
+        $('#pre-page-typeofmedical').removeClass('disabled');
+    };
+
     $scope.clickPatient = function () {
         $('#modal-patient').openModal();
         getPatient();
@@ -286,6 +433,12 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $('#modal-doctor').openModal();
         getDoctor();
         countDoctor();
+    };
+
+    $scope.clickAddTypeOfMedical = function () {
+        $('#modal-addtypeofmedical').openModal();
+        getTypeOfMedical();
+        countTypeOfMedical();
     };
 
     $('.datepicker').pickadate({

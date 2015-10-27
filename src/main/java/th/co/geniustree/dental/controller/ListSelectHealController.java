@@ -16,6 +16,7 @@ import th.co.geniustree.dental.model.ListSelectHeal;
 import th.co.geniustree.dental.model.SearchData;
 import th.co.geniustree.dental.repo.ListSelectHealRepo;
 import th.co.geniustree.dental.service.ListSelectHealService;
+import th.co.geniustree.dental.spec.ListSelectHealSpec;
 
 /**
  *
@@ -23,47 +24,57 @@ import th.co.geniustree.dental.service.ListSelectHealService;
  */
 @RestController
 public class ListSelectHealController {
-
+    
     @Autowired
     private ListSelectHealRepo listSelectHealRepo;
-
-    @RequestMapping(value = "/loadlistselectheal")
+    
+    @RequestMapping(value = "/loadlistselectheal", method = RequestMethod.GET)
     public Page<ListSelectHeal> loadListSelectHeal(Pageable pageable) {
         return listSelectHealRepo.findAll(pageable);
     }
-
+    
     @RequestMapping(value = "/savelistselectheal", method = RequestMethod.POST)
     public void saveListSelectHeal(@RequestBody ListSelectHeal listSelectHeal) {
         listSelectHealRepo.save(listSelectHeal);
     }
-
+    
     @RequestMapping(value = "/deletelistselectheal", method = RequestMethod.POST)
     public void deleteListSelectHeal(@RequestBody ListSelectHeal listSelectHeal) {
         listSelectHealRepo.delete(listSelectHeal.getId());
     }
-
+    
     @RequestMapping(value = "/totallistselectheal", method = RequestMethod.GET)
     public Long getTotalListSelectHeal() {
         return listSelectHealRepo.count();
     }
     
+    @RequestMapping(value = "/countsearchlistselectheal" , method = RequestMethod.POST)
+    public long countSearchListSelectHal(@RequestBody SearchData searchData) {
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        long count = 0;
+        if ("Name".equals(searchBy)) {
+            count = listSelectHealRepo.count(ListSelectHealSpec.nameLike("%" + keyword + "%"));
+        }
+        return count;
+    }
+    
     @Autowired
     private ListSelectHealService listSelectHealService;
-
+    
     @RequestMapping(value = "/loadlistselectheal/searchlistselectheal", method = RequestMethod.POST)
-    public Page<ListSelectHeal> search(@RequestBody SearchData searchData,Pageable pageable){
+    public Page<ListSelectHeal> search(@RequestBody SearchData searchData, Pageable pageable) {
         String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
         Page<ListSelectHeal> listSelectHeals = null;
-        if("Name".equals(searchBy)){
+        if ("Name".equals(searchBy)) {
             listSelectHeals = listSelectHealService.searchByName(keyword, pageable);
         }
-        if("Price".equals(searchBy)){
+        if ("Price".equals(searchBy)) {
             Double keywordDouble = Double.parseDouble(keyword);
             listSelectHeals = listSelectHealService.searchByPrice(keywordDouble, pageable);
         }
         return listSelectHeals;
     }
     
-
 }
