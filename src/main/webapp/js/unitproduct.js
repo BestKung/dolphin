@@ -10,6 +10,7 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
     var totalPage = 0;
     var totalList = 0;
     $scope.searchData = {};
+    $scope.searchData.keyword = "";
 
     loadUnitProduct();
     function loadUnitProduct() {
@@ -61,6 +62,49 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
 
 
     // pagegin
+    $scope.selectGetOrSearch = function () {
+        if (!!$scope.searchData.keyword) {
+            $scope.searcDataContent();
+            totalPages();
+        }
+        else {
+            $scope.page = 0;
+            $scope.currentPage = $scope.page + 1;
+            loadUnitProduct();
+            totalPages();
+        }
+        
+    };
+
+    $scope.searcDataContent = function () {
+        $scope.page = 0;
+        $scope.currentPage = $scope.page + 1;
+        searcDataContent();
+    };
+
+    function searcDataContent() {
+        $http.post('/loadunitproduct/searchunitproduct', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
+            $scope.unitProducts = data;
+            countSearch();
+        });
+    }
+
+    function countSearch() {
+        $http.post('/countsearchunitproduct', $scope.searchData).success(function (data) {
+            totalList = data;
+            totalPages();
+        });
+    }
+
+    function selectGetOrSearch() {
+        if (!!$scope.searchData.keyword) {
+            searcDataContent();
+        }
+        else {
+            loadUnitProduct();
+        }
+    }
+
     getTotalList();
     function getTotalList() {
         $http.get('/totalunitproduct').success(function (data) {
@@ -103,46 +147,6 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
             $('#final-page').removeClass('disabled');
             console.log('3');
         }
-    }
-
-    $scope.selectGetOrSearch = function () {
-        if (!!$scope.searchData.keyword) {
-            $scope.searcDataContent();
-        }
-        else {
-            $scope.page = 0;
-            $scope.currentPage = $scope.page + 1;
-            loadUnitProduct();
-        }
-    };
-
-
-    $scope.searcDataContent = function () {
-        $scope.page = 0;
-        $scope.currentPage = $scope.page + 1;
-        searcDataContent();
-    };
-    function countSearchListselectHeal() {
-        $http.post('/countsearchunitproduct', $scope.searchData).success(function (data) {
-            totalList = data;
-            totalPages();
-        });
-    }
-
-    function selectGetOrSearch() {
-        if (!!$scope.searchData.keyword) {
-            searcDataContent();
-        }
-        else {
-            loadUnitProduct();
-        }
-    }
-
-    function searcDataContent() {
-        $http.post('/loadunitproduct/searchunitproduct', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
-            $scope.listSelectHeals = data;
-            countSearchListselectHeal();
-        });
     }
 
     $scope.firstPage = function () {

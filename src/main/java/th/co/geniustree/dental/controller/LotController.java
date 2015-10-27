@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import th.co.geniustree.dental.model.Employee;
 import th.co.geniustree.dental.model.Lot;
 import th.co.geniustree.dental.model.SearchData;
+import th.co.geniustree.dental.repo.EmployeeRepo;
 import th.co.geniustree.dental.repo.LotRepo;
 import th.co.geniustree.dental.service.LotService;
 import th.co.geniustree.dental.spec.LotSpec;
@@ -32,6 +34,14 @@ public class LotController {
 
     @Autowired
     private LotRepo lotRepo;
+
+    @Autowired
+    private EmployeeRepo employeeRepo;
+
+    @RequestMapping(value = "/loademployee")
+    public Page<Employee> loadEmployee(Pageable pageable) {
+        return employeeRepo.findAll(pageable);
+    }
 
     @RequestMapping(value = "/loadlot")
     public Page<Lot> loadLot(Pageable pageable) {

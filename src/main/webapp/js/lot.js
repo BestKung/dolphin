@@ -5,7 +5,7 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
     $scope.lots = {};
     $scope.employees = {};
     $scope.lotDelete = {};
-
+    
     loadLot();
     function loadLot() {
         $http.get('/loadlot').success(function (data) {
@@ -16,8 +16,9 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
 
     loadEmployees();
     function loadEmployees() {
-        $http.get('/staffs').success(function (data) {
+        $http.get('/loademployee').success(function (data) {
             $scope.employees = data;
+            console.log($scope.employees);
             $scope.lot.nameStaffReam = data.content[0];
         });
     }
@@ -53,7 +54,7 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
     };
 
     $scope.updateLot = function (lo) {
-        
+
         $scope.lot.id = lo.id;
         $scope.lot.nameStaffReam = lo.nameStaffReam;
         $scope.lot.dateIn = new Date(lo.dateIn);
@@ -69,6 +70,11 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
         format: 'yyyy-mm-dd',
         container: 'body'
     });
+
+    $scope.clickEmployee = function () {
+        $('#modal-employee').openModal();
+    };
+
 
 });
 

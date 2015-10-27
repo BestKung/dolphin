@@ -18,19 +18,24 @@ angular.module('product').controller('productController', function ($scope, $htt
 
     loadTpyeProduct();
     function loadTpyeProduct() {
-        $http.get('/loadtypeproduct').success(function (data) {
-            $scope.typeProducts = data;
-            $scope.product.typeProduct = data.content[0];
-        }).error(function (data) {
+        $http.get('/totaltypeproduct').success(function (data) {
+            $http.get('/loadtypeproduct', {params: {size: data}}).success(function (data) {
+                $scope.typeProducts = data;
+                $scope.product.typeProduct = data.content[0];
+            }).error(function (data) {
+            });
         });
     }
 
     loadUnitProduct();
+
     function loadUnitProduct() {
-        $http.get('/loadunitproduct').success(function (data) {
-            $scope.unitProducts = data;
-            $scope.product.unit = data.content[0];
-        }).error(function (data) {
+        $http.get('/totalunitproduct').success(function (data) {
+            $http.get('/loadunitproduct',{params: {size: data}}).success(function (data) {
+                $scope.unitProducts = data;
+                $scope.product.unit = data.content[0];
+            }).error(function (data) {
+            });
         });
     }
 

@@ -8,6 +8,8 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
     $scope.currentPage = 1;
     var totalPage = 0;
     var totalList = 0;
+    $scope.searchData = {};
+    $scope.searchData.keyword = "";
 
     loadListSelectHeal();
     function loadListSelectHeal() {
@@ -59,13 +61,36 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
     $scope.selectGetOrSearch = function () {
         if (!!$scope.searchData.keyword) {
             $scope.searcDataContent();
+            totalPages();
         }
         else {
             $scope.page = 0;
             $scope.currentPage = $scope.page + 1;
             loadListSelectHeal();
+            totalPages();
         }
+
     };
+
+    $scope.searcDataContent = function () {
+        $scope.page = 0;
+        $scope.currentPage = $scope.page + 1;
+        searcDataContent();
+    };
+
+    function searcDataContent() {
+        $http.post('/loadlistselectheal/searchlistselectheal', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
+            $scope.listSelectHeals = data;
+            countSearchListselectHeal();
+        });
+    }
+
+    function countSearchListselectHeal() {
+        $http.post('/countsearchlistselectheal', $scope.searchData).success(function (data) {
+            totalList = data;
+            totalPages();
+        });
+    }
 
     function selectGetOrSearch() {
         if (!!$scope.searchData.keyword) {
@@ -119,27 +144,6 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
             $('#final-page').removeClass('disabled');
             console.log('3');
         }
-    }
-
-    $scope.searchData = {};
-    $scope.searcDataContent = function () {
-        $scope.page = 0;
-        $scope.currentPage = $scope.page + 1;
-        searcDataContent();
-    };
-
-    function searcDataContent() {
-        $http.post('/loadlistselectheal/searchlistselectheal', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
-            $scope.listSelectHeals = data;
-            countSearchListselectHeal();
-        });
-    }
-
-    function countSearchListselectHeal() {
-        $http.post('/countsearchlistselectheal', $scope.searchData).success(function (data) {
-            totalList = data;
-            totalPages();
-        });
     }
 
     $scope.firstPage = function () {
