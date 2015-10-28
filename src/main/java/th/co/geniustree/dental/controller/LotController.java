@@ -22,7 +22,9 @@ import th.co.geniustree.dental.model.Lot;
 import th.co.geniustree.dental.model.SearchData;
 import th.co.geniustree.dental.repo.EmployeeRepo;
 import th.co.geniustree.dental.repo.LotRepo;
+import th.co.geniustree.dental.service.EmployeeService;
 import th.co.geniustree.dental.service.LotService;
+import th.co.geniustree.dental.spec.EmployeeSpec;
 import th.co.geniustree.dental.spec.LotSpec;
 
 /**
@@ -41,6 +43,42 @@ public class LotController {
     @RequestMapping(value = "/loademployee")
     public Page<Employee> loadEmployee(Pageable pageable) {
         return employeeRepo.findAll(pageable);
+    }
+
+    @RequestMapping(value = "/tatallemployee", method = RequestMethod.GET)
+    public Long getTotalEmployee() {
+        return employeeRepo.count();
+    }
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    @RequestMapping(value = "/loademployee/searchemployee", method = RequestMethod.POST)
+    public Page<Employee> searchEmployee(@RequestBody SearchData searchData, Pageable pageable) {
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        Page<Employee> employees = null;
+        if ("ชื่อ".equals(searchBy)) {
+            employees = employeeService.searchByName(keyword, pageable);
+        }
+        if ("อีเมลล์".equals(searchBy)) {
+            employees = employeeService.searchByEmail(keyword, pageable);
+        }
+        return employees;
+    }
+
+    @RequestMapping(value = "/countsearchemployee", method = RequestMethod.POST)
+    public long countSearchEmployee(@RequestBody SearchData searchData) throws ParseException {
+        long count = 0;
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        if ("ชื่อ".equals(searchBy)) {
+            count = employeeRepo.count(EmployeeSpec.nameLike("%" + keyword + "%"));
+        }
+        if ("อีเมลล์".equals(searchBy)) {
+            count = employeeRepo.count(EmployeeSpec.emailLike("%" + keyword + "%"));
+        }
+        return count;
     }
 
     @RequestMapping(value = "/loadlot")
