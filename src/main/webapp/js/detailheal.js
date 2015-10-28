@@ -37,7 +37,6 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         });
     }
 
-    getOrderHeals();
     function getOrderHeals(){
         console.log(user);
         $http.post('/gettypeofmedical' , user).success(function (data){
@@ -119,6 +118,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             console.log('save success');
             getTypeOfMedical();
         });
+        $('#modal-addtypeofmedical').closeModal();
     };
 
     $scope.searchPatient = function () {

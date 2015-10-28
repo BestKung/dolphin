@@ -48,17 +48,6 @@ public class ListSelectHealController {
         return listSelectHealRepo.count();
     }
     
-    @RequestMapping(value = "/countsearchlistselectheal" , method = RequestMethod.POST)
-    public long countSearchListSelectHal(@RequestBody SearchData searchData) {
-        String keyword = searchData.getKeyword();
-        String searchBy = searchData.getSearchBy();
-        long count = 0;
-        if ("Name".equals(searchBy)) {
-            count = listSelectHealRepo.count(ListSelectHealSpec.nameLike("%" + keyword + "%"));
-        }
-        return count;
-    }
-    
     @Autowired
     private ListSelectHealService listSelectHealService;
     
