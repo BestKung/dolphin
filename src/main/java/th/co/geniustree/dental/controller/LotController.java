@@ -110,14 +110,15 @@ public class LotController {
         String searchBy = searchData.getSearchBy();
         Page<Lot> lots = null;
         DateFormat df = new SimpleDateFormat("yyy-MM-dd", Locale.US);
-        Date keywordDate = df.parse(keyword);
         if ("Name".equals(searchBy)) {
             lots = lotService.searchByNameStaffReam(keyword, pageable);
         }
         if ("DateIn".equals(searchBy)) {
+            Date keywordDate = df.parse(keyword);
             lots = lotService.searchByDateIn(keywordDate, pageable);
         }
         if ("DateOut".equals(searchBy)) {
+            Date keywordDate = df.parse(keyword);
             lots = lotService.searchByDateOut(keywordDate, pageable);
         }
         return lots;
@@ -129,14 +130,16 @@ public class LotController {
         String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        Date keywordDate = df.parse(keyword);
+
         if ("Name".equals(searchBy)) {
             count = lotRepo.count(LotSpec.nameStaffReamLike("%" + keyword + "%"));
         }
         if ("DateIn".equals(searchBy)) {
+            Date keywordDate = df.parse(keyword);
             count = lotRepo.count(LotSpec.dateInBetween(keywordDate));
         }
         if ("DateOut".equals(searchBy)) {
+            Date keywordDate = df.parse(keyword);
             count = lotRepo.count(LotSpec.dateOutBetween(keywordDate));
         }
         return count;
