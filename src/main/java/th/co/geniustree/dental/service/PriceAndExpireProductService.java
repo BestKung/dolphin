@@ -31,12 +31,12 @@ public class PriceAndExpireProductService {
     }
     
     public Page<PriceAndExpireProduct> searchByLot(Date keyword,Pageable pageable){
-        Specifications<PriceAndExpireProduct> specifications = Specifications.where(PriceAndExpireProductSpec.lotLike(keyword));
+        Specifications<PriceAndExpireProduct> specifications = Specifications.where(PriceAndExpireProductSpec.lotInBetween(keyword));
         return priceAndExpireProductRepo.findAll(specifications, pageable);
     }
     
     public Page<PriceAndExpireProduct> searchByExpire(Date keyword,Pageable pageable){
-        Specifications<PriceAndExpireProduct> specifications = Specifications.where(PriceAndExpireProductSpec.expireLike(keyword));
+        Specifications<PriceAndExpireProduct> specifications = Specifications.where(PriceAndExpireProductSpec.expireBetween(keyword));
         return priceAndExpireProductRepo.findAll(specifications, pageable);
     }
 }

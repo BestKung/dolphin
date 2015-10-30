@@ -32,7 +32,7 @@ public class PriceAndExpireProductSpec {
         };
     }
     
-    public static Specification<PriceAndExpireProduct> expireLike(final Date keyword){
+    public static Specification<PriceAndExpireProduct> expireBetween(final Date keyword){
         return new Specification<PriceAndExpireProduct>() {
 
             @Override
@@ -42,7 +42,7 @@ public class PriceAndExpireProductSpec {
         };
     }
     
-    public static Specification<PriceAndExpireProduct> lotLike(final Date keyword){
+    public static Specification<PriceAndExpireProduct> lotInBetween(final Date keyword){
         return new Specification<PriceAndExpireProduct>() {
 
             @Override
