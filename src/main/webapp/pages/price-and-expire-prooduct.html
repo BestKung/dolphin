@@ -12,24 +12,12 @@
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix" >android</i>
-                    <div class="select-custom">
-                        <select class="browser-default" id="select-department" 
-                                ng-model="priceAndExpireProduct.lot" 
-                                ng-options="lo.dateIn for lo in lots.content"
-                                >                       
-                        </select>
-                    </div>
+                     <input type="text" ng-model="nameStream" ng-click="clickLot()" ng-change="changePrefix('#prefix-appointment-lot')">
                     <label id="label-department" class="active">รอบสินค้า</label>
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix" >android</i>
-                    <div class="select-custom">
-                        <select class="browser-default" id="select-department" 
-                                ng-model="priceAndExpireProduct.product" 
-                                ng-options="pd.name for pd in products.content"
-                                >                       
-                        </select>
-                    </div>
+                     <input type="text" ng-model="nameStream" ng-click="clickProduct()" ng-change="changePrefix('#prefix-appointment-product')">
                     <label id="label-department" class="active">ชื่อสินค้า</label>
                 </div>
             </div>
@@ -166,5 +154,130 @@
     <div class="model-footer right">
         <a href="" class="magin-button btn btn-red modal-action modal-close" ng-click="deletePriceAndExpireProduct()">ลบ</a>
         <a href="" class="magin-button btn btn-gray modal-action modal-close" ng-click="clearData()">ยกเลิก</a>
+    </div>
+</div>
+
+
+<div id="modal-lot" class="modal" style="height: inherit;border-radius: 10px;">
+    <div class="modal-content" style="padding: 10px">
+        <div class="row center">
+            <h4  class="margin-top-20 magin-buttom-20">เลือกคนเซ็นชื่อกำกับชื่อ</h4>
+        </div>
+        <div class="row">
+            <div class="col m6 s12 input-field">
+                <i class="material-icons prefix">search</i>
+                <input type="text" id="search" ng-model="searchDataEmployee.keyword">
+                <label for="search" >ค้นหา : </label>
+            </div>
+            <div class="col m3 s12 input-field">
+                <i class="material-icons prefix clear-prefix">language</i>
+                <div class="select-custom">
+                    <select class="browser-default" id="searchby" ng-model="searchDataEmployee.searchBy" ng-init="searchDataEmployee.searchBy = 'ชื่อ'"> 
+                        <option value="ชื่อ">ชื่อ</option>
+                        <option value="อีเมลล์">อีเมลล์</option>
+                    </select> 
+                </div>
+                <label class="active">ค้นหาจาก</label>
+            </div>
+            <div class="col m3 " style="margin-top: 20px;">
+                <input type="submit" value="ค้นหา" class="btn" ng-click="searcDataContentEmployee()">
+            </div>
+        </div>
+        <div class="row">
+            <table class="responsive-table hoverable">
+                <thead>
+                    <tr>
+                        <th style="width:40%">ชื่อ</th>
+                        <th style="width:30%">อีเมลล์</th>
+                        <th style="width:20%">เบอร์โทร</th>
+                        <th style="width:10%">เลือก</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="emp in employees.content">
+                        <td>{{emp.nameTh}}</td>
+                        <th>{{emp.email}}</th>
+                        <th>{{emp.mobile}}</th>
+                        <th><a class="select-human modal-close" ng-click="selectEmployee(emp)">เลือก</a></th>
+                    </tr>
+                </tbody>                  
+            </table>
+        </div>
+        <div class="row">
+            <div class="col m12">
+                <ul class="pagination right" style="margin-top: 10px;">
+                    <li class="btn waves-effect btn-pagination" id="first-page-employee" ng-click="firstPageEmployee()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="pre-page-employee" ng-click="prePageEmployee()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageEmployee + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination" id="next-page-employee" ng-click="nextPageEmployee()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="final-page-employee" ng-click="finalPageEmployee()"><p style="margin-top: 2px;">&Gt;</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="model-footer right">
+        <a href="" class="magin-button btn btn-gray modal-action modal-close">Cancle</a>
+    </div>
+</div>
+
+<div id="modal-product" class="modal" style="height: inherit;border-radius: 10px;">
+    <div class="modal-content" style="padding: 10px">
+        <div class="row center">
+            <h4  class="margin-top-20 magin-buttom-20">เลือกคนเซ็นชื่อกำกับชื่อ</h4>
+        </div>
+        <div class="row">
+            <div class="col m6 s12 input-field">
+                <i class="material-icons prefix">search</i>
+                <input type="text" id="search" ng-model="searchDataEmployee.keyword">
+                <label for="search" >ค้นหา : </label>
+            </div>
+            <div class="col m3 s12 input-field">
+                <i class="material-icons prefix clear-prefix">language</i>
+                <div class="select-custom">
+                    <select class="browser-default" id="searchby" ng-model="searchDataEmployee.searchBy" ng-init="searchDataEmployee.searchBy = 'ชื่อ'"> 
+                        <option value="ชื่อ">ชื่อ</option>
+                        <option value="อีเมลล์">อีเมลล์</option>
+                    </select> 
+                </div>
+                <label class="active">ค้นหาจาก</label>
+            </div>
+            <div class="col m3 " style="margin-top: 20px;">
+                <input type="submit" value="ค้นหา" class="btn" ng-click="searcDataContentEmployee()">
+            </div>
+        </div>
+        <div class="row">
+            <table class="responsive-table hoverable">
+                <thead>
+                    <tr>
+                        <th style="width:40%">ชื่อ</th>
+                        <th style="width:30%">อีเมลล์</th>
+                        <th style="width:20%">เบอร์โทร</th>
+                        <th style="width:10%">เลือก</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="emp in employees.content">
+                        <td>{{emp.nameTh}}</td>
+                        <th>{{emp.email}}</th>
+                        <th>{{emp.mobile}}</th>
+                        <th><a class="select-human modal-close" ng-click="selectEmployee(emp)">เลือก</a></th>
+                    </tr>
+                </tbody>                  
+            </table>
+        </div>
+        <div class="row">
+            <div class="col m12">
+                <ul class="pagination right" style="margin-top: 10px;">
+                    <li class="btn waves-effect btn-pagination" id="first-page-employee" ng-click="firstPageEmployee()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="pre-page-employee" ng-click="prePageEmployee()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageEmployee + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination" id="next-page-employee" ng-click="nextPageEmployee()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="final-page-employee" ng-click="finalPageEmployee()"><p style="margin-top: 2px;">&Gt;</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="model-footer right">
+        <a href="" class="magin-button btn btn-gray modal-action modal-close">Cancle</a>
     </div>
 </div>

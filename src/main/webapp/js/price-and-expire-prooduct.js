@@ -8,6 +8,87 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
     $scope.lots = {};
     $scope.products = {};
 
+
+//paginLot var
+    $scope.rowLot = 10;
+    $scope.pageLot = 0;
+    $scope.currentPageLot = 0;
+    var totalPageLot = 0;
+    var totalListLot = 0;
+    $scope.searchDataLot = {};
+    $scope.searchDataLot.keyword = "";
+
+//===========================================================================================
+
+// pagingProduct var
+    $scope.rowProduct = 10;
+    $scope.pageProduct = 0;
+    $scope.currentPageProduct = 0;
+    var totalPageProduct = 0;
+    var totalListProduct = 0;
+    $scope.searchDataProduct = {};
+    $scope.searchDataProduct.keyword = "";
+//===========================================================================================
+
+// pagingPriceAndExpireProduct var
+    $scope.rowPriceAndExpireProduct = 10;
+    $scope.pagePriceAndExpireProduct = 0;
+    $scope.currentPagePriceAndExpireProduct = 0;
+    var totalPagePriceAndExpireProduct = 0;
+    var totalListPriceAndExpireProduct = 0;
+    $scope.searchDataPriceAndExpireProduct = {};
+    $scope.searchDataPriceAndExpireProduct.keyword = "";
+//===========================================================================================
+
+
+//paginLot
+    function loadLot() {
+        $http.get('/loadlot').success(function (data) {
+            $scope.lots = data;
+        }).error(function (data) {
+        });
+    }
+    $scope.clickLot = function () {
+//        $scope.searchDataLot = {};
+//        $scope.searchDataLot.searchBy = 'ชื่อ';
+        $('#modal-employee').openModal();
+        loadLot();
+//        getTotalListLot();
+//        $scope.firstPageLot();
+    };
+
+    $scope.selectLot = function (emp) {
+        $scope.nameStream = emp.nameTh;
+        $('#modal-employee').closeModal();
+        $('#label-nameStaffReam').addClass('active');
+        $('#prefix-appointment-employee').css('color', '#00bcd4');
+    };
+
+//===========================================================================================
+// pagingProduct
+    function loadProduct() {
+        $http.get('/loadlproduct').success(function (data) {
+            $scope.products = data;
+        }).error(function (data) {
+        });
+    }
+    $scope.clickProduct = function () {
+//        $scope.searchDataEmployee = {};
+//        $scope.searchDataEmployee.searchBy = 'ชื่อ';
+        $('#modal-employee').openModal();
+        loadProduct();
+//        getTotalListEmployee();
+//        $scope.firstPageEmployee();
+    };
+
+    $scope.selectProduct = function (emp) {
+        $scope.nameStream = emp.nameTh;
+        $('#modal-employee').closeModal();
+        $('#label-nameStaffReam').addClass('active');
+        $('#prefix-appointment-employee').css('color', '#00bcd4');
+    };
+//===========================================================================================
+// pagingPriceAndExpireProduct
     loadPriceAndExpireProduct();
     function  loadPriceAndExpireProduct() {
         $http.get('/loadpriceandexpireproduct').success(function (data) {
@@ -15,25 +96,6 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
         }).error(function (data) {
         });
     }
-
-    loadLot();
-    function loadLot() {
-        $http.get('/loadlot').success(function (data) {
-            $scope.lots = data;
-            $scope.priceAndExpireProduct.lot = data.content[0];
-        }).error(function (data) {
-        });
-    }
-
-    loadProduct();
-    function loadProduct() {
-        $http.get('/loadlproduct').success(function (data) {
-            $scope.products = data;
-            $scope.priceAndExpireProduct.product = data.content[0];
-        }).error(function (data) {
-        });
-    }
-
     $scope.savePriceAndExpireProduct = function () {
         $http.post('/savepriceandexpireproduct', $scope.priceAndExpireProduct).success(function (data) {
             loadPriceAndExpireProduct();
@@ -45,13 +107,6 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
 
         });
     };
-
-    $('.datepicker').pickadate({
-        selectMonths: true,
-        selectYears: 200,
-        format: 'yyyy-mm-dd',
-        container: 'body'
-    });
 
     $scope.clearData = function () {
         $scope.priceAndExpireProduct = {};
@@ -89,9 +144,14 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
         $('body,html').animate({scrollTop: 0}, "600");
     };
 
+//===========================================================================================
+
+    $('.datepicker').pickadate({
+        selectMonths: true,
+        selectYears: 200,
+        format: 'yyyy-mm-dd',
+        container: 'body'
+    });
 });
-
-
-
 
 
