@@ -97,8 +97,8 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
     $scope.clickEmployee = function () {
         $scope.searchDataEmployee = {};
         $scope.searchDataEmployee.searchBy = 'ชื่อ';
-        $('#modal-employee').openModal();
         loadEmployees();
+        $('#modal-employee').openModal();
         getTotalListEmployee();
         $scope.firstPageEmployee();
 

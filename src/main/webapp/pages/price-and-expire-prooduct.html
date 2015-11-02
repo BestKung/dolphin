@@ -12,13 +12,13 @@
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix" >android</i>
-                     <input type="text" ng-model="nameStream" ng-click="clickLot()" ng-change="changePrefix('#prefix-appointment-lot')">
-                    <label id="label-department" class="active">รอบสินค้า</label>
+                    <input type="text" ng-model="lot" ng-click="clickLot()" ng-change="changePrefix('#prefix-appointment-lot')">
+                    <label id="label-lot" class="active">รอบสินค้า</label>
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix" >android</i>
-                     <input type="text" ng-model="nameStream" ng-click="clickProduct()" ng-change="changePrefix('#prefix-appointment-product')">
-                    <label id="label-department" class="active">ชื่อสินค้า</label>
+                    <input type="text" ng-model="product" ng-click="clickProduct()" ng-change="changePrefix('#prefix-appointment-product')">
+                    <label id="label-product" class="active">ชื่อสินค้า</label>
                 </div>
             </div>
             <div class="row">
@@ -60,7 +60,7 @@
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix">search</i>
-                    <input type="text" id="search" ng-model="searchData.keyword">
+                    <input type="text" id="search" ng-model="searchDataPriceAndExpireProduct.keyword">
                     <label for="search" >Search : </label>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                 <div class="col m3">
                     <span><h6>Search By : </h6></span>
                     <div class="select-custom">
-                        <select class="browser-default" id="select-searchby" ng-model="searchData.searchBy" ng-init="searchData.searchBy = 'NameProduct'">
+                        <select class="browser-default" id="select-searchby" ng-model="searchDataPriceAndExpireProduct.searchBy" ng-init="searchDataPriceAndExpireProduct.searchBy = 'NameProduct'">
                             <option value="LotIn">รอบสินค้า</option>
                             <option value="NameProduct">ชื่อสินค้า</option>
                             <option value="Expire">วันหมดอายุ</option>
@@ -78,7 +78,7 @@
             </div>
             <div class="row">
                 <div class="">
-                    <a class="btn waves-effect waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcEmployee()">Search</a>
+                    <a class="btn waves-effect waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcDataContentPriceAndExpireProduct()">Search</a>
                 </div>
             </div>
         </div>
@@ -94,7 +94,7 @@
                 <div class="col m6">
                     <div class="right">
                         <span class="">Show Page : </span>
-                        <select class="browser-default" ng-change="selectGetOrSearch()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="row" ng-init="row = '10'">
+                        <select class="browser-default" ng-change="selectGetOrSearchPriceAndExpireProduct()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="rowPriceAndExpireProduct" ng-init="rowPriceAndExpireProduct = '10'">
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
@@ -133,11 +133,11 @@
             <div class="row" id="card-employee">
                 <div class="col m12">
                     <ul class="pagination right" style="margin-top: 10px;">
-                        <li class="btn waves-effect btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
-                        <li class="btn waves-effect btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
-                        <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage}}</p></li>
-                        <li class="btn waves-effect btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
-                        <li class="btn waves-effect btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
+                        <li class="btn waves-effect btn-pagination" id="first-page-priceandexpireproducts" ng-click="firstPagePriceAndExpireProduct()"><p style="margin-top: 2px;">&Lt;</p></li>
+                        <li class="btn waves-effect btn-pagination" id="pre-page-priceandexpireproducts" ng-click="prePagePriceAndExpireProduct()"><p style="margin-top: 2px;">&LT</p>;</li>
+                        <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPagePriceAndExpireProduct + 1}}</p></li>
+                        <li class="btn waves-effect btn-pagination" id="next-page-priceandexpireproducts" ng-click="nextPagePriceAndExpireProduct()"><p style="margin-top: 2px;">&GT;</p></li>
+                        <li class="btn waves-effect btn-pagination" id="final-page-priceandexpireproducts" ng-click="finalPagePriceAndExpireProduct()"><p style="margin-top: 2px;">&Gt;</p></li>
                     </ul>
                 </div>
             </div>
@@ -161,44 +161,47 @@
 <div id="modal-lot" class="modal" style="height: inherit;border-radius: 10px;">
     <div class="modal-content" style="padding: 10px">
         <div class="row center">
-            <h4  class="margin-top-20 magin-buttom-20">เลือกคนเซ็นชื่อกำกับชื่อ</h4>
+            <h4  class="margin-top-20 magin-buttom-20">เลือกรอบเข้าสินค้า</h4>
         </div>
         <div class="row">
             <div class="col m6 s12 input-field">
                 <i class="material-icons prefix">search</i>
-                <input type="text" id="search" ng-model="searchDataEmployee.keyword">
+                <input type="text" id="search" ng-model="searchDataLot.keyword">
                 <label for="search" >ค้นหา : </label>
             </div>
             <div class="col m3 s12 input-field">
                 <i class="material-icons prefix clear-prefix">language</i>
                 <div class="select-custom">
-                    <select class="browser-default" id="searchby" ng-model="searchDataEmployee.searchBy" ng-init="searchDataEmployee.searchBy = 'ชื่อ'"> 
-                        <option value="ชื่อ">ชื่อ</option>
-                        <option value="อีเมลล์">อีเมลล์</option>
+                    <select class="browser-default" id="searchby" ng-model="searchDataLot.searchBy" ng-init="searchDataLot.searchBy = 'Name'"> 
+                        <option value="Name">คนเซ็นชื่อกำกับ</option>
+                        <option value="DateIn">วันที่นำเข้า</option>
+                        <option value="DateOut">วันที่นำออก</option>
                     </select> 
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
             <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searcDataContentEmployee()">
+                <input type="submit" value="ค้นหา" class="btn" ng-click="searcDataContentLot()">
             </div>
         </div>
         <div class="row">
             <table class="responsive-table hoverable">
                 <thead>
                     <tr>
-                        <th style="width:40%">ชื่อ</th>
-                        <th style="width:30%">อีเมลล์</th>
-                        <th style="width:20%">เบอร์โทร</th>
-                        <th style="width:10%">เลือก</th>
+                        <th style="width: 10px;">ลำดับ</th>
+                        <th style="width: 30px;">คนเซ็นชื่อกำกับ</th>
+                        <th style="width: 20px;">วันที่นำเข้า</th>
+                        <th style="width: 20px;">วันที่นำออก</th>
+                        <th style="width: 30px;">จัดการ</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="emp in employees.content">
-                        <td>{{emp.nameTh}}</td>
-                        <th>{{emp.email}}</th>
-                        <th>{{emp.mobile}}</th>
-                        <th><a class="select-human modal-close" ng-click="selectEmployee(emp)">เลือก</a></th>
+                    <tr ng-repeat="lo in lots.content">
+                        <td>{{lo.id}}</td>
+                        <td>{{lo.nameStaffReam}}</td>
+                        <td>{{lo.dateIn}}</td>
+                        <td>{{lo.dateOut}}</td>
+                        <th><a class="select-human modal-close" ng-click="selectLot(lo)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
@@ -206,11 +209,11 @@
         <div class="row">
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
-                    <li class="btn waves-effect btn-pagination" id="first-page-employee" ng-click="firstPageEmployee()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="pre-page-employee" ng-click="prePageEmployee()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageEmployee + 1}}</p></li>
-                    <li class="btn waves-effect btn-pagination" id="next-page-employee" ng-click="nextPageEmployee()"><p style="margin-top: 2px;">&GT;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="final-page-employee" ng-click="finalPageEmployee()"><p style="margin-top: 2px;">&Gt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="first-page-lot" ng-click="firstPageLot()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="pre-page-lot" ng-click="prePageLot()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageLot + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination" id="next-page-lot" ng-click="nextPageLot()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="final-page-lot" ng-click="finalPageLot()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>
             </div>
         </div>
@@ -223,44 +226,47 @@
 <div id="modal-product" class="modal" style="height: inherit;border-radius: 10px;">
     <div class="modal-content" style="padding: 10px">
         <div class="row center">
-            <h4  class="margin-top-20 magin-buttom-20">เลือกคนเซ็นชื่อกำกับชื่อ</h4>
+            <h4  class="margin-top-20 magin-buttom-20">เลือกสินค้า</h4>
         </div>
         <div class="row">
             <div class="col m6 s12 input-field">
                 <i class="material-icons prefix">search</i>
-                <input type="text" id="search" ng-model="searchDataEmployee.keyword">
+                <input type="text" id="search" ng-model="searchDataProduct.keyword">
                 <label for="search" >ค้นหา : </label>
             </div>
             <div class="col m3 s12 input-field">
                 <i class="material-icons prefix clear-prefix">language</i>
                 <div class="select-custom">
-                    <select class="browser-default" id="searchby" ng-model="searchDataEmployee.searchBy" ng-init="searchDataEmployee.searchBy = 'ชื่อ'"> 
-                        <option value="ชื่อ">ชื่อ</option>
-                        <option value="อีเมลล์">อีเมลล์</option>
+                    <select class="browser-default" id="searchby" ng-model="searchDataProduct.searchBy" ng-init="searchDataProduct.searchBy = 'Name'"> 
+                        <option value="Name" >ชื่อสินค้า</option>
+                        <option value="TypeProduct">ประเภทสินค้า</option>
+                        <option value="UnitProduct">หน่วยสินค้า</option>
                     </select> 
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
             <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searcDataContentEmployee()">
+                <input type="submit" value="ค้นหา" class="btn" ng-click="searcDataContentProduct()">
             </div>
         </div>
         <div class="row">
             <table class="responsive-table hoverable">
                 <thead>
                     <tr>
-                        <th style="width:40%">ชื่อ</th>
-                        <th style="width:30%">อีเมลล์</th>
-                        <th style="width:20%">เบอร์โทร</th>
-                        <th style="width:10%">เลือก</th>
+                        <th style="width:20%">ลำดับ</th>
+                        <th style="width:30%">ชื่อสินค้า</th>
+                        <th style="width:20%">ประเทสินค้า</th>
+                        <th style="width:20%">หน่วยสินค้า</th>
+                        <th style="width:10%">จัดการ</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="emp in employees.content">
-                        <td>{{emp.nameTh}}</td>
-                        <th>{{emp.email}}</th>
-                        <th>{{emp.mobile}}</th>
-                        <th><a class="select-human modal-close" ng-click="selectEmployee(emp)">เลือก</a></th>
+                    <tr ng-repeat="pd in products.content">
+                        <td>{{pd.id}}</td>
+                        <td>{{pd.name}}</td>
+                        <td>{{pd.typeProduct.name}}</td>
+                        <td>{{pd.unit.name}}</td>
+                        <th><a class="select-human modal-close" ng-click="selectProduct(pd)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
@@ -268,11 +274,11 @@
         <div class="row">
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
-                    <li class="btn waves-effect btn-pagination" id="first-page-employee" ng-click="firstPageEmployee()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="pre-page-employee" ng-click="prePageEmployee()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageEmployee + 1}}</p></li>
-                    <li class="btn waves-effect btn-pagination" id="next-page-employee" ng-click="nextPageEmployee()"><p style="margin-top: 2px;">&GT;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="final-page-employee" ng-click="finalPageEmployee()"><p style="margin-top: 2px;">&Gt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="first-page-product" ng-click="firstPageProduct()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="pre-page-product" ng-click="prePageProduct()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageProduct + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination" id="next-page-product" ng-click="nextPageProduct()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="final-page-product" ng-click="finalPageEmployee()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>
             </div>
         </div>
