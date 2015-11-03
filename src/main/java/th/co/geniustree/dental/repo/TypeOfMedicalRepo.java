@@ -8,12 +8,13 @@ package th.co.geniustree.dental.repo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import th.co.geniustree.dental.model.TypeOfMedical;
 
 /**
  *
  * @author Best
  */
-public interface TypeOfMedicalRepo extends JpaRepository<TypeOfMedical, Integer>{
+public interface TypeOfMedicalRepo extends JpaRepository<TypeOfMedical, Integer> , JpaSpecificationExecutor<TypeOfMedical>{
     public Page<TypeOfMedical> findByUserName(String userName , Pageable pageable);
 }

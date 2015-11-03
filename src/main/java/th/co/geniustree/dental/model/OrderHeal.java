@@ -39,7 +39,7 @@ public class OrderHeal implements Serializable {
     private Integer value;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "DETAILHEAL_ID")
     private DetailHeal detailHeal;
 

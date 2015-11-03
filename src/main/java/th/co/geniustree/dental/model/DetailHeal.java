@@ -52,7 +52,7 @@ public class DetailHeal implements Serializable {
     private Doctor doctor;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "detailHeal", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "detailHeal")
     private List<OrderHeal> orderHealDetailHeals;
 
     public Integer getId() {

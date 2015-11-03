@@ -85,6 +85,11 @@ public class TypeOfMedical implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "TypeOfMedical{" + "id=" + id + ", value=" + value + ", userName=" + userName + ", listSelectHeal=" + listSelectHeal + '}';
+    }
     
     
 }

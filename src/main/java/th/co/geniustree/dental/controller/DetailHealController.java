@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import th.co.geniustree.dental.model.DetailHeal;
 import th.co.geniustree.dental.model.SearchData;
 import th.co.geniustree.dental.repo.DetailHealRepo;
+import th.co.geniustree.dental.repo.OrderBillRepo;
+import th.co.geniustree.dental.repo.OrderHealRepo;
 import th.co.geniustree.dental.service.DetailHealService;
+import th.co.geniustree.dental.spec.DetailHealSpec;
 
 /**
  *
@@ -28,49 +31,82 @@ import th.co.geniustree.dental.service.DetailHealService;
  */
 @RestController
 public class DetailHealController {
-    
-     @Autowired
-     private DetailHealRepo detailHealRepo;
-    
-     @RequestMapping(value = "/savedetailheal" , method = RequestMethod.POST)
-     public void saveDetailHeal(@RequestBody DetailHeal detailHeal){
-     detailHealRepo.save(detailHeal);
-     }
-     
+
+    @Autowired
+    private DetailHealRepo detailHealRepo;
+    @Autowired
+    private DetailHealService detailHealService;
+    @Autowired
+    private OrderHealRepo orderHealRepo;
+
+    @RequestMapping(value = "/savedetailheal", method = RequestMethod.POST)
+    public void saveDetailHeal(@RequestBody DetailHeal detailHeal) {
+        detailHealRepo.save(detailHeal);
+    }
+
     @RequestMapping(value = "/loaddetailheal")
-    public Page<DetailHeal> loadOrderHeal(Pageable pageable){
+    public Page<DetailHeal> loadOrderHeal(Pageable pageable) {
         return detailHealRepo.findAll(pageable);
     }
-    
-    @RequestMapping(value = "/deletedetailheal",method = RequestMethod.POST)
-    public void deleteDetailHeal(@RequestBody DetailHeal detailHeal){
+
+    @RequestMapping(value = "/deletedetailheal", method = RequestMethod.POST)
+    public void deleteDetailHeal(@RequestBody DetailHeal detailHeal) {
         detailHealRepo.delete(detailHeal.getId());
     }
-    
+
     @RequestMapping(value = "/totaldetailheal", method = RequestMethod.GET)
     public Long getTotalDetailHeal() {
         return detailHealRepo.count();
     }
-    
-    @Autowired
-    private DetailHealService detailHealService;
 
     @RequestMapping(value = "/loaddetailheal/searchdetailheal", method = RequestMethod.POST)
-    public Page<DetailHeal> search(@RequestBody SearchData searchData,Pageable pageable) throws ParseException{
+    public Page<DetailHeal> search(@RequestBody SearchData searchData, Pageable pageable) throws ParseException {
         String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
         Page<DetailHeal> detailHeals = null;
-        if("NamePatient".equals(searchBy)){
+        if ("NamePatient".equals(searchBy)) {
             detailHeals = detailHealService.searchByPatient(keyword, pageable);
         }
-        if("NameDoctor".equals(searchBy)){
+        if ("NameDoctor".equals(searchBy)) {
             detailHeals = detailHealService.searchByDoctor(keyword, pageable);
         }
-        if("DateHeal".equals(searchBy)){
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd" , Locale.US);
-            Date keywordDate= df.parse(keyword);
+        if ("DateHeal".equals(searchBy)) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            Date keywordDate = df.parse(keyword);
             detailHeals = detailHealService.searchByDateHeal(keywordDate, pageable);
         }
         return detailHeals;
+    }
+
+    @RequestMapping(value = "/countdetailheal", method = RequestMethod.GET)
+    public long countDetailHeal() {
+        return detailHealRepo.count();
+    }
+    
+    @RequestMapping(value = "/countsearchdetailheal" , method = RequestMethod.POST)
+    public long countSearchDetailHeal(@RequestBody SearchData searchData) throws ParseException{
+    long count = 0;
+    String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        Page<DetailHeal> detailHeals = null;
+        if ("NamePatient".equals(searchBy)) {
+            count = detailHealRepo.count(DetailHealSpec.patientLike("%"+keyword+"%"));
+        }
+        if ("NameDoctor".equals(searchBy)) {
+            count = detailHealRepo.count(DetailHealSpec.doctorLike("%"+keyword+"%"));
+        }
+        if ("DateHeal".equals(searchBy)) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            Date keywordDate = df.parse(keyword);
+            count = detailHealRepo.count(DetailHealSpec.dateHealLike(keywordDate));
+        }
+    return count;
+    }
+    
+    @RequestMapping(value = "/removeorderheal" , method = RequestMethod.POST)
+    private void removeOrderHeal(@RequestBody DetailHeal detailHeal){
+    for(int i = 0 ; i < detailHeal.getOrderHealDetailHeals().size() ; i++){
+        orderHealRepo.delete(detailHeal.getOrderHealDetailHeals().get(i));
+    }
     }
 }

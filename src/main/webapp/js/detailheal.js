@@ -5,6 +5,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.searchDataPatient = {};
     $scope.searchDataDoctor = {};
     $scope.searchDataTypeOfMedical = {};
+    $scope.searchDataHistoryOfMedical = {};
     $scope.patient = {};
     $scope.patients = {};
     $scope.doctor = {};
@@ -13,7 +14,12 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.typeOfMedicals = {};
     $scope.currentPage = 0;
     $scope.orderHeals = {};
+    $scope.detailHeals = {};
+    $scope.seeDetailHeal = {};
+    $scope.size = 10;
+    $scope.preScroll = 0;
     var user = "";
+    var historyOfMedicalAndTypeOfMedical = {};
     var typeOfMedicalForSave = {};
     var totalPagePatient = 0;
     var totalPatient = 0;
@@ -24,23 +30,138 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     var totalTypeOfMedical = 0;
     var totalPageTypeOfMedical = 0;
     var pageTypeOfMedical = 0;
+    var totalOrderHeal = 0;
+    var totalDetailHeal = 0;
+    var totalPageDetailHeal = 0;
+    var pageDetailHeal = 0;
+    var dataUpdate = [];
+
 
     $scope.saveDetailheal = function () {
         $http.post('/savedetailheal', $scope.detailHeal).success(function (data) {
         });
     };
-    
-    getUser();
-    function getUser(){
-        $http.get('/startpagestaff').success(function (data){
-           user =  data.nameTh;
+
+    function deleteOrderHeal(or) {
+        for (var i = 0; i < or.orderHealDetailHeals.length; i++) {
+            console.log(or.orderHealDetailHeals[i].listSelectHeal + ' : ' + i + 1);
+            $http.post('/deleteorderheal', or.orderHealDetailHeals[i]);
+        }
+        ;
+        getUser();
+    }
+
+    function countTypeOfMedical() {
+        getUser();
+        $http.post('/counttypeofmedical', user).success(function (data) {
+
         });
     }
 
-    function getOrderHeals(){
-        console.log(user);
-        $http.post('/gettypeofmedical' , user).success(function (data){
+    $scope.deleteOrderHeal = function (or) {
+        console.log(or + '++++++++++++++++++++++');
+        for (var i = 0; i < or.orderHealDetailHeals.length; i++) {
+            $http.post('/deleteorderheal', or.orderHealDetailHeals[i]);
+        }
+        ;
+        getUser();
+    };
+
+    $scope.seveOrderHeal = function () {
+        var typeMedical = [];
+        historyOfMedicalAndTypeOfMedical.detailHeal = $scope.detailHeal;
+        console.log();
+        for (var i = 0; i < totalOrderHeal; i++) {
+            typeMedical[i] = $scope.orderHeals.content[i];
+        }
+        historyOfMedicalAndTypeOfMedical.typeOfMedicals = typeMedical;
+        console.log('test.........' + historyOfMedicalAndTypeOfMedical.typeOfMedicals);
+        $http.post('/saveorderheal', historyOfMedicalAndTypeOfMedical).success(function (data) {
+            countDetailHeal();
+            console.log('dataupdate ' + dataUpdate.orderHealDetailHeals.length);
+            if (dataUpdate.orderHealDetailHeals.length !== 0) {
+                for (var i = 0; i < dataUpdate.orderHealDetailHeals.length; i++) {
+                    console.log('aaaaaaaaaaaaaaaaaaaa' + dataUpdate.orderHealDetailHeals[i].id);
+                    $http.post('/deleteorderheal', dataUpdate.orderHealDetailHeals[i]);
+                }
+                ;
+            }
+            getUser();
+            console.log('resulr' + totalOrderHeal);
+            for (var i = 0; i < totalOrderHeal; i++) {
+                typeMedical[i] = $scope.orderHeals.content[i];
+                console.log(typeMedical[i]);
+                $http.post('/deletetypeofmedical', typeMedical[i]);
+            }
+            $scope.detailHeal = {};
+            $scope.patient = '';
+            $scope.doctor = '';
+            $scope.orderHeals = {};
+            totalOrderHeal = 0;
+            $('.update').removeClass('active');
+            $('#preffix-id-detailheal , #prefix-dateheal-detailheal , #prefix-detailheal-patient , #prefix-detailheal-doctor , #prefix-detailheal-detailheal').css('color', 'black');
+            getDetailHeal();
+        });
+    };
+
+    $scope.clearData = function () {
+        clearData();
+    };
+
+    function clearData() {
+        var typeMedical = [];
+        $scope.detailHeal = {};
+        $scope.patient = '';
+        $scope.doctor = '';
+        for (var i = 0; i < totalOrderHeal; i++) {
+            typeMedical[i] = $scope.orderHeals.content[i];
+            $http.post('/deletetypeofmedical', typeMedical[i]);
+        }
+        $scope.orderHeals = {};
+        totalOrderHeal = 0;
+        $('.update').removeClass('active');
+        $('#preffix-id-detailheal , #prefix-dateheal-detailheal , #prefix-detailheal-patient , #prefix-detailheal-doctor , #prefix-detailheal-detailheal').css('color', 'black');
+    }
+
+    $scope.clickSeeDatailHeal = function (dh) {
+        $scope.preScroll = $(window).scrollTop();
+        $('body,html').animate({scrollTop: 1000}, "400");
+        $scope.seeDetailHeal = dh;
+        $scope.seeDetailHeal.dateHeal = moment(dh.dateHeal).format('YYYY-MM-D');
+        console.log('see' + dh);
+        var topic = document.getElementsByClassName('topic-detail');
+        for (var i = 0; i < topic.length; i++) {
+            if (topic[i].innerHTML == "") {
+                topic[i].innerHTML = '-';
+            }
+        }
+    };
+
+    getUser();
+    function getUser() {
+        $http.get('/startpagestaff').success(function (data) {
+            user = data;
+            getOrderHeals();
+        });
+    }
+
+    console.log('orderHeal := ' + totalDetailHeal);
+
+    checkTotalOrderHeal();
+    function checkTotalOrderHeal() {
+        var typeMedical = [];
+        if (totalOrderHeal > 0) {
+            for (var i = 0; i < totalOrderHeal; i++) {
+                typeMedical[i] = $scope.orderHeals.content[i];
+                $http.post('/deletetypeofmedical', typeMedical[i]);
+            }
+        }
+    }
+
+    function getOrderHeals() {
+        $http.post('/gettypeofmedical', user).success(function (data) {
             $scope.orderHeals = data;
+            totalOrderHeal = data.totalElements;
         });
     }
 
@@ -64,6 +185,14 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         });
     }
 
+    getDetailHeal();
+    function getDetailHeal() {
+        $http.get('/loaddetailheal', {params: {page: pageDetailHeal, size: $scope.size}}).success(function (data) {
+            $scope.detailHeals = data;
+            console.log(data);
+        });
+    }
+
     function selectGetOrSearchPatient() {
         if (!!$scope.searchDataPatient.keyword) {
             searchPatient();
@@ -81,14 +210,34 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             getDoctor();
         }
     }
-    
-      function selectGetOrSearchTypeOfMedical() {
+
+    function selectGetOrSearchTypeOfMedical() {
         if (!!$scope.searchDataTypeOfMedical.keyword) {
             searchTypeOfMedical();
             console.log('search');
         }
         else {
             getTypeOfMedical();
+            console.log('get');
+        }
+    }
+
+    $scope.selectGetOrSearchDetailHeal = function () {
+        pageDetailHeal = 0;
+        $scope.currentPage = pageDetailHeal;
+        selectGetOrSearchDetailHeal();
+        findTotalPageDetailHeal();
+        console.log(totalPageDetailHeal);
+
+    };
+
+    function selectGetOrSearchDetailHeal() {
+        if (!!$scope.searchDataHistoryOfMedical.keyword) {
+            $scope.searchHistoryOfMedical();
+            console.log('search');
+        }
+        else {
+            getDetailHeal();
             console.log('get');
         }
     }
@@ -109,16 +258,97 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $('#label-detailheal-doctor').addClass('active');
     };
 
-    $scope.selectTypeOfMedical = function (type,value){
-         typeOfMedicalForSave.userName = user;
-        console.log(user);
-        typeOfMedicalForSave.value = value;
-        typeOfMedicalForSave.listSelectHeal = type;
-        $http.post('/savetypeofmedical' , typeOfMedicalForSave).success(function (data){
-            console.log('save success');
-            getTypeOfMedical();
-        });
+    $scope.selectTypeOfMedical = function (type, value) {
+        getOrderHeals();
+        var valueIsNan = false;
+        if (value === undefined) {
+            value = 0;
+        }
+        if (parseInt(value) == NaN) {
+            console.log('valu eerror');
+            valueIsNan = true;
+        }
+        if (!valueIsNan) {
+            typeOfMedicalForSave.id = undefined;
+            typeOfMedicalForSave.userName = user.nameTh;
+            typeOfMedicalForSave.value = value;
+            typeOfMedicalForSave.listSelectHeal = type;
+            if (!!$scope.orderHeals.content[0]) {
+                for (var i = 0; i < totalOrderHeal; i++) {
+                    if (type.id === $scope.orderHeals.content[i].listSelectHeal.id) {
+                        typeOfMedicalForSave = $scope.orderHeals.content[i];
+                        typeOfMedicalForSave.value = parseInt($scope.orderHeals.content[i].value) + parseInt(value);
+                        typeOfMedicalForSave.userName = user.nameTh;
+                    }
+                }
+            }
+            $http.post('/savetypeofmedical', typeOfMedicalForSave).success(function (data) {
+                getOrderHeals();
+            });
+        }
         $('#modal-addtypeofmedical').closeModal();
+    };
+
+    $scope.deleteTypeOfMedical = function (typ) {
+        $http.post('/deletetypeofmedical', typ).success(function (data) {
+            getOrderHeals();
+        });
+    };
+
+    $scope.deleteDetailHeal = function (del) {
+        $http.post('/removeorderheal', del).success(function (data) {
+            $http.post('/deletedetailheal', del).success(function (data) {
+                getDetailHeal();
+                     $('span#close-card').trigger('click');
+                     toPreScroll();
+            });
+        });
+
+
+    };
+
+    $scope.clickUpdateDetailHeal = function () {
+        $('.update').addClass('active');
+        $('#preffix-id-detailheal , #prefix-dateheal-detailheal , #prefix-detailheal-patient , #prefix-detailheal-doctor , #prefix-detailheal-detailheal').css('color', '#00bcd4');
+        $('body,html').animate({scrollTop: 0}, "600");
+        $('span#close-card').trigger('click');
+        console.log('before' + totalOrderHeal);
+        var typeMedical = [];
+        if (totalOrderHeal > 0) {
+            for (var i = 0; i < totalOrderHeal; i++) {
+                typeMedical[i] = $scope.orderHeals.content[i];
+                $http.post('/deletetypeofmedical', typeMedical[i]);
+            }
+        }
+        $('.update').addClass('active');
+        $('body,html').animate({scrollTop: 0}, "600");
+        $('span#close-card').trigger('click');
+        $scope.detailHeal = $scope.seeDetailHeal;
+        $scope.detailHeal.dateHeal = new Date(moment(new Date($scope.seeDetailHeal.dateHeal)).format('YYYY-MM-D'));
+        $scope.patient = $scope.seeDetailHeal.patient;
+        $scope.doctor = $scope.seeDetailHeal.doctor;
+        dataUpdate = $scope.seeDetailHeal;
+        console.log('update' + dataUpdate);
+        for (var i = 0; i < $scope.seeDetailHeal.orderHealDetailHeals.length; i++) {
+            var saveListSelectHeal = {};
+            saveListSelectHeal.id = undefined;
+            saveListSelectHeal.listSelectHeal = $scope.seeDetailHeal.orderHealDetailHeals[i].listSelectHeal;
+            saveListSelectHeal.value = $scope.seeDetailHeal.orderHealDetailHeals[i].value;
+            saveListSelectHeal.userName = user.nameTh;
+
+            $http.post('/savetypeofmedical', saveListSelectHeal).success(function (data) {
+                getUser();
+            });
+        }
+        ;
+
+    };
+
+    $scope.searchHistoryOfMedical = function () {
+        $http.post('/loaddetailheal/searchdetailheal', $scope.searchDataHistoryOfMedical, {params: {page: pageDetailHeal, size: $scope.size}}).success(function (data) {
+            $scope.detailHeals = data;
+            countSearchDetailHeal();
+        });
     };
 
     $scope.searchPatient = function () {
@@ -127,7 +357,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $scope.currentPage = pagePatient;
             if (totalPagePatient > pagePatient) {
                 $('#next-page-patient').removeClass('disabled');
-                $('#final-page-patient').removeClass('disabled')
+                $('#final-page-patient').removeClass('disabled');
             }
             $scope.patients = data;
             countSearchPatient();
@@ -161,16 +391,16 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     }
 
     $scope.searchTypeOfMedical = function () {
-        pageTypeOfMedical = 0 ;
+        pageTypeOfMedical = 0;
         $scope.currentPage = pageTypeOfMedical;
         searchTypeOfMedical();
-             countSearchTypoOfMedical();
-       
+        countSearchTypoOfMedical();
+
     };
-    
-    function searchTypeOfMedical(){
+
+    function searchTypeOfMedical() {
         $scope.searchDataTypeOfMedical.searchBy = "Name";
-        $http.post('/loadlistselectheal/searchlistselectheal', $scope.searchDataTypeOfMedical , {params: {page: pageTypeOfMedical, size: 10}}).success(function (data) {
+        $http.post('/loadlistselectheal/searchlistselectheal', $scope.searchDataTypeOfMedical, {params: {page: pageTypeOfMedical, size: 10}}).success(function (data) {
             $scope.typeOfMedicals = data;
         });
     }
@@ -209,13 +439,43 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             findTotalPageTypeOfMedical();
         });
     }
-    
-    function countSearchTypoOfMedical(){
-        $http.post('/countsearchlistselectheal' , $scope.searchDataTypeOfMedical).success(function (data){
+
+    function countSearchTypoOfMedical() {
+        $http.post('/countsearchlistselectheal', $scope.searchDataTypeOfMedical).success(function (data) {
             totalTypeOfMedical = data;
             findTotalPageTypeOfMedical();
         });
     }
+
+    countDetailHeal();
+    function countDetailHeal() {
+        $http.get('/countdetailheal').success(function (data) {
+            totalDetailHeal = data;
+            console.log(data);
+            findTotalPageDetailHeal();
+        });
+    }
+
+    function countSearchDetailHeal() {
+        $http.post('/countsearchdetailheal', $scope.searchDataHistoryOfMedical).success(function (data) {
+            totalDetailHeal = data;
+            console.log(data);
+            findTotalPageDetailHeal();
+        });
+    }
+
+    $scope.cancel = function () {
+        toPreScroll();
+        $('span#close-card').trigger('click');
+    };
+
+    function toPreScroll() {
+        $('body,html').animate({scrollTop: $scope.preScroll}, "0");
+    }
+
+    $scope.toPreScroll = function () {
+        toPreScroll();
+    };
 
     function findTotalPagePatient() {
         var totalpages = parseInt(totalPatient / 10);
@@ -410,7 +670,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         }
         $('#first-page-typeofmedical').removeClass('disabled');
         $('#pre-page-typeofmedical').removeClass('disabled');
-        console.log('page '+pageTypeOfMedical);
+        console.log('page ' + pageTypeOfMedical);
     };
 
     $scope.finalPageTypeOfMedical = function () {
@@ -421,6 +681,84 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $('#final-page-typeofmedical').addClass('disabled');
         $('#first-page-typeofmedical').removeClass('disabled');
         $('#pre-page-typeofmedical').removeClass('disabled');
+    };
+
+    function findTotalPageDetailHeal() {
+        var totalpages = parseInt(totalDetailHeal / $scope.size);
+        if ((totalDetailHeal % $scope.size) != 0) {
+            totalpages++;
+        }
+        totalPageDetailHeal = totalpages;
+        console.log(totalPageDetailHeal);
+        if (totalpages == 1) {
+            $('#first-page-detailheal').addClass('disabled');
+            $('#pre-page-detailheal').addClass('disabled');
+            $('#next-page-detailheal').addClass('disabled');
+            $('#final-page-detailheal').addClass('disabled');
+        }
+        if (totalpages > 1) {
+            $('#first-page-detailheal').addClass('disabled');
+            $('#pre-page-detailheal').addClass('disabled');
+            $('#next-page-detailheal').removeClass('disabled');
+            $('#final-page-detailheal').removeClass('disabled');
+        }
+        if (pageDetailHeal > 0 && pageDetailHeal < totalPageDetailHeal - 1) {
+            $('#first-page-detailheal').removeClass('disabled');
+            $('#pre-page-detailheal').removeClass('disabled');
+            $('#next-page-detailheal').removeClass('disabled');
+            $('#final-page-detailheal').removeClass('disabled');
+        }
+        if (pageDetailHeal > 0 && pageDetailHeal == totalPageDetailHeal - 1) {
+            $('#first-page-detailheal').removeClass('disabled');
+            $('#pre-page-detailheal').removeClass('disabled');
+            $('#next-page-detailheal').addClass('disabled');
+            $('#final-page-detailheal').addClass('disabled');
+        }
+    }
+
+    $scope.firstPageDetailHeal = function () {
+        pageDetailHeal = 0;
+        $scope.currentPage = pageDetailHeal;
+        selectGetOrSearchDetailHeal();
+        $('#first-page-detailheal').addClass('disabled');
+        $('#pre-page-detailheal').addClass('disabled');
+        $('#next-page-detailheal').removeClass('disabled');
+        $('#final-page-detailheal').removeClass('disabled');
+    };
+
+    $scope.prePageDetailHeal = function () {
+        pageDetailHeal--;
+        $scope.currentPage = pageDetailHeal;
+        selectGetOrSearchDetailHeal();
+        if (pageDetailHeal == 0) {
+            $('#first-page-detailheal').addClass('disabled');
+            $('#pre-page-detailheal').addClass('disabled');
+        }
+        $('#next-page-detailheal').removeClass('disabled');
+        $('#final-page-detailheal').removeClass('disabled');
+    };
+
+    $scope.nextPageDetailHeal = function () {
+        pageDetailHeal++;
+        $scope.currentPage = pageDetailHeal;
+        selectGetOrSearchDetailHeal();
+        if (pageDetailHeal == totalPageDetailHeal - 1) {
+            $('#next-page-detailheal').addClass('disabled');
+            $('#final-page-detailheal').addClass('disabled');
+        }
+        $('#first-page-detailheal').removeClass('disabled');
+        $('#pre-page-detailheal').removeClass('disabled');
+        console.log('page ' + pageTypeOfMedical);
+    };
+
+    $scope.finalPageDetailHeal = function () {
+        pageDetailHeal = totalPageDetailHeal - 1;
+        $scope.currentPage = pageDetailHeal;
+        selectGetOrSearchDetailHeal();
+        $('#next-page-detailheal').addClass('disabled');
+        $('#final-page-detailheal').addClass('disabled');
+        $('#first-page-detailheal').removeClass('disabled');
+        $('#pre-page-detailheal').removeClass('disabled');
     };
 
     $scope.clickPatient = function () {
@@ -439,6 +777,14 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $('#modal-addtypeofmedical').openModal();
         getTypeOfMedical();
         countTypeOfMedical();
+    };
+
+    $scope.clickDeleteDetailHeal = function () {
+        $('#modal-delete-detailheal').openModal();
+    };
+
+    $scope.changePrefix = function (my) {
+        $(my).css('color', '#00bcd4');
     };
 
     $('.datepicker').pickadate({

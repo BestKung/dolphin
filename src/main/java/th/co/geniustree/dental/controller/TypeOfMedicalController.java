@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import th.co.geniustree.dental.model.Employee;
 import th.co.geniustree.dental.model.TypeOfMedical;
 import th.co.geniustree.dental.repo.TypeOfMedicalRepo;
+import th.co.geniustree.dental.spec.TypeOfMedicalSpec;
 
 /**
  *
@@ -22,23 +23,31 @@ import th.co.geniustree.dental.repo.TypeOfMedicalRepo;
  */
 @RestController
 public class TypeOfMedicalController {
-    
+
     @Autowired
     private TypeOfMedicalRepo typeOfMedicalRepo;
-    
-    @RequestMapping(value = "/savetypeofmedical" , method = RequestMethod.POST)
+
+    @RequestMapping(value = "/savetypeofmedical", method = RequestMethod.POST)
     private void saveTypeOfMedical(@RequestBody TypeOfMedical typeOfMedical) {
         typeOfMedicalRepo.save(typeOfMedical);
     }
-    
-    @RequestMapping(value = "/deletetypeofmedical" , method = RequestMethod.POST)
+
+    @RequestMapping(value = "/deletetypeofmedical", method = RequestMethod.POST)
     private void deleteTypeOfMedical(@RequestBody TypeOfMedical typeOfMedical) {
         typeOfMedicalRepo.delete(typeOfMedical);
     }
-    
-    @RequestMapping(value = "/gettypeofmedical" , method = RequestMethod.POST)
-    private Page<TypeOfMedical> getTypeOfMedical(String user,Pageable pageable) {
-        return typeOfMedicalRepo.findByUserName(user, pageable);
+
+    @RequestMapping(value = "/gettypeofmedical", method = RequestMethod.POST)
+    private Page<TypeOfMedical> getTypeOfMedical(@RequestBody Employee employee, Pageable pageable) {
+        if (employee != null) {
+            return typeOfMedicalRepo.findByUserName(employee.getNameTh(), pageable);
+        }
+        return null;
     }
-    
+
+    @RequestMapping(value = "/counttypeofmedical", method = RequestMethod.POST)
+    private long countTypeOfMedical(@RequestBody String keyword) {
+        return typeOfMedicalRepo.count(TypeOfMedicalSpec.userName(keyword));
+    }
+
 }

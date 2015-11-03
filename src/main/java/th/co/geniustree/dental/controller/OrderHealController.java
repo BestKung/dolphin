@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import th.co.geniustree.dental.model.DetailHeal;
+import th.co.geniustree.dental.model.HistoryOfMedicalAndTypeOfMedical;
+import th.co.geniustree.dental.model.ListSelectHeal;
 import th.co.geniustree.dental.model.OrderHeal;
+import th.co.geniustree.dental.model.TypeOfMedical;
 import th.co.geniustree.dental.repo.DetailHealRepo;
 import th.co.geniustree.dental.repo.OrderHealRepo;
 
@@ -44,26 +47,56 @@ public class OrderHealController {
 //        detailHeal_Id = detailHeal;
 //        detailHealRepo.save(detailHeal);
 //    }
-
+//    @RequestMapping(value = "/saveorderheal", method = RequestMethod.POST)
+//    public void saveDetailHeal(@RequestBody OrderHeal[] orderHeals) {
+//
+////        OrderHeal[] orderHeals = updateOrderHeal.getOrderHeal();
+////        Integer id[] = updateOrderHeal.getId();
+////        OrderHeal[] deleteOrderHeals = updateOrderHeal.getDeleteOrderHeal();
+////        if (id.length != 0) {
+////            for (int i = 0; i < id.length; i++) {
+////                orderHealRepo.delete(id[i]);
+////            }
+////        }
+////        for (int i = 0; i < deleteOrderHeals.length; i++) {
+////            orderHealRepo.delete(deleteOrderHeals[i]);
+////        }
+//        for (OrderHeal orderHeal : orderHeals) {
+//            orderHeal.setDetailHeal(detailHeal_Id);
+//            orderHealRepo.save(orderHeal);
+//        }
+//
+//    }
     @RequestMapping(value = "/saveorderheal", method = RequestMethod.POST)
-    public void saveDetailHeal(@RequestBody OrderHeal[] orderHeals) {
-
-//        OrderHeal[] orderHeals = updateOrderHeal.getOrderHeal();
-//        Integer id[] = updateOrderHeal.getId();
-//        OrderHeal[] deleteOrderHeals = updateOrderHeal.getDeleteOrderHeal();
-//        if (id.length != 0) {
-//            for (int i = 0; i < id.length; i++) {
-//                orderHealRepo.delete(id[i]);
-//            }
-//        }
-//        for (int i = 0; i < deleteOrderHeals.length; i++) {
-//            orderHealRepo.delete(deleteOrderHeals[i]);
-//        }
-        for (OrderHeal orderHeal : orderHeals) {
-            orderHeal.setDetailHeal(detailHeal_Id);
+    public void saveDetailHeal(@RequestBody HistoryOfMedicalAndTypeOfMedical historyOfMedicalAndTypeOfMedical) {
+        DetailHeal detailHeal = historyOfMedicalAndTypeOfMedical.getDetailHeal();
+        List<TypeOfMedical> typeOfMedicals = historyOfMedicalAndTypeOfMedical.getTypeOfMedicals();
+        DetailHeal detailHealTmp = detailHeal;
+        detailHealRepo.save(detailHeal);
+        for (int i = 0; i < typeOfMedicals.size(); i++) {
+//             System.out.println("--------------------------------------->getid: "+);
+            OrderHeal orderHeal = new OrderHeal();
+            System.out.println("----------------------------------------->detailheal : " + detailHeal);
+            orderHeal.setDetailHeal(detailHealTmp);
+            System.out.println("----------------------------------------->ListSelectHeal : " + typeOfMedicals.get(i).getListSelectHeal());
+            orderHeal.setListSelectHeal(typeOfMedicals.get(i).getListSelectHeal());
+            System.out.println("------------------------------------------>value : " + typeOfMedicals.get(i).getValue());
+            orderHeal.setValue(typeOfMedicals.get(i).getValue());
             orderHealRepo.save(orderHeal);
         }
+    }
 
+//     @RequestMapping(value = "/saveorderheal" , method = RequestMethod.POST)
+//    public void saveDetailHeal(@){
+//    DetailHeal detailHeal = historyOfMedicalAndTypeOfMedical.getDetailHeal();
+//    List<TypeOfMedical> typeOfMedicals = historyOfMedicalAndTypeOfMedical.getTypeOfMedicals();
+//    for(int i = 0 ; i < typeOfMedicals.size() ; i++){
+//        System.out.println("------------------------------->"+typeOfMedicals.get(i));
+//    }
+//    }
+    @RequestMapping(value = "/deleteorderheal", method = RequestMethod.POST)
+    public void deleteOrderHeal(@RequestBody OrderHeal orderHeal) {
+        orderHealRepo.delete(orderHeal);
     }
 
 }
