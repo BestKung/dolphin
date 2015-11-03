@@ -4,24 +4,24 @@
             <span class="card-title" style="color: black;"><h4>เพิ่มรอบการนำเข้าสินค้า</h4></span>
             <div class="row">
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix">android</i>
+                    <i class="material-icons prefix">label</i>
                     <input type="text" id="id" disabled ng-model="lot.id">
                     <label class="active" for="id">ลำดับ</label>
                 </div>
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix clear-prefix" >android</i>
+                    <i class="material-icons prefix clear-prefix">create</i>
                     <input type="text" ng-model="nameStream" ng-click="clickEmployee()" ng-change="changePrefix('#prefix-appointment-employee')">
                     <label id="label-nameStaffReam">ชื่อคนกำกับนำเข้า</label>
                 </div>
             </div>
             <div class="row col6">
                 <div class="col m6 s12 input-field">
-                    <i class="material-icons prefix clear-prefix">android</i>
+                    <i class="material-icons prefix clear-prefix">file_download</i>
                     <input type="date" id="dateIn" class="datepicker" ng-model="lot.dateIn">
                     <label for="dateIn" class="active" id="namedepartment1" >วันที่นำเข้า</label>
                 </div>
                 <div class="col m6 s12 input-field">
-                    <i class="material-icons prefix clear-prefix">android</i>
+                    <i class="material-icons prefix clear-prefix">file_upload</i>
                     <input type="date" id="dateOut" class="datepicker" ng-model="lot.dateOut">
                     <label for="dateOut" class="active" id="namedepartment2" >วันที่นำออก</label>
                 </div>

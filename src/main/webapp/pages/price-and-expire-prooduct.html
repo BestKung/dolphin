@@ -4,43 +4,43 @@
             <span class="card-title" style="color: black;"><h4>เพิ่ม จำนวน ราคา วันหมดอายุ ของสินค้า</h4></span>
             <div class="row">
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix">android</i>
+                    <i class="material-icons prefix">label</i>
                     <input type="text" id="id" disabled ng-model="priceAndExpireProduct.id">
                     <label class="active" for="id">ลำดับ</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix clear-prefix" >android</i>
+                    <i class="material-icons prefix clear-prefix" >file_download</i>
                     <input type="text" ng-model="lot" ng-click="clickLot()" ng-change="changePrefix('#prefix-appointment-lot')">
                     <label id="label-lot" class="active">รอบสินค้า</label>
                 </div>
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix clear-prefix" >android</i>
+                    <i class="material-icons prefix clear-prefix" >local_grocery_store</i>
                     <input type="text" ng-model="product" ng-click="clickProduct()" ng-change="changePrefix('#prefix-appointment-product')">
                     <label id="label-product" class="active">ชื่อสินค้า</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix" >android</i>
+                    <i class="material-icons prefix" >functions</i>
                     <input type="text" id="name" ng-model="priceAndExpireProduct.value">
                     <label class="active" id="namedepartment" for="name">จำนวนสินค้า</label>
                 </div>
                 <div class="col m6 s12 input-field">
-                    <i class="material-icons prefix clear-prefix">android</i>
+                    <i class="material-icons prefix clear-prefix">snooze</i>
                     <input type="date" id="dateIn" class="datepicker" ng-model="priceAndExpireProduct.expire">
                     <label for="dateIn" class="active" id="namedepartment1" >วันที่หมดอายุ</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix" >android</i>
+                    <i class="material-icons prefix" >format_bold</i>
                     <input type="text" id="name" ng-model="priceAndExpireProduct.priceBuy">
                     <label class="active" id="namedepartment" for="name">ราคาซื้อ</label>
                 </div>
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix" >android</i>
+                    <i class="material-icons prefix" >attach_money</i>
                     <input type="text" id="name" ng-model="priceAndExpireProduct.priceSell">
                     <label class="active" id="namedepartment" for="name">ราคาขาย</label>
                 </div>
