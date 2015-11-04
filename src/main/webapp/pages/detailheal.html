@@ -6,31 +6,31 @@
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" id="preffix-id-detailheal">label</i>
                     <input type="text" id="id" disabled ng-model="detailHeal.id">
-                    <label class="active" for="id">ลำดับ</label>
+                    <label class="active" for="id" class="update">ลำดับ</label>
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-dateheal-detailheal">today</i>
                     <input type="date" id="dateIn" class="datepicker" ng-model="detailHeal.dateHeal" ng-change="changePrefix('#prefix-dateheal-detailheal')">
-                    <label for="dateIn" class="active" id="namedate" >วันที่รักษา</label>
+                    <label for="dateIn" class="update" id="namedate" >วันที่รักษา</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix" id="prefix-detailheal-patient">mood_bad</i>
+                    <i class="material-icons prefix clear-prefix" id="prefix-detailheal-patient">mood_bad</i>
                     <input type="text" id="patient-detailheal" ng-model="patient.name" ng-click="clickPatient()" ng-change="changePrefix('#prefix-detailheal-patient')">
-                    <label class="active" for="patient-detailheal" id="label-detailheal-patient">ชื่อคนไข้</label>
+                    <label class="update" for="patient-detailheal" id="label-detailheal-patient">ชื่อคนไข้</label>
                 </div>
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix" id="prefix-detailheal-doctor">mood</i>
+                    <i class="material-icons prefix clear-prefix" id="prefix-detailheal-doctor">mood</i>
                     <input type="text" id="doctor-detailheal" ng-model="doctor.nameTh" ng-click="clickDoctor()" ng-change="changePrefix('#prefix-detailheal-doctor')">
-                    <label class="active" for="doctor-detailheal" id="label-detailheal-doctor">ชื่อทันตเเพทย์</label>
+                    <label class="update" for="doctor-detailheal" id="label-detailheal-doctor">ชื่อทันตเเพทย์</label>
                 </div>
             </div>
             <div class="row" >
                 <div class="col m12 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-detailheal-detailheal">border_color</i>
                     <textarea class="materialize-textarea" ng-model="detailHeal.detail" ng-change="changePrefix('#prefix-detailheal-detailheal')"></textarea>
-                    <label id="namedatail" class="active">รายละเอียดการรักษา</label>
+                    <label id="namedatail" class="update">รายละเอียดการรักษา</label>
                 </div>
             </div>
 
