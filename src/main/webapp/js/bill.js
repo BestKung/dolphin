@@ -1,7 +1,17 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
+angular.module('bill', []);
+angular.module('bill').controller('billController' , function ($scope , $http){
+    
+    
+    
+    $scope.clickOrderHeal = function (){
+        
+    };
+    
+    
+     $('.datepicker').pickadate({
+        selectMonths: true,
+        selectYears: 200,
+        format: 'yyyy-mm-dd',
+        container: 'body'
+    });
+});

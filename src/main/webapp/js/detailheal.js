@@ -74,7 +74,6 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         historyOfMedicalAndTypeOfMedical.typeOfMedicals = typeMedical;
         $http.post('/saveorderheal', historyOfMedicalAndTypeOfMedical).success(function (data) {
             countDetailHeal();
-//            console.log('dataupdate ' + dataUpdate.orderHealDetailHeals.length);
             if (!!dataUpdate.orderHealDetailHeals) {
                 if (dataUpdate.orderHealDetailHeals.length !== 0) {
                     for (var i = 0; i < dataUpdate.orderHealDetailHeals.length; i++) {
@@ -267,9 +266,11 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
                     }
                 }
             }
-            $http.post('/savetypeofmedical', typeOfMedicalForSave).success(function (data) {
+            if(typeOfMedicalForSave.value >= 0){
+                $http.post('/savetypeofmedical', typeOfMedicalForSave).success(function (data) {
                 getOrderHeals();
             });
+            }
         }
         $('#modal-addtypeofmedical').closeModal();
     };
