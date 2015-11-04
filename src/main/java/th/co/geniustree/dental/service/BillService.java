@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
-import th.co.geniustree.dental.model.Bill;
+import th.co.geniustree.dental.model.Bill2;
 import th.co.geniustree.dental.repo.BillRepo;
 import th.co.geniustree.dental.spec.BillSpec;
 
@@ -25,14 +25,14 @@ public class BillService {
     @Autowired 
     private BillRepo billRepo;
     
-    public Page<Bill> searchByDateBill(Date keyword,Pageable pageable){
-        Specifications<Bill> specifications = Specifications.where(BillSpec.dateBillLike(keyword));
-        return billRepo.findAll(specifications, pageable);
-    }  
-    
-    public Page<Bill> searchBySumPrice(Double keyword,Pageable pageable){
-        Specifications<Bill> specifications = Specifications.where(BillSpec.sumPriceLike(keyword));
-        return billRepo.findAll(specifications, pageable);
-    }  
+//    public Page<Bill2> searchByDateBill(Date keyword,Pageable pageable){
+//        Specifications<Bill2> specifications = Specifications.where(BillSpec.dateBillLike(keyword));
+//        return billRepo.findAll(specifications, pageable);
+//    }  
+//    
+//    public Page<Bill2> searchBySumPrice(Double keyword,Pageable pageable){
+//        Specifications<Bill2> specifications = Specifications.where(BillSpec.sumPriceLike(keyword));
+//        return billRepo.findAll(specifications, pageable);
+//    }  
     
 }

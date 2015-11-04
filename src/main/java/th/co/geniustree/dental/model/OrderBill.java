@@ -37,7 +37,7 @@ public class OrderBill implements Serializable {
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "BILL_ID")
-    private Bill bill;
+    private Bill2 bill;
 
     @ManyToOne
     @JoinColumn(name = "PRICEANDEXPIREPRODUCT_ID")
@@ -63,11 +63,11 @@ public class OrderBill implements Serializable {
         this.value = value;
     }
 
-    public Bill getBill() {
+    public Bill2 getBill() {
         return bill;
     }
 
-    public void setBill(Bill bill) {
+    public void setBill(Bill2 bill) {
         this.bill = bill;
     }
 

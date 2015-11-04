@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import th.co.geniustree.dental.model.Bill;
+import th.co.geniustree.dental.model.Bill2;
 import th.co.geniustree.dental.model.OrderBill;
 import th.co.geniustree.dental.model.OrderHeal;
 import th.co.geniustree.dental.model.UpdateOrderBill;
@@ -34,17 +35,16 @@ public class BillController {
     @Autowired
     private OrderBillRepo orderBillRepo;
 
-    private Bill idBill;
+    private Bill2 idBill;
 
-    @RequestMapping(value = "/loadbill")
-    public Page<Bill> loadBill(Pageable pageable) {
-        return billRepo.findAll(pageable);
-    }
+//    @RequestMapping(value = "/loadbill")
+//    public Page<Bill2> loadBill(Pageable pageable) {
+//        return billRepo.findAll(pageable);
+//    }
 
     @RequestMapping(value = "/savebill", method = RequestMethod.POST)
     public void saveBill(@RequestBody Bill bill) {
         billRepo.save(bill);
-        idBill = bill;
     }
 
     @RequestMapping(value = "/saveorderbill", method = RequestMethod.POST)
@@ -69,7 +69,7 @@ public class BillController {
     }
 
     @RequestMapping(value = "/deletebill", method = RequestMethod.POST)
-    public void deleteBill(@RequestBody Bill bill) {
+    public void deleteBill(@RequestBody Bill2 bill) {
         billRepo.delete(bill.getId());
     }
 

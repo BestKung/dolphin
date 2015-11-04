@@ -13,6 +13,9 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.typeOfMedical = {};
     $scope.typeOfMedicals = {};
     $scope.currentPage = 0;
+    $scope.currentPagePatient = 0;
+    $scope.currentPageDoctor = 0;
+    $scope.currentPageTypeOfMedical = 0
     $scope.orderHeals = {};
     $scope.detailHeals = {};
     $scope.seeDetailHeal = {};
@@ -266,10 +269,10 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
                     }
                 }
             }
-            if(typeOfMedicalForSave.value >= 0){
+            if (typeOfMedicalForSave.value >= 0) {
                 $http.post('/savetypeofmedical', typeOfMedicalForSave).success(function (data) {
-                getOrderHeals();
-            });
+                    getOrderHeals();
+                });
             }
         }
         $('#modal-addtypeofmedical').closeModal();
@@ -339,7 +342,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.searchPatient = function () {
         $http.post('/searchpatient', $scope.searchDataPatient).success(function (data) {
             pagePatient = 0;
-            $scope.currentPage = pagePatient;
+            $scope.currentPagePatient = pagePatient;
             if (totalPagePatient > pagePatient) {
                 $('#next-page-patient').removeClass('disabled');
                 $('#final-page-patient').removeClass('disabled');
@@ -359,7 +362,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.searchDoctor = function () {
         $http.post('/searchdoctor', $scope.searchDataDoctor).success(function (data) {
             pageDoctor = 0;
-            $scope.currentPage = pageDoctor;
+            $scope.currentPageDoctor = pageDoctor;
             if (totalPageDoctor > pageDoctor) {
                 $('#next-page-doctor').removeClass('disabled');
                 $('#final-page-doctor').removeClass('disabled')
@@ -377,7 +380,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
 
     $scope.searchTypeOfMedical = function () {
         pageTypeOfMedical = 0;
-        $scope.currentPage = pageTypeOfMedical;
+        $scope.currentPageTypeOfMedical = pageTypeOfMedical;
         searchTypeOfMedical();
         countSearchTypoOfMedical();
 
@@ -478,13 +481,12 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#next-page-patient').removeClass('disabled');
             $('#final-page-patient').removeClass('disabled');
         }
-        console.log(totalpages);
-    }
+     }
 
     $scope.firstPagePatient = function () {
         if (!$('#first-page-patient').hasClass('disabled')) {
             pagePatient = 0;
-            $scope.currentPage = pagePatient;
+            $scope.currentPagePatient = pagePatient;
             selectGetOrSearchPatient();
             if (pagePatient == 0) {
                 $('#first-page-patient').addClass('disabled');
@@ -498,7 +500,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.prePagePatient = function () {
         if (!$('#first-page-patient').hasClass('disabled')) {
             pagePatient--;
-            $scope.currentPage = pagePatient;
+            $scope.currentPagePatient = pagePatient;
             selectGetOrSearchPatient();
             if (pagePatient == 0) {
                 $('#first-page-patient').addClass('disabled');
@@ -512,7 +514,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.nextPagePatient = function () {
         if (!$('#final-page-patient').hasClass('disabled')) {
             pagePatient++;
-            $scope.currentPage = pagePatient;
+            $scope.currentPagePatient = pagePatient;
             selectGetOrSearchPatient();
             if (pagePatient == totalPagePatient - 1) {
                 $('#next-page-patient').addClass('disabled');
@@ -526,7 +528,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.finalPagePatient = function () {
         if (!$('#final-page-patient').hasClass('disabled')) {
             pagePatient = totalPagePatient - 1;
-            $scope.currentPage = pagePatient;
+            $scope.currentPagePatient = pagePatient;
             selectGetOrSearchPatient();
             if (pagePatient == totalPagePatient - 1) {
                 $('#final-page-patient').addClass('disabled');
@@ -557,30 +559,35 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     }
 
     $scope.firstPageDoctor = function () {
-        pageDoctor = 0;
-        $scope.currentPage = pageDoctor;
-        selectGetOrSearchDoctor();
-        $('#first-page-doctor').addClass('disabled');
-        $('#pre-page-doctor').addClass('disabled');
-        $('#next-page-doctor').removeClass('disabled');
-        $('#final-page-doctor').removeClass('disabled');
+        if (!$('#first-page-doctor').hasClass('disabled')) {
+            pageDoctor = 0;
+            $scope.currentPageDoctor = pageDoctor;
+            selectGetOrSearchDoctor();
+            $('#first-page-doctor').addClass('disabled');
+            $('#pre-page-doctor').addClass('disabled');
+            $('#next-page-doctor').removeClass('disabled');
+            $('#final-page-doctor').removeClass('disabled');
+        }
     };
 
     $scope.prePageDoctor = function () {
-        pageDoctor--;
-        $scope.currentPage = pageDoctor;
-        selectGetOrSearchDoctor();
-        if (pageDoctor == 0) {
-            $('#first-page-doctor').addClass('disabled');
-            $('#pre-page-doctor').addClass('disabled');
+        if (!$('#first-page-doctor').hasClass('disabled')) {
+            pageDoctor--;
+            $scope.currentPageDoctor = pageDoctor;
+            selectGetOrSearchDoctor();
+            if (pageDoctor == 0) {
+                $('#first-page-doctor').addClass('disabled');
+                $('#pre-page-doctor').addClass('disabled');
+            }
+            $('#next-page-doctor').removeClass('disabled');
+            $('#final-page-doctor').removeClass('disabled');
         }
-        $('#next-page-doctor').removeClass('disabled');
-        $('#final-page-doctor').removeClass('disabled');
     };
 
     $scope.nextPageDoctor = function () {
+        if (!$('#final-page-doctor').hasClass('disabled')) {
         pageDoctor++;
-        $scope.currentPage = pageDoctor;
+        $scope.currentPageDoctor = pageDoctor;
         selectGetOrSearchDoctor();
         if (pageDoctor == totalPageDoctor - 1) {
             $('#next-page-doctor').addClass('disabled');
@@ -588,16 +595,19 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         }
         $('#first-page-doctor').removeClass('disabled');
         $('#pre-page-doctor').removeClass('disabled');
+    }
     };
 
     $scope.finalPageDoctor = function () {
+        if (!$('#final-page-doctor').hasClass('disabled')) {
         pageDoctor = totalPageDoctor - 1;
-        $scope.currentPage = pageDoctor;
+        $scope.currentPageDoctor = pageDoctor;
         selectGetOrSearchDoctor();
         $('#next-page-doctor').addClass('disabled');
         $('#final-page-doctor').addClass('disabled');
         $('#first-page-doctor').removeClass('disabled');
         $('#pre-page-doctor').removeClass('disabled');
+    }
     };
 
     function findTotalPageTypeOfMedical() {
@@ -621,18 +631,21 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     }
 
     $scope.firstPageTypeOfMedical = function () {
+        if (!$('#first-page-typeofmedical').hasClass('disabled')) {
         pageTypeOfMedical = 0;
-        $scope.currentPage = pageTypeOfMedical;
+        $scope.currentPageTypeOfMedical = pageTypeOfMedical;
         selectGetOrSearchTypeOfMedical();
         $('#first-page-typeofmedical').addClass('disabled');
         $('#pre-page-typeofmedical').addClass('disabled');
         $('#next-page-typeofmedical').removeClass('disabled');
         $('#final-page-typeofmedical').removeClass('disabled');
+    }
     };
 
     $scope.prePageTypeOfMedical = function () {
+        if (!$('#first-page-typeofmedical').hasClass('disabled')) {
         pageTypeOfMedical--;
-        $scope.currentPage = pageTypeOfMedical;
+        $scope.currentPageTypeOfMedical = pageTypeOfMedical;
         selectGetOrSearchTypeOfMedical();
         if (pageDoctor == 0) {
             $('#first-page-typeofmedical').addClass('disabled');
@@ -640,11 +653,13 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         }
         $('#next-page-typeofmedical').removeClass('disabled');
         $('#final-page-typeofmedical').removeClass('disabled');
+    }
     };
 
     $scope.nextPageTypeOfMedical = function () {
+        if (!$('#final-page-typeofmedical').hasClass('disabled')) {
         pageTypeOfMedical++;
-        $scope.currentPage = pageTypeOfMedical;
+        $scope.currentPageTypeOfMedical = pageTypeOfMedical;
         selectGetOrSearchTypeOfMedical();
         if (pageTypeOfMedical == totalPageTypeOfMedical - 1) {
             $('#next-page-typeofmedical').addClass('disabled');
@@ -652,16 +667,19 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         }
         $('#first-page-typeofmedical').removeClass('disabled');
         $('#pre-page-typeofmedical').removeClass('disabled');
+    }
     };
 
     $scope.finalPageTypeOfMedical = function () {
+        if (!$('#final-page-typeofmedical').hasClass('disabled')) {
         pageTypeOfMedical = totalPageTypeOfMedical - 1;
-        $scope.currentPage = pageTypeOfMedical;
+        $scope.currentPageTypeOfMedical = pageTypeOfMedical;
         selectGetOrSearchTypeOfMedical();
         $('#next-page-typeofmedical').addClass('disabled');
         $('#final-page-typeofmedical').addClass('disabled');
         $('#first-page-typeofmedical').removeClass('disabled');
         $('#pre-page-typeofmedical').removeClass('disabled');
+    }
     };
 
     function findTotalPageDetailHeal() {
@@ -697,6 +715,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     }
 
     $scope.firstPageDetailHeal = function () {
+        if (!$('#first-page-detailheal').hasClass('disabled')) {
         pageDetailHeal = 0;
         $scope.currentPage = pageDetailHeal;
         selectGetOrSearchDetailHeal();
@@ -704,9 +723,11 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $('#pre-page-detailheal').addClass('disabled');
         $('#next-page-detailheal').removeClass('disabled');
         $('#final-page-detailheal').removeClass('disabled');
+    }
     };
 
     $scope.prePageDetailHeal = function () {
+        if (!$('#first-page-detailheal').hasClass('disabled')) {
         pageDetailHeal--;
         $scope.currentPage = pageDetailHeal;
         selectGetOrSearchDetailHeal();
@@ -716,9 +737,11 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         }
         $('#next-page-detailheal').removeClass('disabled');
         $('#final-page-detailheal').removeClass('disabled');
+    }
     };
 
     $scope.nextPageDetailHeal = function () {
+        if (!$('#final-page-detailheal').hasClass('disabled')) {
         pageDetailHeal++;
         $scope.currentPage = pageDetailHeal;
         selectGetOrSearchDetailHeal();
@@ -728,9 +751,11 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         }
         $('#first-page-detailheal').removeClass('disabled');
         $('#pre-page-detailheal').removeClass('disabled');
+    }
     };
 
     $scope.finalPageDetailHeal = function () {
+        if (!$('#final-page-detailheal').hasClass('disabled')) {
         pageDetailHeal = totalPageDetailHeal - 1;
         $scope.currentPage = pageDetailHeal;
         selectGetOrSearchDetailHeal();
@@ -738,6 +763,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $('#final-page-detailheal').addClass('disabled');
         $('#first-page-detailheal').removeClass('disabled');
         $('#pre-page-detailheal').removeClass('disabled');
+    }
     };
 
     $scope.clickPatient = function () {

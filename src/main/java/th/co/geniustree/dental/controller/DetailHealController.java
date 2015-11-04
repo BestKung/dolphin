@@ -64,13 +64,13 @@ public class DetailHealController {
         String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
         Page<DetailHeal> detailHeals = null;
-        if ("NamePatient".equals(searchBy)) {
+        if ("ชื่อคนไข้".equals(searchBy)) {
             detailHeals = detailHealService.searchByPatient(keyword, pageable);
         }
-        if ("NameDoctor".equals(searchBy)) {
+        if ("ชื่อทันตเเพทย์".equals(searchBy)) {
             detailHeals = detailHealService.searchByDoctor(keyword, pageable);
         }
-        if ("DateHeal".equals(searchBy)) {
+        if ("วันที่รักษา".equals(searchBy)) {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             Date keywordDate = df.parse(keyword);
             detailHeals = detailHealService.searchByDateHeal(keywordDate, pageable);
@@ -89,13 +89,13 @@ public class DetailHealController {
     String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
         Page<DetailHeal> detailHeals = null;
-        if ("NamePatient".equals(searchBy)) {
+        if ("ชื่อคนไข้".equals(searchBy)) {
             count = detailHealRepo.count(DetailHealSpec.patientLike("%"+keyword+"%"));
         }
-        if ("NameDoctor".equals(searchBy)) {
+        if ("ชื่อทันตเเพทย์".equals(searchBy)) {
             count = detailHealRepo.count(DetailHealSpec.doctorLike("%"+keyword+"%"));
         }
-        if ("DateHeal".equals(searchBy)) {
+        if ("Dateวันที่รักษาHeal".equals(searchBy)) {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             Date keywordDate = df.parse(keyword);
             count = detailHealRepo.count(DetailHealSpec.dateHealLike(keywordDate));

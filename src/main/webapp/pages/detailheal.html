@@ -89,10 +89,10 @@
                 <div class="col m3">
                     <span><h6>Search By : </h6></span>
                     <div class="select-custom">
-                        <select class="browser-default" id="select-searchby" ng-model="searchDataHistoryOfMedical.searchBy" ng-init="searchDataHistoryOfMedical.searchBy = 'NamePatient'">
-                            <option value="NamePatient">ชื่อลูกค้า</option>
-                            <option value="NameDoctor">ชื่อหมอ</option>
-                            <option value="DateHeal">วันที่รักษา</option>
+                        <select class="browser-default" id="select-searchby" ng-model="searchDataHistoryOfMedical.searchBy" ng-init="searchDataHistoryOfMedical.searchBy = 'ชื่อคนไข้'">
+                            <option value="ชื่อคนไข้">ชื่อคนไข้</option>
+                            <option value="ชื่อทันตเเพทย์">ชื่อทันตเเพทย์</option>
+                            <option value="วันที่รักษา">วันที่รักษา</option>
                         </select>
                     </div>
                 </div>
@@ -309,7 +309,7 @@
                 <ul class="pagination right" style="margin-top: 10px;">
                     <li class="btn waves-effect btn-pagination" id="first-page-patient" ng-click="firstPagePatient()"><p style="margin-top: 2px;">&Lt;</p></li>
                     <li class="btn waves-effect btn-pagination" id="pre-page-patient" ng-click="prePagePatient()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPagePatient + 1}}</p></li>
                     <li class="btn waves-effect btn-pagination" id="next-page-patient" ng-click="nextPagePatient()"><p style="margin-top: 2px;">&GT;</p></li>
                     <li class="btn waves-effect btn-pagination" id="final-page-patient" ng-click="finalPagePatient()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>
@@ -372,7 +372,7 @@
                 <ul class="pagination right" style="margin-top: 10px;">
                     <li class="btn waves-effect btn-pagination" id="first-page-doctor" ng-click="firstPageDoctor()"><p style="margin-top: 2px;">&Lt;</p></li>
                     <li class="btn waves-effect btn-pagination" id="pre-page-doctor" ng-click="prePageDoctor()()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageDoctor + 1}}</p></li>
                     <li class="btn waves-effect btn-pagination" id="next-page-doctor" ng-click="nextPageDoctor()"><p style="margin-top: 2px;">&GT;</p></li>
                     <li class="btn waves-effect btn-pagination" id="final-page-doctor" ng-click="finalPageDoctor()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>
@@ -430,7 +430,7 @@
                 <ul class="pagination right" style="margin-top: 10px;">
                     <li class="btn waves-effect btn-pagination" id="first-page-typeofmedical" ng-click="firstPageTypeOfMedical()"><p style="margin-top: 2px;">&Lt;</p></li>
                     <li class="btn waves-effect btn-pagination" id="pre-page-typeofmedical" ng-click="prePageTypeOfMedical()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageTypeOfMedical + 1}}</p></li>
                     <li class="btn waves-effect btn-pagination" id="next-page-typeofmedical" ng-click="nextPageTypeOfMedical()"><p style="margin-top: 2px;">&GT;</p></li>
                     <li class="btn waves-effect btn-pagination" id="final-page-typeofmedical" ng-click="finalPageTypeOfMedical()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>

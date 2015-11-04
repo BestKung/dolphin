@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import static th.co.geniustree.dental.model.Staff_.email;
+
 
 /**
  *
