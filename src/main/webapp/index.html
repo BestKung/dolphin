@@ -16,111 +16,119 @@
         <div class="navbar-fixed">
             <div class="fixed-navbar">
                 <nav class="color1" ng-controller="homeController">
-                    <a href="#" class="band-logo" style="margin-left: 10px;">Dolphin</a>
-                    <ul class="right margin-right hide-on-med-and-down">
-                        <span style="margin-right: 10px;">{{login.nameTh}}</span>
-                        <a  id="login" class="btn waves-effect waves-light btn-blue btn-border-white" ng-click="clickLogout()">Login</a>
-                    </ul>
-                    <div class="switch right margin-right hide-on-med-and-down">
-                        <label style="color: white">
-                            สวยงาม
-                            <input type="checkbox" ng-click="changcolor()">
-                            <span class="lever"></span>
-                            พักสายตา
-                        </label>
+                    <a href="#" class="band-logo" style="margin-left: 10px;">Dolphin</a>           
+                    <div class="right margin-right hide-on-med-and-down">
+                        <a href="#"><i class="margin-right-3 small mdi-action-lock-open waves-effect waves-light" ng-click="clickLogout()"></i><span></span><i></i></a>
                     </div>
-                    <ul id="slide-out" class="side-nav">
-                        <li style="height: 100px;background: #00bcd4">
-
-                        </li>
-                        <li><a href="#!"><span style="margin-left: 40px;">Home</span></a></li>
-                        <li class="no-padding">
-                            <ul class="collapsible collapsible-accordion">
-                                <li>
-                                    <a class="collapsible-header"><span>Employee</span><i class="mdi-navigation-arrow-drop-down"></i></a>
-                                    <div class="collapsible-body">
-                                        <ul>
-                                            <li class="li-height"><a href="#/employee">Add Employee</a></li>
-                                            <li class="li-height"><a href="#/employee/information">Employee Information</a></li>
-                                            <li class="li-height"><a href="#/department">Department</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="no-padding">
-                            <ul class="collapsible collapsible-accordion">
-                                <li>
-                                    <a class="collapsible-header"><span>Doctor</span><i class="mdi-navigation-arrow-drop-down"></i></a>
-                                    <div class="collapsible-body">
-                                        <ul>
-                                            <li class="li-height"><a href="#/doctor">Add Doctor</a></li>
-                                            <li class="li-height"><a href="#/doctor/information">Doctor Information</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="no-padding">
-                            <ul class="collapsible collapsible-accordion">
-                                <li>
-                                    <a class="collapsible-header"><span>Customer</span><i class="mdi-navigation-arrow-drop-down"></i></a>
-                                    <div class="collapsible-body">
-                                        <ul>
-                                            <li class="li-height"><a href="#/patient">Add Customer</a></li>
-                                            <li class="li-height"><a href="#/patient/information">Customer Information</a></li>
-                                            <li class="li-height"><a href="#/appointment">Applointment</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="no-padding">
-                            <ul class="collapsible collapsible-accordion">
-                                <li>
-                                    <a class="collapsible-header"><span>Heal</span><i class="mdi-navigation-arrow-drop-down"></i></a>
-                                    <div class="collapsible-body">
-                                        <ul>
-                                            <li><a href="#/listselectheal">จัดการชนิดการรักษา</a></li>
-                                            <li><a href="#/detailheal">บันทึกการรักษาและเลือกชนิดที่รักษา</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="no-padding">
-                            <ul class="collapsible collapsible-accordion">
-                                <li>
-                                    <a class="collapsible-header"><span>Stock</span><i class="mdi-navigation-arrow-drop-down"></i></a>
-                                    <div class="collapsible-body">
-                                        <ul>
-                                            <li class="li-height"><a href="#/unitproduct">จัดการหน่วยสินค้า</a></li>
-                                            <li class="li-height"><a href="#/typeproduct">จัดการประเภทสินค้า</a></li>
-                                            <li class="li-height"><a href="#/lot">จัดการรอบการนำเข้า</a></li>
-                                            <li class="li-height"><a href="#/product">จัดการสินค้า</a></li>
-                                            <li class="li-height"><a href="#/price-and-expire-prooduct">จัดการราคาสินค้าและวันหมดอายุ</a></li>
-                                            <li class="li-height"><a href="#/bill">จัดการบิลล์</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="no-padding">
-                            <ul class="collapsible collapsible-accordion">
-                                <li>
-                                    <a class="collapsible-header"><span>Print</span><i class="mdi-navigation-arrow-drop-down"></i></a>
-                                    <div class="collapsible-body">
-                                        <ul>
-                                            <li><a href="#" class="li-height">Print Customer Card</a></li>
-                                            <li><a href="#" class="li-height">Print Applointment</a></li>
-                                            <li><a href="#" class="li-height">Print Work schedule</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                    <div class="right margin-right hide-on-med-and-down">                      
+                        <a href="#/notification"><i class=" margin-right-3 small mdi-social-notifications-on waves-effect waves-light">                           
+                            </i><span style="color: red; position: absolute; z-index: 1000; right: 58px; top: 2px;"><b>10</b></span></a>                       
+                    </div>
+                    <div class="right margin-right hide-on-med-and-down">
+                        <span style="margin-right: 10px;">{{login.nameTh}}</span>
+                        <a href="#/"><i class=" margin-right-3 small mdi-action-home waves-effect waves-light"> 
+                            </i><span style="color: red ; font-weight: bold;"><b></b></span><i></i></a>
+                    </div>
+                    <!--                    <div class="switch right margin-right hide-on-med-and-down">
+                                            <label style="color: white">
+                                                สวยงาม
+                                                <input type="checkbox" ng-click="changcolor()">
+                                                <span class="lever"></span>
+                                                พักสายตา
+                                            </label>
+                                        </div>-->
+                    <!--                    <ul id="slide-out" class="side-nav">
+                                            <li style="height: 100px;background: #00bcd4">
+                    
+                                            </li>
+                                            <li><a href="#!"><span style="margin-left: 40px;">Home</span></a></li>
+                                            <li class="no-padding">
+                                                <ul class="collapsible collapsible-accordion">
+                                                    <li>
+                                                        <a class="collapsible-header"><span>Employee</span><i class="mdi-navigation-arrow-drop-down"></i></a>
+                                                        <div class="collapsible-body">
+                                                            <ul>
+                                                                <li class="li-height"><a href="#/employee">Add Employee</a></li>
+                                                                <li class="li-height"><a href="#/employee/information">Employee Information</a></li>
+                                                                <li class="li-height"><a href="#/department">Department</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="no-padding">
+                                                <ul class="collapsible collapsible-accordion">
+                                                    <li>
+                                                        <a class="collapsible-header"><span>Doctor</span><i class="mdi-navigation-arrow-drop-down"></i></a>
+                                                        <div class="collapsible-body">
+                                                            <ul>
+                                                                <li class="li-height"><a href="#/doctor">Add Doctor</a></li>
+                                                                <li class="li-height"><a href="#/doctor/information">Doctor Information</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="no-padding">
+                                                <ul class="collapsible collapsible-accordion">
+                                                    <li>
+                                                        <a class="collapsible-header"><span>Customer</span><i class="mdi-navigation-arrow-drop-down"></i></a>
+                                                        <div class="collapsible-body">
+                                                            <ul>
+                                                                <li class="li-height"><a href="#/patient">Add Customer</a></li>
+                                                                <li class="li-height"><a href="#/patient/information">Customer Information</a></li>
+                                                                <li class="li-height"><a href="#/appointment">Applointment</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="no-padding">
+                                                <ul class="collapsible collapsible-accordion">
+                                                    <li>
+                                                        <a class="collapsible-header"><span>Heal</span><i class="mdi-navigation-arrow-drop-down"></i></a>
+                                                        <div class="collapsible-body">
+                                                            <ul>
+                                                                <li><a href="#/listselectheal">จัดการชนิดการรักษา</a></li>
+                                                                <li><a href="#/detailheal">บันทึกการรักษาและเลือกชนิดที่รักษา</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="no-padding">
+                                                <ul class="collapsible collapsible-accordion">
+                                                    <li>
+                                                        <a class="collapsible-header"><span>Stock</span><i class="mdi-navigation-arrow-drop-down"></i></a>
+                                                        <div class="collapsible-body">
+                                                            <ul>
+                                                                <li class="li-height"><a href="#/unitproduct">จัดการหน่วยสินค้า</a></li>
+                                                                <li class="li-height"><a href="#/typeproduct">จัดการประเภทสินค้า</a></li>
+                                                                <li class="li-height"><a href="#/lot">จัดการรอบการนำเข้า</a></li>
+                                                                <li class="li-height"><a href="#/product">จัดการสินค้า</a></li>
+                                                                <li class="li-height"><a href="#/price-and-expire-prooduct">จัดการราคาสินค้าและวันหมดอายุ</a></li>
+                                                                <li class="li-height"><a href="#/bill">จัดการบิลล์</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="no-padding">
+                                                <ul class="collapsible collapsible-accordion">
+                                                    <li>
+                                                        <a class="collapsible-header"><span>Print</span><i class="mdi-navigation-arrow-drop-down"></i></a>
+                                                        <div class="collapsible-body">
+                                                            <ul>
+                                                                <li><a href="#" class="li-height">Print Customer Card</a></li>
+                                                                <li><a href="#" class="li-height">Print Applointment</a></li>
+                                                                <li><a href="#" class="li-height">Print Work schedule</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>-->
+                    <!--                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>-->
                 </nav> 
             </div>
         </div>
@@ -129,8 +137,6 @@
             <nav style="background: #ffffff;position: fixed;z-index: 1000; " id="nav-topic">
                 <div class="container">
                     <ul class="hide-on-med-and-down">
-                        <li><a href="#" class="text-sky"><i class="margin-right-5 mdi-action-home"></i><span>หน้าแรก</span></a></li>
-
                         <li><a href="" class="dropdown-button text-sky" data-activates="employee" data-beloworigin="true" data-constrainwidth="false"><i class="margin-right-5 mdi-social-person"></i><span>พนักงาน</span><i class="mdi-navigation-arrow-drop-down right"></i></a></li>
                         <ul id="employee" class="dropdown-content" >
                             <li><a href="#/employee">เพิ่มพนักงาน</a></li>
@@ -171,7 +177,13 @@
                             <li class="li-height"><a href="#/bill">จัดการบิลล์</a></li>
                         </ul>
 
-                        <li><a href="#" class="dropdown-button text-sky" data-activates="print" daa-beloworigin="true" data-constrainwidth="false"><i class="margin-right-5 mdi-action-print"></i><span>พิมพ์</span><i class="mdi-navigation-arrow-drop-down"></i></a></li>
+                        <li><a href="#" class="dropdown-button text-sky" data-activates="calendar" data-beloworigin="true" data-constrainwidth="false"><i class="margin-right-5 mdi-action-today"></i><span>ปฏิทิน</span><i class="mdi-navigation-arrow-drop-down"></i></a></li>
+                        <ul class="dropdown-content" id="calendar">
+                            <li class="li-height"><a href="#/calendarpatient">ปฏิทินนัดหมายคนไข้</a></li>
+                            <li class="li-height"><a href="#/calendardoctor">ปฏิทินทำงานของหมอ</a></li>                           
+                        </ul>
+
+                        <li><a href="#" class="dropdown-button text-sky" data-activates="print" data-beloworigin="true" data-constrainwidth="false"><i class="margin-right-5 mdi-action-print"></i><span>พิมพ์</span><i class="mdi-navigation-arrow-drop-down"></i></a></li>
                         <ul id="print" class="dropdown-content">
                             <li><a href="#">Print Customer Card</a></li>
                             <li><a href="#">Print Applointment</a></li>
@@ -217,7 +229,6 @@
         <script src="js/doctor-information.js"></script>
         <script src="js/patient.js"></script>
         <script src="js/patient-information.js"></script>
-
         <script src="js/listselectheal.js"></script>
         <script src="js/detailheal.js"></script>
         <script src="js/unitproduct.js"></script>
@@ -227,5 +238,8 @@
         <script src="js/price-and-expire-prooduct.js"></script>
         <script src="js/bill.js"></script>
         <script src="js/appointment.js"></script>
+        <script src="js/notifications.js"></script>
+        <script src="js/calendarpatient.js"></script>
+        <script src="js/calendardoctor.js"></script>
     </body>
 </html>
