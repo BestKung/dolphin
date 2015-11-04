@@ -38,8 +38,15 @@ public class PriceAndExpireProduct implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date expire;
 
+    @Column(name = "NOTIFICATIONSEXPIRE")
+    @Temporal(TemporalType.DATE)
+    private Date notificationsExpire;
+
     @Column(name = "VALUE")
     private Integer value;
+
+    @Column(name = "NOTIFICATIONSVALUE")
+    private Integer notificationsValue;
 
     @Column(name = "PRICEBUY")
     private Double priceBuy;
@@ -73,6 +80,22 @@ public class PriceAndExpireProduct implements Serializable {
 
     public void setExpire(Date expire) {
         this.expire = expire;
+    }
+
+    public Date getNotificationsExpire() {
+        return notificationsExpire;
+    }
+
+    public void setNotificationsExpire(Date notificationsExpire) {
+        this.notificationsExpire = notificationsExpire;
+    }
+
+    public Integer getNotificationsValue() {
+        return notificationsValue;
+    }
+
+    public void setNotificationsValue(Integer notificationsValue) {
+        this.notificationsValue = notificationsValue;
     }
 
     public Integer getValue() {

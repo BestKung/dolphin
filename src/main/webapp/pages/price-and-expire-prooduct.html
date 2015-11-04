@@ -27,10 +27,22 @@
                     <input type="text" id="name" ng-model="priceAndExpireProduct.value">
                     <label class="active" id="namedepartment" for="name">จำนวนสินค้า</label>
                 </div>
+                <div class="col m6 input-field">
+                    <i class="material-icons prefix" >notifications_active</i>
+                    <input type="text" id="name" ng-model="priceAndExpireProduct.notificationsValue">
+                    <label class="active" id="namedepartment" for="name">กำหนดการแจ้งเตือนจำนวนสินค้า</label>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix">snooze</i>
                     <input type="date" id="dateIn" class="datepicker" ng-model="priceAndExpireProduct.expire">
                     <label for="dateIn" class="active" id="namedepartment1" >วันที่หมดอายุ</label>
+                </div>
+                <div class="col m6 s12 input-field">
+                    <i class="material-icons prefix clear-prefix">notifications_active</i>
+                    <input type="date" id="dateIn" class="datepicker" ng-model="priceAndExpireProduct.notificationsExpire">
+                    <label for="dateIn" class="active" id="namedepartment1" >กำหนดการแจ้งเตือนวันหมดอายุ</label>
                 </div>
             </div>
             <div class="row">
