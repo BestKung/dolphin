@@ -1,7 +1,7 @@
 var app = angular.module('app', ['checklist-model', 'ngRoute', 'employee', 'department'
             , 'employee-information', 'doctor', 'doctor-information', 'patient'
             , 'bill', 'detailHeal', 'listSelectHeal', 'priceAndExpireProduct', 'product', 'typeProduct', 'unitProduct', 'lot',
-    'patient-information', 'appointment']);
+    'patient-information', 'appointment', 'notifications','calendarPatient','calendarDoctor']);
 var app = angular.module('app');
 app.controller('homeController', function ($scope, $http) {
     $scope.login = {};
@@ -112,7 +112,16 @@ app.config(function ($routeProvider) {
         templateUrl: 'pages/patient-information.html'
     }).when('/appointment', {
         controller: 'appointmentController',
-        templateUrl:'pages/appointment.html'
+        templateUrl: 'pages/appointment.html'
+    }).when('/notification', {
+        controller: 'notificationsController',
+        templateUrl: 'pages/notification.html'
+    }).when('/calendarpatient', {
+        controller: 'calendarPatientController',
+        templateUrl: 'pages/calendarpatient.html'
+    }).when('/calendardoctor', {
+        controller: 'calendarDoctorController',
+        templateUrl: 'pages/calendardoctor.html'
     }).otherwise({
         redirectTo: '/'
     });
