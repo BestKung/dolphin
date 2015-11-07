@@ -310,11 +310,11 @@
         <div class="row">
             <div class="col m6 s12 input-field">
                 <i class="material-icons prefix">search</i>
-                <input type="text" id="search" ng-model="searchDataTypeOfMedical.keyword">
+                <input type="text" id="search" ng-model="searchDataProduct.keyword">
                 <label for="search" >ค้นหา : </label>
             </div>
             <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searchTypeOfMedical()">
+                <input type="submit" value="ค้นหา" class="btn" ng-click="searchProduct()">
             </div>
         </div>
         <div class="row">
@@ -344,11 +344,11 @@
         <div class="row">
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
-                    <li class="btn waves-effect btn-pagination" id="first-page-typeofmedical" ng-click="firstPageTypeOfMedical()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="pre-page-typeofmedical" ng-click="prePageTypeOfMedical()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageTypeOfMedical + 1}}</p></li>
-                    <li class="btn waves-effect btn-pagination" id="next-page-typeofmedical" ng-click="nextPageTypeOfMedical()"><p style="margin-top: 2px;">&GT;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="final-page-typeofmedical" ng-click="finalPageTypeOfMedical()"><p style="margin-top: 2px;">&Gt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="first-page-product" ng-click="firstPageProduct()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="pre-page-product" ng-click="prePageProduct()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageProduct + 1}}</p></li>
+                    <li class="btn waves-effect btn-pagination" id="next-page-product" ng-click="nextPageProduct()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn waves-effect btn-pagination" id="final-page-product" ng-click="finalPageProduct()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>
             </div>
         </div>

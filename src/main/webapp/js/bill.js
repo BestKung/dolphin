@@ -8,11 +8,14 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     $scope.dataSelectDetailHeal = {};
     $scope.products = {};
     $scope.searchDataProduct = {};
-    $scope.currentPageProduct
+    $scope.currentPageProduct = 0;
 
     var totalDetailHeal = 0;
     var totalPageDetailHeal = 0;
     var PageDetailHeal = 0;
+    var totalProduct = 0;
+    var totalPageProduct = 0;
+    var pageProduct = 0;
 
     $scope.saveBill = function () {
         $http.post('/savebill', $scope.bill).success(function (data) {
@@ -20,12 +23,127 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         });
     };
 //////////////////////////////////// Start Product //////////////////////////////////////////////////////
-    function getProduct(){
-        $http.get('/loadpriceandexpireproduct').success(function (data){
+    function getProduct() {
+        $http.get('/loadpriceandexpireproduct', {params: {page: pageProduct, size: 10}}).success(function (data) {
             $scope.products = data;
             console.log(data);
         });
     }
+
+    function countProduct() {
+        $http.get('/totalpriceandexpireproduct').success(function (data) {
+            totalProduct = data;
+            findTotalPageProduct();
+        });
+    }
+
+    $scope.searchProduct = function () {
+        pageProduct = 0;
+        $scope.currentPageProduct = pageProduct;
+        searchProduct();
+        countSearchProduct();
+    };
+
+    function searchProduct() {
+        $scope.searchDataProduct.searchBy = 'NameProduct';
+        $http.post('/loadpriceandexpireproduct/searchpriceandexpireproduct', $scope.searchDataProduct, {params: {page: pageProduct, size: 10}}).success(function (data) {
+            $scope.products = data;
+        });
+    }
+
+    function countSearchProduct() {
+        $scope.searchDataProduct.searchBy = 'NameProduct';
+        $http.post('/countsearchpriceandexpireproduct', $scope.searchDataProduct).success(function (data) {
+            totalProduct = data;
+            findTotalPageProduct();
+        });
+    }
+
+    function selectGetOrSearchProduct() {
+        if (!!$scope.searchDataProduct.keyword) {
+            searchProduct();
+        }
+        else{
+            getProduct();
+        }
+    }
+
+    function findTotalPageProduct() {
+        var totalpages = parseInt(totalProduct / 10);
+        if ((totalProduct % 10) != 0) {
+            totalpages++;
+        }
+        totalPageProduct = totalpages;
+        if (totalPageProduct == 1) {
+            $('#first-page-product').addClass('disabled');
+            $('#pre-page-product').addClass('disabled');
+            $('#next-page-product').addClass('disabled');
+            $('#final-page-product').addClass('disabled');
+        }
+        if (totalPageProduct > 1) {
+            $('#first-page-product').addClass('disabled');
+            $('#pre-page-product').addClass('disabled');
+            $('#next-page-product').removeClass('disabled');
+            $('#final-page-product').removeClass('disabled');
+        }
+        console.log(totalPageProduct);
+    }
+
+    $scope.firstPageProduct = function () {
+        if (!$('#first-page-product').hasClass('disabled')) {
+            pageProduct = 0;
+            $scope.currentPageProduct = pageProduct;
+            selectGetOrSearchProduct()
+            if (pageProduct == 0) {
+                $('#first-page-product').addClass('disabled');
+                $('#pre-page-product').addClass('disabled');
+            }
+            $('#next-page-product').removeClass('disabled');
+            $('#final-page-product').removeClass('disabled');
+        }
+    };
+
+    $scope.prePageProduct = function () {
+        if (!$('#first-page-product').hasClass('disabled')) {
+            pageProduct--;
+            $scope.currentPageProduct = pageProduct;
+            selectGetOrSearchProduct()
+            if (pageProduct == 0) {
+                $('#first-page-product').addClass('disabled');
+                $('#pre-page-product').addClass('disabled');
+            }
+            $('#next-page-product').removeClass('disabled');
+            $('#final-page-product').removeClass('disabled');
+        }
+    };
+
+    $scope.nextPageProduct = function () {
+        if (!$('#final-page-product').hasClass('disabled')) {
+            pageProduct++;
+            $scope.currentPageProduct = pageProduct;
+            selectGetOrSearchProduct()
+            if (pageProduct == totalPageProduct - 1) {
+                $('#next-page-product').addClass('disabled');
+                $('#final-page-product').addClass('disabled');
+            }
+            $('#pre-page-product').removeClass('disabled');
+            $('#first-page-product').removeClass('disabled');
+        }
+    };
+
+    $scope.finalPageProduct = function () {
+        if (!$('#final-page-product').hasClass('disabled')) {
+            pageProduct = totalPageProduct - 1;
+            $scope.currentPageProduct = pageProduct;
+            selectGetOrSearchProduct()
+            if (pageProduct == totalPageProduct - 1) {
+                $('#final-page-product').addClass('disabled');
+                $('#next-page-product').addClass('disabled');
+            }
+            $('#pre-page-product').removeClass('disabled');
+            $('#first-page-product').removeClass('disabled');
+        }
+    };
 //////////////////////////////////// End Product //////////////////////////////////////////////////////
 
 //////////////////////////////////// Start DetailHeal //////////////////////////////////////////////////////
@@ -41,7 +159,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         $scope.bill.detailHeal = det;
         console.log(det);
         $('#modal-detailheal').closeModal();
-     };
+    };
 
     function countDetailHeal() {
         $http.get('/countdetailheal').success(function (data) {
@@ -166,10 +284,11 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         getDetailHeal();
         countDetailHeal();
     };
-    
-    $scope.clickAddProduct = function (){
+
+    $scope.clickAddProduct = function () {
         $('#modal-addproduct').openModal();
         getProduct();
+        countProduct();
     };
 
     $('.datepicker').pickadate({
