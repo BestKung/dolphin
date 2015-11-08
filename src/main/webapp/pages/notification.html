@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="card">
+        <div class="card-content">
+            <ul class="collapsible popout" data-collapsible="expandable">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">phone_in_talk</i>เตือนวันนัดหมาย</div>
+                    <div class="collapsible-body"><p>หมดเวลาแล้วที่เธอต้องไป</p></div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">local_shipping</i>เตือนสินค้าใกล้หมด</div>
+                    <div class="collapsible-body"><p>หมดเวลาแล้วที่เธอต้องไป</p></div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">today</i>เตือนวันหมดอายุ</div>
+                    <div class="collapsible-body"><p>หมดเวลาแล้วที่เธอต้องไป</p></div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.collapsible').collapsible({
+            accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+        });
+    });
+</script>
