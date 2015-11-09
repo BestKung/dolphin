@@ -15,7 +15,11 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.currentPage = 0;
     $scope.currentPagePatient = 0;
     $scope.currentPageDoctor = 0;
+<<<<<<< HEAD
     $scope.currentPageTypeOfMedical = 0;
+=======
+    $scope.currentPageTypeOfMedical = 0
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     $scope.orderHeals = {};
     $scope.detailHeals = {};
     $scope.seeDetailHeal = {};
@@ -144,6 +148,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
 
     checkTotalOrderHeal();
     function checkTotalOrderHeal() {
+<<<<<<< HEAD
         $http.get('/startpagestaff').success(function (data) {
             $http.post('/gettypeofmedical', data).success(function (dataType) {
                 var typeMedical = [];
@@ -155,6 +160,15 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
                 }
             });
         });
+=======
+        var typeMedical = [];
+        if (totalOrderHeal > 0) {
+            for (var i = 0; i < totalOrderHeal; i++) {
+                typeMedical[i] = $scope.orderHeals.content[i];
+                $http.post('/deletetypeofmedical', typeMedical[i]);
+            }
+        }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     }
 
     function getOrderHeals() {
@@ -485,7 +499,11 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#next-page-patient').removeClass('disabled');
             $('#final-page-patient').removeClass('disabled');
         }
+<<<<<<< HEAD
     }
+=======
+     }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
 
     $scope.firstPagePatient = function () {
         if (!$('#first-page-patient').hasClass('disabled')) {
@@ -590,6 +608,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
 
     $scope.nextPageDoctor = function () {
         if (!$('#final-page-doctor').hasClass('disabled')) {
+<<<<<<< HEAD
             pageDoctor++;
             $scope.currentPageDoctor = pageDoctor;
             selectGetOrSearchDoctor();
@@ -600,10 +619,23 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#first-page-doctor').removeClass('disabled');
             $('#pre-page-doctor').removeClass('disabled');
         }
+=======
+        pageDoctor++;
+        $scope.currentPageDoctor = pageDoctor;
+        selectGetOrSearchDoctor();
+        if (pageDoctor == totalPageDoctor - 1) {
+            $('#next-page-doctor').addClass('disabled');
+            $('#final-page-doctor').addClass('disabled');
+        }
+        $('#first-page-doctor').removeClass('disabled');
+        $('#pre-page-doctor').removeClass('disabled');
+    }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     };
 
     $scope.finalPageDoctor = function () {
         if (!$('#final-page-doctor').hasClass('disabled')) {
+<<<<<<< HEAD
             pageDoctor = totalPageDoctor - 1;
             $scope.currentPageDoctor = pageDoctor;
             selectGetOrSearchDoctor();
@@ -612,6 +644,16 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#first-page-doctor').removeClass('disabled');
             $('#pre-page-doctor').removeClass('disabled');
         }
+=======
+        pageDoctor = totalPageDoctor - 1;
+        $scope.currentPageDoctor = pageDoctor;
+        selectGetOrSearchDoctor();
+        $('#next-page-doctor').addClass('disabled');
+        $('#final-page-doctor').addClass('disabled');
+        $('#first-page-doctor').removeClass('disabled');
+        $('#pre-page-doctor').removeClass('disabled');
+    }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     };
 
     function findTotalPageTypeOfMedical() {
@@ -636,6 +678,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
 
     $scope.firstPageTypeOfMedical = function () {
         if (!$('#first-page-typeofmedical').hasClass('disabled')) {
+<<<<<<< HEAD
             pageTypeOfMedical = 0;
             $scope.currentPageTypeOfMedical = pageTypeOfMedical;
             selectGetOrSearchTypeOfMedical();
@@ -644,10 +687,21 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#next-page-typeofmedical').removeClass('disabled');
             $('#final-page-typeofmedical').removeClass('disabled');
         }
+=======
+        pageTypeOfMedical = 0;
+        $scope.currentPageTypeOfMedical = pageTypeOfMedical;
+        selectGetOrSearchTypeOfMedical();
+        $('#first-page-typeofmedical').addClass('disabled');
+        $('#pre-page-typeofmedical').addClass('disabled');
+        $('#next-page-typeofmedical').removeClass('disabled');
+        $('#final-page-typeofmedical').removeClass('disabled');
+    }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     };
 
     $scope.prePageTypeOfMedical = function () {
         if (!$('#first-page-typeofmedical').hasClass('disabled')) {
+<<<<<<< HEAD
             pageTypeOfMedical--;
             $scope.currentPageTypeOfMedical = pageTypeOfMedical;
             selectGetOrSearchTypeOfMedical();
@@ -658,10 +712,23 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#next-page-typeofmedical').removeClass('disabled');
             $('#final-page-typeofmedical').removeClass('disabled');
         }
+=======
+        pageTypeOfMedical--;
+        $scope.currentPageTypeOfMedical = pageTypeOfMedical;
+        selectGetOrSearchTypeOfMedical();
+        if (pageDoctor == 0) {
+            $('#first-page-typeofmedical').addClass('disabled');
+            $('#pre-page-typeofmedical').addClass('disabled');
+        }
+        $('#next-page-typeofmedical').removeClass('disabled');
+        $('#final-page-typeofmedical').removeClass('disabled');
+    }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     };
 
     $scope.nextPageTypeOfMedical = function () {
         if (!$('#final-page-typeofmedical').hasClass('disabled')) {
+<<<<<<< HEAD
             pageTypeOfMedical++;
             $scope.currentPageTypeOfMedical = pageTypeOfMedical;
             selectGetOrSearchTypeOfMedical();
@@ -672,10 +739,23 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#first-page-typeofmedical').removeClass('disabled');
             $('#pre-page-typeofmedical').removeClass('disabled');
         }
+=======
+        pageTypeOfMedical++;
+        $scope.currentPageTypeOfMedical = pageTypeOfMedical;
+        selectGetOrSearchTypeOfMedical();
+        if (pageTypeOfMedical == totalPageTypeOfMedical - 1) {
+            $('#next-page-typeofmedical').addClass('disabled');
+            $('#final-page-typeofmedical').addClass('disabled');
+        }
+        $('#first-page-typeofmedical').removeClass('disabled');
+        $('#pre-page-typeofmedical').removeClass('disabled');
+    }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     };
 
     $scope.finalPageTypeOfMedical = function () {
         if (!$('#final-page-typeofmedical').hasClass('disabled')) {
+<<<<<<< HEAD
             pageTypeOfMedical = totalPageTypeOfMedical - 1;
             $scope.currentPageTypeOfMedical = pageTypeOfMedical;
             selectGetOrSearchTypeOfMedical();
@@ -684,6 +764,16 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#first-page-typeofmedical').removeClass('disabled');
             $('#pre-page-typeofmedical').removeClass('disabled');
         }
+=======
+        pageTypeOfMedical = totalPageTypeOfMedical - 1;
+        $scope.currentPageTypeOfMedical = pageTypeOfMedical;
+        selectGetOrSearchTypeOfMedical();
+        $('#next-page-typeofmedical').addClass('disabled');
+        $('#final-page-typeofmedical').addClass('disabled');
+        $('#first-page-typeofmedical').removeClass('disabled');
+        $('#pre-page-typeofmedical').removeClass('disabled');
+    }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     };
 
     function findTotalPageDetailHeal() {
@@ -720,6 +810,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
 
     $scope.firstPageDetailHeal = function () {
         if (!$('#first-page-detailheal').hasClass('disabled')) {
+<<<<<<< HEAD
             pageDetailHeal = 0;
             $scope.currentPage = pageDetailHeal;
             selectGetOrSearchDetailHeal();
@@ -728,10 +819,21 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#next-page-detailheal').removeClass('disabled');
             $('#final-page-detailheal').removeClass('disabled');
         }
+=======
+        pageDetailHeal = 0;
+        $scope.currentPage = pageDetailHeal;
+        selectGetOrSearchDetailHeal();
+        $('#first-page-detailheal').addClass('disabled');
+        $('#pre-page-detailheal').addClass('disabled');
+        $('#next-page-detailheal').removeClass('disabled');
+        $('#final-page-detailheal').removeClass('disabled');
+    }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     };
 
     $scope.prePageDetailHeal = function () {
         if (!$('#first-page-detailheal').hasClass('disabled')) {
+<<<<<<< HEAD
             pageDetailHeal--;
             $scope.currentPage = pageDetailHeal;
             selectGetOrSearchDetailHeal();
@@ -742,10 +844,23 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#next-page-detailheal').removeClass('disabled');
             $('#final-page-detailheal').removeClass('disabled');
         }
+=======
+        pageDetailHeal--;
+        $scope.currentPage = pageDetailHeal;
+        selectGetOrSearchDetailHeal();
+        if (pageDetailHeal == 0) {
+            $('#first-page-detailheal').addClass('disabled');
+            $('#pre-page-detailheal').addClass('disabled');
+        }
+        $('#next-page-detailheal').removeClass('disabled');
+        $('#final-page-detailheal').removeClass('disabled');
+    }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     };
 
     $scope.nextPageDetailHeal = function () {
         if (!$('#final-page-detailheal').hasClass('disabled')) {
+<<<<<<< HEAD
             pageDetailHeal++;
             $scope.currentPage = pageDetailHeal;
             selectGetOrSearchDetailHeal();
@@ -756,10 +871,23 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#first-page-detailheal').removeClass('disabled');
             $('#pre-page-detailheal').removeClass('disabled');
         }
+=======
+        pageDetailHeal++;
+        $scope.currentPage = pageDetailHeal;
+        selectGetOrSearchDetailHeal();
+        if (pageDetailHeal == totalPageDetailHeal - 1) {
+            $('#next-page-detailheal').addClass('disabled');
+            $('#final-page-detailheal').addClass('disabled');
+        }
+        $('#first-page-detailheal').removeClass('disabled');
+        $('#pre-page-detailheal').removeClass('disabled');
+    }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     };
 
     $scope.finalPageDetailHeal = function () {
         if (!$('#final-page-detailheal').hasClass('disabled')) {
+<<<<<<< HEAD
             pageDetailHeal = totalPageDetailHeal - 1;
             $scope.currentPage = pageDetailHeal;
             selectGetOrSearchDetailHeal();
@@ -768,6 +896,16 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#first-page-detailheal').removeClass('disabled');
             $('#pre-page-detailheal').removeClass('disabled');
         }
+=======
+        pageDetailHeal = totalPageDetailHeal - 1;
+        $scope.currentPage = pageDetailHeal;
+        selectGetOrSearchDetailHeal();
+        $('#next-page-detailheal').addClass('disabled');
+        $('#final-page-detailheal').addClass('disabled');
+        $('#first-page-detailheal').removeClass('disabled');
+        $('#pre-page-detailheal').removeClass('disabled');
+    }
+>>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
     };
 
     $scope.clickPatient = function () {
