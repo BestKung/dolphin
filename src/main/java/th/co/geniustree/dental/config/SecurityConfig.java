@@ -14,20 +14,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import th.co.geniustree.dental.service.CustomUserService;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
 /**
  * @author pramoth
  */
 @Configuration
 @EnableWebMvcSecurity()
-<<<<<<< HEAD
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-=======
-@EnableGlobalMethodSecurity(prePostEnabled = true , securedEnabled = true)
->>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -49,29 +41,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/logout")
                 .deleteCookies("JSESSIONID")
-<<<<<<< HEAD
                 .permitAll()
                 .and()
                 .headers()
                 .frameOptions()
                 .disable()
-=======
-                .and()
->>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
                 .authorizeRequests().anyRequest().authenticated();
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-<<<<<<< HEAD
         web.ignoring()
                 .antMatchers("/console/*")
                 .antMatchers("/css/**")
                 .antMatchers("/js/**")
                 .antMatchers("/materialize/**");
-=======
-        web.ignoring().antMatchers("/console/*");
->>>>>>> 04beba6fb643c7eba98ef958a671920bf68f8b68
+
     }
 
 }

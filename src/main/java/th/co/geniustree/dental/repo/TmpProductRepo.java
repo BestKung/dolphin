@@ -6,6 +6,7 @@
 package th.co.geniustree.dental.repo;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import th.co.geniustree.dental.model.TmpProduct;
 
@@ -15,6 +16,6 @@ import th.co.geniustree.dental.model.TmpProduct;
  */
 public interface TmpProductRepo extends JpaRepository<TmpProduct, Integer>{
    
-    public Page<TmpProduct> findByUser(String user);
+    public Page<TmpProduct> findByUser(String user , Pageable pageable);
     
     }
