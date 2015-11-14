@@ -4,14 +4,14 @@
             <span class="card-title" style="color: black;" ><h4>เพิ่มบิลล์</h4></span>
             <div class="row">
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix">label</i>
+                    <i class="material-icons prefix" id="bill-prefix-id">label</i>
                     <input type="text" id="id" disabled ng-model="bill.id">
                     <label class="active" for="id">ลำดับ</label>
                 </div>
                 <div class="col m6 s12 input-field">
-                    <i class="material-icons prefix clear-prefix">today</i>
+                    <i class="material-icons prefix clear-prefix" id="bill-prefix-dateBill">today</i>
                     <input type="date" id="dateIn" class="datepicker" ng-model="bill.dateBill">
-                    <label for="dateIn" class="active" id="nameddatebill" >วันที่ออกบิลล์</label>
+                    <label for="dateIn" class="update" id="nameddatebill" >วันที่ออกบิลล์</label>
                 </div>
             </div>
             <div class="row" >
@@ -20,8 +20,8 @@
                         <thead >
                             <tr>
                                 <th style="width: 5%">ลำดับ</th>
-                                <th style="width: 10%">ราการที่จัดทำ</th>
-                                <th style="width: 15%">จำนวน</th>                                  
+                                <th style="width: 30%">ราการที่จัดทำ</th>
+                                <th style="width: 10%">จำนวน</th>                                  
                                 <th style="width: 10%">ราคา</th>
                                 <th style="width: 10%" >หน่วย</th>
                                 <th style="width: 10%">จัดการ</th>
@@ -36,28 +36,20 @@
                                 <td>บาท</td>   
                                 <td></td>
                             </tr>
-                            <tr ng-show="orderDetailHeals.length > 0">
-                                <td></td>
-                                <td></td>
-                                <td>รวมรายการรักษา</td>
-                                <td>{{orderDetailHeals.length}}</td>
-                                <td>รายการ</td>
-                                <td><input type="button" value="ลบ" class="btn btn-primary red" ng-click="removeRowSelectOrderHeal(ODH.id)"/></td>
-                            </tr>
-                            <tr ng-repeat="OP in orderProducts">
-                                <td>{{$index + 1}}</td>
-                                <td>{{OP.priceAndExpireProduct.product.name}}</td>
-                                <td>{{OP.value}}</td>
-                                <td>{{OP.priceAndExpireProduct.priceSell * OP.value}}</td>
+                            <tr ng-repeat="p in tmpProducts.content">
+                                <td>{{$index + dataSelectDetailHeal.orderHealDetailHeals.length +1}}</td>
+                                <td>{{p.priceAndExpireProduct.product.name}}</td>
+                                <td>{{p.value}}</td>
+                                <td>{{p.priceAndExpireProduct.priceSell * p.value}}</td>
                                 <td>บาท</td>
-                                <td><input type="button" value="ลบ" class="btn btn-primary red" ng-click="removeRowSelectProduct(OP.priceAndExpireProduct.product.name, OP.id)"/></td>
+                                <td><input type="submit" class="btn btn-red waves-effect" value="ลบ" ng-click="deleteTmpProduct(p)"></td>
                             </tr>
                             <tr>
                                 <td></td>
+                                <td style="font-weight: 900">รวมราคาสินค้าและค่ารักษา</td>
                                 <td></td>
-                                <td>รวมราคาสินค้าและค่ารักษา</td>
-                                <td>{{getTotal()}}</td>
-                                <td>บาท</td>
+                                <td style="font-weight: 900">{{totalPrice}}</td>
+                                <td style="font-weight: 900">บาท</td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -95,7 +87,7 @@
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix">search</i>
-                    <input type="text" id="search" ng-model="searchData.keyword">
+                    <input type="text" id="search" ng-model="searchDataBill.keyword">
                     <label for="search" >Search : </label>
                 </div>
             </div>
@@ -103,7 +95,7 @@
                 <div class="col m3">
                     <span><h6>Search By : </h6></span>
                     <div class="select-custom">
-                        <select class="browser-default" id="select-searchby" ng-model="searchData.searchBy" ng-init="searchData.searchBy = 'DateBill'">
+                        <select class="browser-default" id="select-searchby" ng-model="searchDataBill.searchBy" ng-init="searchDataBill.searchBy = 'DateBill'">
                             <option value="DateBill">วันที่ออกบิลล์</option>
                             <option value="SumPrice">ราคารวม</option>
                         </select>
@@ -112,7 +104,7 @@
             </div>
             <div class="row">
                 <div class="">
-                    <a class="btn waves-effect waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcEmployee()">Search</a>
+                    <a class="btn waves-effect waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searchBill()">Search</a>
                 </div>
             </div>
         </div>
@@ -128,7 +120,7 @@
                 <div class="col m6">
                     <div class="right">
                         <span class="">Show Page : </span>
-                        <select class="browser-default" ng-change="selectGetOrSearch()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="row" ng-init="row = '10'">
+                        <select class="browser-default" ng-change="selectGetOrSearchBill()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="row" ng-init="row = '10'">
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
@@ -142,7 +134,7 @@
                 <th style="width: 5%" class="table-department">ลำดับ</th>
                 <th style="width: 10%" class="table-department">วันที่ออกบิลล์</th>
                 <th style="width: 10%" class="table-department">ราคารวม</th>
-                <th style="width: 10%" class="table-department">จัดการ</th>
+                <th style="width: 10%" class="table-department">ดูรายละเอียดเพิ่มเติม</th>
                 </thead>
                 <tbody>
                     <tr ng-repeat="bs in bills.content">
@@ -150,7 +142,7 @@
                         <td>{{bs.dateBill}}</td>
                         <td>{{bs.sumPrice}}</td>
                         <td>
-                            <a href="" class="activator btn waves-effect green" ng-click="seeDetailBill(bs)" >ดูรายละเอียด</a>
+                            <a href="" class="activator" id="moredetail" ng-click="selectmMoreDetailBill(bs)" >ดูรายละเอียด</a>
                         </td>
                     </tr>
                 </tbody>
@@ -158,11 +150,11 @@
             <div class="row" id="card-employee">
                 <div class="col m12">
                     <ul class="pagination right" style="margin-top: 10px;">
-                        <li class="btn waves-effect btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
-                        <li class="btn waves-effect btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
-                        <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage}}</p></li>
-                        <li class="btn waves-effect btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
-                        <li class="btn waves-effect btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
+                        <li class="btn waves-effect btn-pagination" id="first-page-bill" ng-click="firstPageBill()"><p style="margin-top: 2px;">&Lt;</p></li>
+                        <li class="btn waves-effect btn-pagination" id="pre-page-bill" ng-click="prePageBill()"><p style="margin-top: 2px;">&LT</p>;</li>
+                        <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageBill+1}}</p></li>
+                        <li class="btn waves-effect btn-pagination" id="next-page-bill" ng-click="nextPageBill()"><p style="margin-top: 2px;">&GT;</p></li>
+                        <li class="btn waves-effect btn-pagination" id="final-page-bill" ng-click="finalPageBill()"><p style="margin-top: 2px;">&Gt;</p></li>
                     </ul>
                 </div>
             </div>
@@ -176,13 +168,13 @@
                             <label class="right topic-detail">ลำดับ : </label>
                         </div>
                         <div class="col m3 s6">
-                            <label class=" topic-detail">{{seeBill.id}}</label>
+                            <label class=" topic-detail">{{billMoreDetail.id}}</label>
                         </div>
                         <div class="col m2 s6">
                             <label class="right topic-detail">วันที่ออกบิลล์ : </label>
                         </div>
                         <div class="col m3 s6">
-                            <label class=" topic-detail">{{seeBill.dateBill}}</label>
+                            <label class=" topic-detail">{{billMoreDetail.dateBill}}</label>
                         </div>
                     </div>
                     <div class="row">
@@ -198,26 +190,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="sbdh in seeBilldetailheal.detailHeal.orderHealDetailHeals">
+                                    <tr ng-repeat="sbdh in billMoreDetail.detailHeal.orderHealDetailHeals">
                                         <td>{{$index + 1}}</td>
                                         <td>{{sbdh.listSelectHeal.name}}</td>  
                                         <td>{{sbdh.value}}</td>
                                         <td>{{sbdh.value * sbdh.listSelectHeal.price}}</td> 
                                         <td>บาท</td> 
                                     </tr>
-                                    <tr ng-repeat="see in seeBill.orderBills">
-                                        <td ng-show="!see.detailHeal">{{$index + seeBilldetailheal.detailHeal.orderHealDetailHeals.length + 1}}</td>
-                                        <td ng-show="!see.detailHeal">{{see.priceAndExpireProduct.product.name}}</td>  
-                                        <td ng-show="!see.detailHeal">{{see.value}}</td>
-                                        <td ng-show="!see.detailHeal">{{see.priceAndExpireProduct.priceSell * see.value}}</td> 
-                                        <td ng-show="!see.detailHeal">บาท</td> 
+                                    <tr ng-repeat="see in billMoreDetail.orderProduct">
+                                        <td>{{$index + billMoreDetail.detailHeal.orderHealDetailHeals.length + 1}}</td>
+                                        <td>{{see.priceAndExpireProduct.product.name}}</td>  
+                                        <td>{{see.value}}</td>
+                                        <td>{{see.priceAndExpireProduct.priceSell * see.value}}</td> 
+                                        <td>บาท</td> 
                                     </tr> 
 
                                     <tr>
                                         <td></td>
                                         <td></td>
                                         <td>รวมราคาสินค้าและค่ารักษา</td>
-                                        <td>{{seeBill.sumPrice}}</td>
+                                        <td>{{billMoreDetail.sumPrice}}</td>
                                         <td>บาท</td>
                                     </tr>
 
@@ -227,8 +219,8 @@
                     </div>
                     <div class="row margin-top right">
                         <a class="btn btn-gray waves-effect waves-light" ng-click="cancel()">ยกเลิก</a>
-                        <!--                        <a class="btn btn-blue2 waves-effect waves-light" ng-click="updateBill(seeBill)">แก้ไข</a>-->
-                        <button class="btn btn-red waves-effect waves-light modal-trigger" href="#modal-delete">ลบ</button>
+                        <a class="btn btn-blue2 waves-effect waves-light" ng-click="clickUpdateBill()">แก้ไข</a>
+                        <button class="btn btn-red waves-effect waves-light modal-trigger" href="#modal-delete" ng-click="clickDeeteBill()">ลบ</button>
                     </div>
                 </div>
             </div>
@@ -278,8 +270,8 @@
                         <td>{{det.patient.name}}</td>
                         <th>{{det.dateHeal}}</th>
                         <th><h6>{{det.doctor.nameTh}}</h6></th>
-            <th><a class="select-human modal-close" ng-click="selectDetailHeal(det)">เลือก</a></th>
-                    </tr>
+                <th><a class="select-human modal-close" ng-click="selectDetailHeal(det)">เลือก</a></th>
+                </tr>
                 </tbody>                  
             </table>
         </div>
@@ -334,9 +326,9 @@
                         <th>{{pro.product.name}}</th>
                         <th>{{pro.priceSell}}</th>
                         <th>
-                            <input id="value-of-operation" type="text" style="height:2rem" placeholder="จำนวน" ng-model="value">
-                 </th>
-                 <th><a class="select-human modal-close" ng-click="selectTypeOfMedical(typ,value)">เลือก</a></th>
+                            <input id="value-of-operation" type="text" style="height:2rem" placeholder="จำนวน" ng-model="valueProduct">
+                        </th>
+                        <th><a class="select-human modal-close" ng-click="selectProductToBill(pro, valueProduct)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
@@ -355,5 +347,19 @@
     </div>
     <div class="model-footer right">
         <a href="" class="magin-button btn btn-gray modal-action modal-close">Cancle</a>
+    </div>
+</div>
+
+
+<div id="modal-delete-bill" class="modal" style="border-radius: 10px;">
+    <div class="modal-content">
+        <div class="row center">
+            <h4 style="background: red;color: white;padding: 20px;" class="margin-top-20 magin-buttom-20">ลบบิลล์</h4>
+        </div>
+        <h4 class="margin-left-20">ลบบิลล์ : {{billMoreDetail.dateBill}}</h4>
+    </div>
+    <div class="model-footer right">
+        <a href="" class="magin-button btn btn-red modal-action modal-close" ng-click="deleteBill()">ลบ</a>
+        <a href="" class="magin-button btn btn-gray modal-action modal-close">ยกเลิก</a>
     </div>
 </div>

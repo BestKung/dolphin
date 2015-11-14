@@ -5,14 +5,17 @@
  */
 package th.co.geniustree.dental.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,23 +25,25 @@ import javax.persistence.TemporalType;
  * @author Best
  */
 @Entity
-public class Bill implements Serializable{
+public class Bill implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
+
     @Temporal(TemporalType.DATE)
     @Column(name = "DATEBILL")
     private Date dateBill;
 
     @Column(name = "SUMPRICE")
     private Double sumPrice;
-    
+
     @OneToOne
     private DetailHeal detailHeal;
-    
-    @OneToOne
-    private SetOfProductInBill setOfProductInBill;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "bill")
+    private List<OrderProduct> orderProduct;
 
     public Integer getId() {
         return id;
@@ -72,12 +77,12 @@ public class Bill implements Serializable{
         this.detailHeal = detailHeal;
     }
 
-    public SetOfProductInBill getSetOfProductInBill() {
-        return setOfProductInBill;
+    public List<OrderProduct> getOrderProduct() {
+        return orderProduct;
     }
 
-    public void setSetOfProductInBill(SetOfProductInBill setOfProductInBill) {
-        this.setOfProductInBill = setOfProductInBill;
+    public void setOrderProduct(List<OrderProduct> orderProduct) {
+        this.orderProduct = orderProduct;
     }
 
     @Override
@@ -101,6 +106,5 @@ public class Bill implements Serializable{
         }
         return true;
     }
-    
-    
+
 }

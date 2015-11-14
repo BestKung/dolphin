@@ -59,6 +59,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
 
     $scope.deleteOrderHeal = function (or) {
         for (var i = 0; i < or.orderHealDetailHeals.length; i++) {
+
             $http.post('/deleteorderheal', or.orderHealDetailHeals[i]);
         }
         ;
@@ -276,6 +277,9 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         });
     };
     $scope.deleteDetailHeal = function (del) {
+        if (del.dateHeal == 'Invalid date') {
+            del.dateHeal = new Date();
+        }
         $http.post('/removeorderheal', del).success(function (data) {
             $http.post('/deletedetailheal', del).success(function (data) {
                 getDetailHeal();

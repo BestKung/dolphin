@@ -11,18 +11,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author BestKung
  */
 @Entity
-public class TmpProduct implements Serializable{
+public class TmpProduct implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Double value;
+    private Integer value;
     private String user;
+    
+    @ManyToOne
     private PriceAndExpireProduct priceAndExpireProduct;
 
     public Integer getId() {
@@ -33,11 +37,11 @@ public class TmpProduct implements Serializable{
         this.id = id;
     }
 
-    public Double getValue() {
+    public Integer getValue() {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 
@@ -78,6 +82,10 @@ public class TmpProduct implements Serializable{
         }
         return true;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "TmpProduct{" + "id=" + id + ", value=" + value + ", user=" + user + ", priceAndExpireProduct=" + priceAndExpireProduct + '}';
+    }
+
 }

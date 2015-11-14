@@ -5,7 +5,16 @@
  */
 package th.co.geniustree.dental.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import th.co.geniustree.dental.model.TmpProduct;
+import th.co.geniustree.dental.repo.TmpProductRepo;
+import th.co.geniustree.dental.spec.TmpProductSpec;
 
 /**
  *
@@ -14,5 +23,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TmpProductController {
     
+    @Autowired
+    private TmpProductRepo tmpProductRepo;
+    
+    @RequestMapping(value = "/savetmpproduct" , method = RequestMethod.POST)
+    private void saveTmpProduct(@RequestBody TmpProduct tmpProduct){
+        System.out.println("------------------------------------------------------------------------>"+tmpProduct);
+    tmpProductRepo.save(tmpProduct);
+    }
+    
+    @RequestMapping(value = "/deletetmpproduct" , method = RequestMethod.POST)
+    private void deleteTmpProduct(@RequestBody TmpProduct tmpProduct){
+    tmpProductRepo.delete(tmpProduct);
+    }
+    
+    @RequestMapping(value = "/gettmpproduct" , method = RequestMethod.POST)
+    private Page<TmpProduct> getTmpproduct(@RequestBody String user , Pageable pageable){
+    return tmpProductRepo.findByUser(user, pageable);
+    }
+    
+    @RequestMapping(value = "/counttmpproduct" , method = RequestMethod.POST)
+    private long counttmpproduct(@RequestBody String userName){
+    return tmpProductRepo.count(TmpProductSpec.nameUser(userName));
+    }
     
 }

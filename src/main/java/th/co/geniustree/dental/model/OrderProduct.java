@@ -5,27 +5,33 @@
  */
 package th.co.geniustree.dental.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author Best
+ * @author BestKung
  */
 @Entity
-public class SetOfProductInBill implements Serializable{
+public class OrderProduct implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer Id;
+    private Integer value;
+   
+    @ManyToOne
+    private PriceAndExpireProduct priceAndExpireProduct;
     
-    @OneToMany
-    private List<OrderProduct> orderProducts;
+    @JsonBackReference
+    @ManyToOne
+    private Bill bill;
 
     public Integer getId() {
         return Id;
@@ -35,17 +41,34 @@ public class SetOfProductInBill implements Serializable{
         this.Id = Id;
     }
 
-    public List<OrderProduct> getOrderProducts() {
-        return orderProducts;
+    public Integer getValue() {
+        return value;
     }
 
-    public void setOrderProducts(List<OrderProduct> orderProducts) {
-        this.orderProducts = orderProducts;
+    public void setValue(Integer value) {
+        this.value = value;
     }
+
+    public PriceAndExpireProduct getPriceAndExpireProduct() {
+        return priceAndExpireProduct;
+    }
+
+    public void setPriceAndExpireProduct(PriceAndExpireProduct priceAndExpireProduct) {
+        this.priceAndExpireProduct = priceAndExpireProduct;
+    }
+
+    public Bill getBill() {
+        return bill;
+    }
+
+    public void setBill(Bill bill) {
+        this.bill = bill;
+    }
+    
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
         hash = 73 * hash + Objects.hashCode(this.Id);
         return hash;
     }
@@ -58,12 +81,11 @@ public class SetOfProductInBill implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SetOfProductInBill other = (SetOfProductInBill) obj;
+        final OrderProduct other = (OrderProduct) obj;
         if (!Objects.equals(this.Id, other.Id)) {
             return false;
         }
         return true;
     }
-    
     
 }

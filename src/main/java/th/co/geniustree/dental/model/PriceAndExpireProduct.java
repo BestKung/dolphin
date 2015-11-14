@@ -62,10 +62,6 @@ public class PriceAndExpireProduct implements Serializable {
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "priceAndExpireProduct")
-    private List<OrderBill> orderBills_priceAndExpireProduct;
-
     public Integer getId() {
         return id;
     }
@@ -136,14 +132,6 @@ public class PriceAndExpireProduct implements Serializable {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public List<OrderBill> getOrderBills_priceAndExpireProduct() {
-        return orderBills_priceAndExpireProduct;
-    }
-
-    public void setOrderBills_priceAndExpireProduct(List<OrderBill> orderBills_priceAndExpireProduct) {
-        this.orderBills_priceAndExpireProduct = orderBills_priceAndExpireProduct;
     }
 
     @Override

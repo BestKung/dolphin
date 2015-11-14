@@ -9,6 +9,16 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     $scope.products = {};
     $scope.searchDataProduct = {};
     $scope.currentPageProduct = 0;
+    $scope.tmpProducts = {};
+    $scope.valueProduct;
+    $scope.totalPrice = 0;
+    $scope.sequence = 0;
+    $scope.bills = {};
+    $scope.billMoreDetail = {};
+    $scope.preScroll = 0;
+    $scope.searchDataBill = {};
+    $scope.currentPageBill = 0;
+    $scope.row = 10;
 
     var totalDetailHeal = 0;
     var totalPageDetailHeal = 0;
@@ -16,17 +26,269 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     var totalProduct = 0;
     var totalPageProduct = 0;
     var pageProduct = 0;
+    var user = '';
+    var countTmpProduct = 0;
+    var totalPriceDetailHeal = 0;
+    var totalBill = 0;
+    var totalPageBill = 0;
+    var pageBill = 0;
+    var detailHealAndTmpProduct = {};
+    var deleteProduct = {};
 
     $scope.saveBill = function () {
-        $http.post('/savebill', $scope.bill).success(function (data) {
-            console.log('save success');
+        if (!!deleteProduct.id) {
+            $http.post('/deleteorderproduct', deleteProduct);
+        }
+        detailHealAndTmpProduct.detailHeal = $scope.bill.detailHeal;
+        detailHealAndTmpProduct.day = $scope.bill.dateBill;
+        detailHealAndTmpProduct.sumPrice = $scope.totalPrice;
+        var products = [];
+        for (var i = 0; i < countTmpProduct; i++) {
+            products[i] = $scope.tmpProducts.content[i];
+        }
+        detailHealAndTmpProduct.tmpProducts = products;
+        $http.post('/savebill', detailHealAndTmpProduct).success(function (data) {
+            for (var i = 0; i < countTmpProduct; i++) {
+                $http.post('/deletetmpproduct', $scope.tmpProducts.content[i]);
+                getUser();
+            }
+            getBill();
+            countBill();
+            $scope.totalPrice = 0;
+            $scope.bill = {};
+            $scope.dataSelectDetailHeal = {};
+            $('.update').removeClass('active');
+            $('#bill-prefix-dateBill , #bill-prefix-id').css('color', 'black');
+        });
+
+    };
+
+    getBill();
+    function getBill() {
+        $http.get('/getbill', {params: {page: pageBill, size: $scope.row}}).success(function (data) {
+            $scope.bills = data;
+        });
+    }
+
+    countBill();
+    function countBill() {
+        $http.get('/countbill').success(function (data) {
+            totalBill = data;
+            findTotalPageBill();
+        });
+    }
+
+    $scope.searchBill = function () {
+        searchBill();
+        countSearchBill();
+        pageBill = 0;
+        $scope.currentPageBill = pageBill;
+    };
+
+    function searchBill() {
+        $http.post('/searchBill', $scope.searchDataBill, {params: {page: pageBill, size: $scope.row}}).success(function (data) {
+            $scope.bills = data;
+        });
+    }
+
+    function countSearchBill() {
+        $http.post('/countsearchbill', $scope.searchDataBill).success(function (data) {
+            totalBill = data;
+            findTotalPageBill();
+        });
+    }
+
+    $scope.selectmMoreDetailBill = function (bill) {
+        $('body,html').animate({scrollTop: 850}, "600");
+        $scope.preScroll = $(window).scrollTop();
+        $scope.billMoreDetail = bill;
+        deleteProduct = bill;
+    };
+
+    $scope.cancel = function () {
+        toPreScroll();
+        $('span#close-card').trigger('click');
+    };
+
+    $scope.deleteBill = function () {
+        $http.post('/deleteorderproduct', $scope.billMoreDetail).success(function (data) {
+            $http.post('/deletebill', $scope.billMoreDetail).success(function (data) {
+                getBill();
+                $('span#close-card').trigger('click');
+                toPreScroll();
+            });
         });
     };
+
+    $scope.clearData = function () {
+        clearData();
+    };
+
+    function clearData() {
+        for (var i = 0; i < countTmpProduct; i++) {
+            $http.post('/deletetmpproduct', $scope.tmpProducts.content[i]);
+            getUser();
+        }
+        $scope.bill = {};
+        $scope.dataSelectDetailHeal = {};
+        $scope.totalPrice = 0;
+        $('.update').removeClass('active');
+        $('.clear-prefix').css('color', 'black');
+    }
+
+
+    $scope.clickUpdateBill = function () {
+        var saveTmpProduct = {};
+        $('.update').addClass('active');
+        $('#bill-prefix-dateBill , #bill-prefix-id').css('color', '#00bcd4');
+        $('span#close-card').trigger('click');
+        $('body,html').animate({scrollTop: 0}, "600");
+
+        detailHealAndTmpProduct.id = $scope.billMoreDetail.id;
+        $scope.bill.id = $scope.billMoreDetail.id;
+        detailHealAndTmpProduct.dateBill = new Date($scope.billMoreDetail.dateBill);
+        $scope.bill.dateBill = new Date($scope.billMoreDetail.dateBill);
+        detailHealAndTmpProduct.detailHeal = $scope.billMoreDetail.detailHeal;
+        $scope.dataSelectDetailHeal = $scope.billMoreDetail.detailHeal;
+        $scope.bill.detailHeal = $scope.billMoreDetail.detailHeal;
+        detailHealAndTmpProduct.totalPrice = $scope.billMoreDetail.sumPrice;
+        $scope.totalPrice = $scope.billMoreDetail.sumPrice;
+
+        saveTmpProduct = $scope.billMoreDetail;
+        for (var i = 0; i < saveTmpProduct.orderProduct.length; i++) {
+            saveTmpProduct.orderProduct[i].id = undefined;
+            saveTmpProduct.orderProduct[i].user = user.nameTh;
+            $http.post('/savetmpproduct', saveTmpProduct.orderProduct[i]);
+            totalDetailHeal = totalDetailHeal + saveTmpProduct.orderProduct[i].priceAndExpireProduct.priceSell;
+            getUser();
+        }
+    };
+
+    $scope.clickDeeteBill = function () {
+        $('#modal-delete-bill').openModal();
+    };
+
+    function toPreScroll() {
+        $('body,html').animate({scrollTop: $scope.preScroll}, "0");
+    }
+
+    $scope.toPreScroll = function () {
+        toPreScroll();
+    };
+
+    $scope.selectGetOrSearchBill = function () {
+        pageBill = 0;
+        $scope.currentPageBill = pageBill;
+        selectGetOrSearchBill();
+        findTotalPageBill();
+    };
+
+    function selectGetOrSearchBill() {
+        if (!!$scope.searchDataBill.keyword) {
+            searchBill();
+        }
+        else {
+            getBill();
+        }
+    }
+
+    function findTotalPageBill() {
+        var totalpages = parseInt(totalBill / $scope.row);
+        if ((totalBill % $scope.row) != 0) {
+            totalpages++;
+        }
+        totalPageBill = totalpages;
+        console.log('total ' + totalBill);
+        if (totalPageBill == 1 || totalPageBill == 0) {
+            console.log('true');
+            $('#first-page-bill').addClass('disabled');
+            $('#pre-page-bill').addClass('disabled');
+            $('#next-page-bill').addClass('disabled');
+            $('#final-page-bill').addClass('disabled');
+        }
+        if (totalPageBill > 1) {
+            console.log('false');
+            $('#first-page-bill').addClass('disabled');
+            $('#pre-page-bill').addClass('disabled');
+            $('#next-page-bill').removeClass('disabled');
+            $('#final-page-bill').removeClass('disabled');
+        }
+        if (pageBill > 0 && pageBill < totalPageBill - 1) {
+            $('#first-page-bill').removeClass('disabled');
+            $('#pre-page-bill').removeClass('disabled');
+            $('#next-page-bill').removeClass('disabled');
+            $('#final-page-bill').removeClass('disabled');
+        }
+        if (pageBill > 0 && pageBill == totalPageBill - 1) {
+            $('#first-page-bill').removeClass('disabled');
+            $('#pre-page-bill').removeClass('disabled');
+            $('#next-page-bill').addClass('disabled');
+            $('#final-page-bill').addClass('disabled');
+        }
+    }
+
+    $scope.firstPageBill = function () {
+        if (!$('#first-page-bill').hasClass('disabled')) {
+            pageBill = 0;
+            $scope.currentPageBill = pageBill;
+            selectGetOrSearchBill();
+            if (pageBill == 0) {
+                $('#first-page-bill').addClass('disabled');
+                $('#pre-page-bill').addClass('disabled');
+            }
+            $('#next-page-bill').removeClass('disabled');
+            $('#final-page-bill').removeClass('disabled');
+        }
+    };
+
+    $scope.prePageBill = function () {
+        if (!$('#first-page-bill').hasClass('disabled')) {
+            pageBill--;
+            $scope.currentPageBill = pageBill;
+            selectGetOrSearchBill();
+            if (pageBill == 0) {
+                $('#first-page-bill').addClass('disabled');
+                $('#pre-page-bill').addClass('disabled');
+            }
+            $('#next-page-bill').removeClass('disabled');
+            $('#final-page-bill').removeClass('disabled');
+        }
+    };
+
+    $scope.nextPageBill = function () {
+        if (!$('#final-page-bill').hasClass('disabled')) {
+            pageBill++;
+            $scope.currentPageBill = pageBill;
+            selectGetOrSearchBill();
+            if (pageBill == totalPageBill - 1) {
+                $('#next-page-bill').addClass('disabled');
+                $('#final-page-bill').addClass('disabled');
+            }
+            $('#pre-page-bill').removeClass('disabled');
+            $('#first-page-bill').removeClass('disabled');
+        }
+    };
+
+    $scope.finalPageBill = function () {
+        if (!$('#final-page-bill').hasClass('disabled')) {
+            pageBill = totalPageBill - 1;
+            $scope.currentPageBill = pageBill;
+            selectGetOrSearchBill();
+            if (pageBill == totalPageBill - 1) {
+                $('#final-page-bill').addClass('disabled');
+                $('#next-page-bill').addClass('disabled');
+            }
+            $('#pre-page-bill').removeClass('disabled');
+            $('#first-page-bill').removeClass('disabled');
+        }
+    };
+
+
+
 //////////////////////////////////// Start Product //////////////////////////////////////////////////////
     function getProduct() {
         $http.get('/loadpriceandexpireproduct', {params: {page: pageProduct, size: 10}}).success(function (data) {
             $scope.products = data;
-            console.log(data);
         });
     }
 
@@ -36,6 +298,81 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             findTotalPageProduct();
         });
     }
+
+    $scope.deleteTmpProduct = function (del) {
+        $scope.totalPrice = $scope.totalPrice - (del.priceAndExpireProduct.priceSell * del.value);
+        $http.post('/deletetmpproduct', del).success(function (data) {
+            console.log('delete success');
+            getUser();
+        });
+    };
+
+    getUser();
+    function getUser() {
+        $http.get('/startpagestaff').success(function (data) {
+            user = data;
+            getTmpProduct(user);
+        });
+    }
+
+    function getTmpProduct(user) {
+        $http.post('/gettmpproduct', user.nameTh).success(function (data) {
+            countTmpProduct = data.totalElements;
+            $scope.tmpProducts = data;
+
+        });
+    }
+
+    loadPage();
+    function loadPage() {
+        $http.get('/startpagestaff').success(function (userName) {
+            $http.post('/gettmpproduct', userName.nameTh).success(function (data) {
+                if (data.totalElements > 0) {
+                    for (var i = 0; i < data.totalElements; i++) {
+                        $http.post('/deletetmpproduct', data.content[i]);
+                        getUser(getUser);
+                   }
+                }
+            });
+        });
+    }
+
+    $scope.selectProductToBill = function (selectProduct, value) {
+         var valueIsNan = false;
+        if (value === undefined) {
+            value = 0;
+        }
+        if (parseInt(value) == NaN) {
+            valueIsNan = true;
+        }
+        if(!valueIsNan){
+            console.log('true' + ' count ' + countTmpProduct);
+        console.log('do');
+        var tmpProduct = {};
+        tmpProduct.priceAndExpireProduct = selectProduct;
+        tmpProduct.value = value;
+        console.log(selectProduct);
+        tmpProduct.user = user.nameTh;
+        tmpProduct.id = undefined;
+        if (countTmpProduct > 0) {
+            console.log('true' + ' count ' + countTmpProduct);
+            for (var i = 0; i < countTmpProduct; i++) {
+                console.log('select ' + selectProduct.id + ' tmp ' + $scope.tmpProducts.content[i].priceAndExpireProduct.id);
+                if (selectProduct.id === $scope.tmpProducts.content[i].priceAndExpireProduct.id) {
+                    tmpProduct = $scope.tmpProducts.content[i];
+                    tmpProduct.value = parseInt($scope.tmpProducts.content[i].value) + parseInt(value);
+                    tmpProduct.user = user.nameTh;
+                }
+            }
+        }
+        $scope.totalPrice = $scope.totalPrice + value * selectProduct.priceSell;
+        $http.post('/savetmpproduct', tmpProduct).success(function () {
+            console.log('save success');
+            getUser();
+            $('#modal-addproduct').closeModal();
+        });
+        }
+    };
 
     $scope.searchProduct = function () {
         pageProduct = 0;
@@ -63,7 +400,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         if (!!$scope.searchDataProduct.keyword) {
             searchProduct();
         }
-        else{
+        else {
             getProduct();
         }
     }
@@ -155,9 +492,16 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     }
 
     $scope.selectDetailHeal = function (det) {
+        $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
+        totalPriceDetailHeal = 0;
         $scope.dataSelectDetailHeal = det;
+        $scope.sequence = det.orderHealDetailHeals.length;
         $scope.bill.detailHeal = det;
-        console.log(det);
+        for (var i = 0; i < det.orderHealDetailHeals.length; i++) {
+            totalPriceDetailHeal = totalPriceDetailHeal + ((det.orderHealDetailHeals[i].listSelectHeal.price) * (det.orderHealDetailHeals[i].value));
+            $scope.totalPrice = $scope.totalPrice + ((det.orderHealDetailHeals[i].listSelectHeal.price) * (det.orderHealDetailHeals[i].value));
+        }
+        console.log(totalPriceDetailHeal);
         $('#modal-detailheal').closeModal();
     };
 
