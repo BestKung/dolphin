@@ -29,12 +29,13 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     var user = '';
     var countTmpProduct = 0;
     var totalPriceDetailHeal = 0;
+    var totalPriceProduct = 0;
     var totalBill = 0;
     var totalPageBill = 0;
     var pageBill = 0;
     var detailHealAndTmpProduct = {};
     var deleteProduct = {};
-    
+
 
     $scope.saveBill = function () {
         if (!!deleteProduct.id) {
@@ -133,6 +134,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         $scope.bill = {};
         $scope.dataSelectDetailHeal = {};
         totalPriceDetailHeal = 0;
+        totalPriceProduct = 0;
         $scope.totalPrice = 0;
         $('.update').removeClass('active');
         $('.clear-prefix').css('color', 'black');
@@ -155,15 +157,16 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         $scope.bill.detailHeal = $scope.billMoreDetail.detailHeal;
         detailHealAndTmpProduct.totalPrice = $scope.billMoreDetail.sumPrice;
         $scope.totalPrice = $scope.billMoreDetail.sumPrice;
-         saveTmpProduct = $scope.billMoreDetail;
+        saveTmpProduct = $scope.billMoreDetail;
         for (var i = 0; i < saveTmpProduct.orderProduct.length; i++) {
             saveTmpProduct.orderProduct[i].id = undefined;
             saveTmpProduct.orderProduct[i].user = user.nameTh;
             $http.post('/savetmpproduct', saveTmpProduct.orderProduct[i]);
-            totalDetailHeal = totalDetailHeal + saveTmpProduct.orderProduct[i].priceAndExpireProduct.priceSell;
+            totalPriceProduct = totalPriceProduct + saveTmpProduct.orderProduct[i].priceAndExpireProduct.priceSell;
             getUser();
         }
-    };
+        totalPriceDetailHeal = $scope.totalPrice - totalPriceProduct;
+     };
 
     $scope.clickDeeteBill = function () {
         $('#modal-delete-bill').openModal();
@@ -199,16 +202,13 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             totalpages++;
         }
         totalPageBill = totalpages;
-        console.log('total ' + totalBill);
         if (totalPageBill == 1 || totalPageBill == 0) {
-            console.log('true');
             $('#first-page-bill').addClass('disabled');
             $('#pre-page-bill').addClass('disabled');
             $('#next-page-bill').addClass('disabled');
             $('#final-page-bill').addClass('disabled');
         }
         if (totalPageBill > 1) {
-            console.log('false');
             $('#first-page-bill').addClass('disabled');
             $('#pre-page-bill').addClass('disabled');
             $('#next-page-bill').removeClass('disabled');
@@ -347,18 +347,13 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             valueIsNan = true;
         }
         if (!valueIsNan) {
-            console.log('true' + ' count ' + countTmpProduct);
-            console.log('do');
-            var tmpProduct = {};
+             var tmpProduct = {};
             tmpProduct.priceAndExpireProduct = selectProduct;
             tmpProduct.value = value;
-            console.log(selectProduct);
-            tmpProduct.user = user.nameTh;
+           tmpProduct.user = user.nameTh;
             tmpProduct.id = undefined;
             if (countTmpProduct > 0) {
-                console.log('true' + ' count ' + countTmpProduct);
                 for (var i = 0; i < countTmpProduct; i++) {
-                    console.log('select ' + selectProduct.id + ' tmp ' + $scope.tmpProducts.content[i].priceAndExpireProduct.id);
                     if (selectProduct.id === $scope.tmpProducts.content[i].priceAndExpireProduct.id) {
                         tmpProduct = $scope.tmpProducts.content[i];
                         tmpProduct.value = parseInt($scope.tmpProducts.content[i].value) + parseInt(value);
@@ -368,7 +363,6 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             }
             $scope.totalPrice = $scope.totalPrice + value * selectProduct.priceSell;
             $http.post('/savetmpproduct', tmpProduct).success(function () {
-                console.log('save success');
                 getUser();
                 $('#modal-addproduct').closeModal();
             });
@@ -424,7 +418,6 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             $('#next-page-product').removeClass('disabled');
             $('#final-page-product').removeClass('disabled');
         }
-        console.log(totalPageProduct);
     }
 
     $scope.firstPageProduct = function () {
@@ -488,17 +481,12 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     function getDetailHeal() {
         $http.get('/loaddetailheal', {params: {page: PageDetailHeal, size: 10}}).success(function (data) {
             $scope.detailHeals = data;
-            console.log();
         });
     }
 
     $scope.selectDetailHeal = function (det) {
-        console.log($scope.totalPrice+' totalprice Before');
-        console.log(totalPriceDetailHeal + ' before');
-//        $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
-        console.log($scope.totalPrice + ' result');
+         $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
         totalPriceDetailHeal = 0;
-        console.log(totalPriceDetailHeal+'----------------------');
         $scope.dataSelectDetailHeal = det;
         $scope.sequence = det.orderHealDetailHeals.length;
         $scope.bill.detailHeal = det;
@@ -506,22 +494,20 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             totalPriceDetailHeal = totalPriceDetailHeal + ((det.orderHealDetailHeals[i].listSelectHeal.price) * (det.orderHealDetailHeals[i].value));
             $scope.totalPrice = $scope.totalPrice + ((det.orderHealDetailHeals[i].listSelectHeal.price) * (det.orderHealDetailHeals[i].value));
         }
-        console.log($scope.totalPrice + ' totalprice');
-        console.log(totalPriceDetailHeal + ' after');
         $('#modal-detailheal').closeModal();
     };
 
     $scope.clearDetailHeal = function () {
         $scope.dataSelectDetailHeal = {};
         $scope.bill.detailHeal = {};
+        $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
         totalPriceDetailHeal = 0;
-    };
+     };
 
     function countDetailHeal() {
         $http.get('/countdetailheal').success(function (data) {
             totalDetailHeal = data;
             findTotalPageDetailHeal();
-            $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
         });
     }
 
@@ -535,14 +521,12 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     function searchDetailHeal() {
         $http.post('/loaddetailheal/searchdetailheal', $scope.searchDataDetailHeal, {params: {page: PageDetailHeal, size: 10}}).success(function (data) {
             $scope.detailHeals = data;
-            console.log('do');
-        });
+         });
     }
 
     function countSearchDetailHeal() {
         $http.post('/countsearchdetailheal', $scope.searchDataDetailHeal).success(function (data) {
             totalDetailHeal = data;
-            console.log(data);
             findTotalPageDetailHeal();
         });
     }
@@ -550,11 +534,9 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     function selectGetOrSearchDetailHeal() {
         if (!!$scope.searchDataDetailHeal.keyword) {
             searchDetailHeal();
-            console.log('true');
         }
         else {
             getDetailHeal();
-            console.log('false');
         }
     }
 
@@ -576,7 +558,6 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             $('#next-page-detailheal').removeClass('disabled');
             $('#final-page-detailheal').removeClass('disabled');
         }
-        console.log(totalPageDetailHeal);
     }
 
     $scope.firstPageDetailHeal = function () {
