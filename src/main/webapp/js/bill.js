@@ -61,6 +61,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             $scope.dataSelectDetailHeal = {};
             $('.update').removeClass('active');
             $('#bill-prefix-dateBill , #bill-prefix-id').css('color', 'black');
+            Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
         });
 
     };
@@ -119,6 +120,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
                 $('span#close-card').trigger('click');
                 toPreScroll();
             });
+            Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
         });
     };
 

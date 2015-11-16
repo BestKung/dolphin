@@ -54,6 +54,8 @@ public class DetailHeal implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "detailHeal")
     private List<OrderHeal> orderHealDetailHeals;
+    
+    
 
     public Integer getId() {
         return id;
@@ -123,6 +125,11 @@ public class DetailHeal implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "DetailHeal{" + "id=" + id + ", detail=" + detail + ", dateHeal=" + dateHeal + ", patient=" + patient + ", doctor=" + doctor + ", orderHealDetailHeals=" + orderHealDetailHeals + '}';
     }
 
 }

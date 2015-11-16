@@ -52,9 +52,12 @@ public class BillController {
 //    }
     @RequestMapping(value = "/savebill", method = RequestMethod.POST)
     public void saveBill(@RequestBody DetailHealAndTmpProduct detailHealAndTmpProduct) {
+        System.out.println("------------------------------------------------------------->"+detailHealAndTmpProduct.getDetailHeal());
         Bill bill = new Bill();
         bill.setDateBill(detailHealAndTmpProduct.getDay());
+//        if(detailHealAndTmpProduct.getDetailHeal().getId() != null){
         bill.setDetailHeal(detailHealAndTmpProduct.getDetailHeal());
+//        }
         bill.setSumPrice(detailHealAndTmpProduct.getSumPrice());
         bill.setId(detailHealAndTmpProduct.getId());
         billRepo.save(bill);
