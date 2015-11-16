@@ -52,7 +52,7 @@ public class BillController {
 //    }
     @RequestMapping(value = "/savebill", method = RequestMethod.POST)
     public void saveBill(@RequestBody DetailHealAndTmpProduct detailHealAndTmpProduct) {
-        System.out.println("------------------------------------------------------------->"+detailHealAndTmpProduct.getDetailHeal());
+        System.out.println("-------------------------------------------------------------> detailheal"+detailHealAndTmpProduct.getDetailHeal());
         Bill bill = new Bill();
         bill.setDateBill(detailHealAndTmpProduct.getDay());
 //        if(detailHealAndTmpProduct.getDetailHeal().getId() != null){

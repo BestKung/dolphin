@@ -490,7 +490,6 @@ angular.module('bill').controller('billController', function ($scope, $http) {
          $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
         totalPriceDetailHeal = 0;
         $scope.dataSelectDetailHeal = det;
-        $scope.sequence = det.orderHealDetailHeals.length;
         $scope.bill.detailHeal = det;
         for (var i = 0; i < det.orderHealDetailHeals.length; i++) {
             totalPriceDetailHeal = totalPriceDetailHeal + ((det.orderHealDetailHeals[i].listSelectHeal.price) * (det.orderHealDetailHeals[i].value));
@@ -501,7 +500,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
 
     $scope.clearDetailHeal = function () {
         $scope.dataSelectDetailHeal = {};
-        $scope.bill.detailHeal = {};
+        $scope.bill.detailHeal = undefined;
         $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
         totalPriceDetailHeal = 0;
      };
