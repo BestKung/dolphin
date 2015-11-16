@@ -8067,34 +8067,21 @@
                 // locale
                 isRTL: false,
                 buttonText: {
-//		prev: "prev",
-//		next: "next",
-//		prevYear: "prev year",
-//		nextYear: "next year",
-//		year: 'year', // TODO: locale files need to specify this
-//		today: 'today',
-//		month: 'month',
-//		week: 'week',
-//		day: 'day'
-                    prev: "เดือนก่อน",
-                    next: "เดือนหน้า",
-                    prevYear: "ปีก่อน",
-                    nextYear: "ปีหน้า",
-                    year: 'year', // TODO: locale files need to specify this
-                    today: 'วันนี้',
-                    month: 'เดือน',
-                    week: 'สัปดาห์',
-                    day: 'วัน'
+		prev: "prev",
+		next: "next",
+		prevYear: "prev year",
+		nextYear: "next year",
+		year: 'year', // TODO: locale files need to specify this
+		today: 'วันนี้',
+		month: 'เดือน',
+		week: 'สัปดาห์',
+		day: 'วัน'
                 },
                 buttonIcons: {
-//		prev: 'left-single-arrow',
-//		next: 'right-single-arrow',
-//		prevYear: 'left-double-arrow',
-//		nextYear: 'right-double-arrow'
-                    prev: '',
-                    next: '',
-                    prevYear: '',
-                    nextYear: ''
+		prev: 'left-single-arrow',
+		next: 'right-single-arrow',
+		prevYear: 'left-double-arrow',
+		nextYear: 'right-double-arrow'
                 },
                 // jquery-ui theming
                 theme: false,

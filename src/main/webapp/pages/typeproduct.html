@@ -18,8 +18,8 @@
             </div>
             <div class="row">
                 <div class="col m6 center">
-                    <a href="" class="btn btn-green waves-effect waves-light" ng-click="saveTpyeProduct()">บันทึกข้อมูล</a>
-                    <a href="" class="btn btn-orenge waves-effect waves-light" ng-click="clearData()">ล้างข้อมูล</a>
+                    <a href="" class="btn btn-green waves-light" ng-click="saveTpyeProduct()">บันทึกข้อมูล</a>
+                    <a href="" class="btn btn-orenge waves-light" ng-click="clearData()">ล้างข้อมูล</a>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
             </div>
             <div class="row">
                 <div class="">
-                    <a class="btn waves-effect waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcDataContent()">Search</a>
+                    <a class="btn waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcDataContent()">Search</a>
                 </div>
             </div>
         </div>
@@ -82,8 +82,8 @@
                         <td>{{tp.id}}</td>
                         <td>{{tp.name}}</td>
                         <td>
-                            <a class="modal-trigger btn btn-red waves-effect waves-light" href="" ng-click="actionDelete(tp)" >ลบ</a>
-                            <a href="" class="btn btn-blue2 waves-effect waves-light" ng-click="updateTpyeProduct(tp)">แก้ไข</a>
+                            <a class="modal-trigger btn btn-red waves-light" href="" ng-click="actionDelete(tp)" >ลบ</a>
+                            <a href="" class="btn btn-blue2 waves-light" ng-click="updateTpyeProduct(tp)">แก้ไข</a>
                         </td>
                     </tr>
                 </tbody>
@@ -91,11 +91,11 @@
             <div class="row" id="card-employee">
                 <div class="col m12">
                     <ul class="pagination right" style="margin-top: 10px;">
-                        <li class="btn waves-effect btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
-                        <li class="btn waves-effect btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
-                        <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage}}</p></li>
-                        <li class="btn waves-effect btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
-                        <li class="btn waves-effect btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
+                        <li class="btn btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
+                        <li class="btn btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
+                        <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPage}}</p></li>
+                        <li class="btn btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
+                        <li class="btn btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
                     </ul>
                 </div>
             </div>

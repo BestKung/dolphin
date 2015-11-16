@@ -50,12 +50,12 @@
             <table class="hoverable responsive-table" style="margin-top: 20px;">
                 <thead>
                     <tr>
-                        <th style="width: 10%">ID</th>
-                        <th style="width: 20%">Name</th>
-                        <th style="width: 20%">Email</th>
-                        <th style="width: 20%">Department</th>
-                        <th style="width: 15%">Work Status</th>
-                        <th style="width: 10%">More Detail</th>
+                        <th style="width: 10%">ลำดับ</th>
+                        <th style="width: 20%">ชื่อ</th>
+                        <th style="width: 20%">อีเมลล์</th>
+                        <th style="width: 10%">สังกัดแผนก</th>
+                        <th style="width: 10%">สถานะ</th>
+                        <th style="width: 15%">จัดการ</th>
                     </tr>
                 </thead> 
                 <tbody>
@@ -65,7 +65,7 @@
                         <td>{{emp.email}}</td>
                         <td>{{emp.department.name}}</td>
                         <td>{{emp.workStatus}}</td>
-                        <td><a href="" ng-click="detailEmployee(emp)" class="activator" id="moredetail">more detail</a></td>
+                        <td><a href="" ng-click="detailEmployee(emp)" class="activator btn" id="moredetail">ดูรายละเอียด</a></td>
                     </tr>
                 </tbody>
             </table>

@@ -3,30 +3,74 @@
         <div class="card-content">
             <span class="card-title" style="color: black;"><h4>เพิ่มแผนก</h4></span>
             <div class="row">
-                <div class="col m6 input-field">
-                    <i class="material-icons prefix">account_circle</i>
+                <div class="col m6 s12 input-field">
+                    <i class="material-icons prefix clear-prefix">account_circle</i>
                     <input type="text" id="id" disabled ng-model="department.id">
-                    <label class="active" for="id">ID</label>
+                    <label for="id" class="active">ID</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col m6 input-field">
-                    <i class="material-icons prefix" >star_rate</i>
-                    <input type="text" id="name" ng-model="department.name">
-                    <label class="active" id="namedepartment" for="name">Department Name</label>
+                <div class="col m6 s12 input-field">
+                    <i class="material-icons prefix clear-prefix" >star_rate</i>
+                    <input type="text"  id="name" ng-model="department.name">
+                    <label for="name" class="active" id="namedepartment">ชื่อแผนก</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col m6 center">
-                    <a href="" class="btn btn-green waves-effect waves-light" ng-click="saveDepartment()">Save</a>
-                    <a href="" class="btn btn-orenge waves-effect waves-light" ng-click="clearData()">Clear</a>
+                <div class="col m6 s12">
+                    <input type="submit" value="บันทึก" class="btn btn-green waves-light" ng-click="saveDepartment()">
+                    <input type="submit" value="ล้างข้อมูล" class="btn btn-orenge waves-light" ng-click="clearData()">
+                </div>
+            </div>
+        </div>
+    </div>  
+    
+    <div class="card">
+        <div class="card-content">
+            <span class="card-content"><h4>ค้าหาแผนกพนักงาน</h4></span>
+            <div class="row">
+                <div class="col m6 s12 input-field">
+                    <i class="material-icons prefix">search</i>
+                    <input type="text" ng-model="searchDataDepartment.keyword">
+                    <label >Search : </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col m3">
+                    <span><h6>Search By : </h6></span>
+                    <div class="select-custom">
+                        <select class="browser-default" id="select-searchby" ng-model="searchDataDepartment.searchBy" ng-init="searchDataDepartment.searchBy = 'Name'">
+                            <option value="Name">ชื่อหน่วย</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="">
+                    <a class="btn waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcDataContentDepartment()">Search</a>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="card">
         <div class="card-content">
-            <span class="card-title" style="color: black;"><h4>ตารางข้อมูลแผนก</h4></span>
+            <div class="row">
+                <div class="col m6 s12">
+                    <span class="card-title" style="font-size: 30px; font-weight:400;color: black">ตารางข้อมูลแผนก</span>
+                </div>
+                <div class="col m6 s12">
+                    <div class="right">
+                        <span class="">Show Page : </span>
+                        <select class="browser-default" ng-change="selectGetOrSearchDepartment()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="rowDepartment" ng-init="rowDepartment = '10'">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <table class="bordered hoverable responsive-table">
                 <thead>
                 <th style="width: 20px" class="table-department">ID</th>
@@ -38,15 +82,26 @@
                         <td>{{dep.id}}</td>
                         <td>{{dep.name}}</td>
                         <td>
-                            <a class="modal-trigger btn btn-red waves-effect waves-light" href="" ng-click="actionDelete(dep)" >Delete</a>
-                            <a href="" class="btn btn-blue2 waves-effect waves-light" ng-click="actionUpdate(dep)">Update</a>
+                            <a class="modal-trigger btn btn-red waves-light" href="" ng-click="actionDelete(dep)" >Delete</a>
+                            <a href="" class="btn btn-blue2 waves-light" ng-click="actionUpdate(dep)">Update</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <div class="row" id="card-employee">
+                <div class="col m12">
+                    <ul class="pagination right" style="margin-top: 10px;">
+                        <li class="btn btn-pagination" id="first-page-department" ng-click="firstPageDepartment()"><p style="margin-top: 2px;">&Lt;</p></li>
+                        <li class="btn btn-pagination" id="pre-page-department" ng-click="prePageDepartment()"><p style="margin-top: 2px;">&LT;</p></li>
+                        <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageDepartment + 1}}</p></li>
+                        <li class="btn btn-pagination" id="next-page-department" ng-click="nextPageDepartment()"><p style="margin-top: 2px;">&GT;</p></li>
+                        <li class="btn btn-pagination" id="final-page-department" ng-click="finalPageDepartment()"><p style="margin-top: 2px;">&Gt;</p></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
- </div>   
+</div>   
 
 <div id="modal-delete" class="modal" style="border-radius: 10px;">
     <div class="modal-content">

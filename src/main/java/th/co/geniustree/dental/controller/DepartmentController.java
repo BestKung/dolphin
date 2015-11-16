@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import th.co.geniustree.dental.model.Department;
+import th.co.geniustree.dental.model.SearchData;
 import th.co.geniustree.dental.repo.DepartmentRepo;
+import th.co.geniustree.dental.service.DepartmentService;
+import th.co.geniustree.dental.spec.DepartmentSpec;
 
 /**
  *
@@ -24,6 +27,9 @@ public class DepartmentController {
     
     @Autowired
     private DepartmentRepo departmentRepo;
+    
+    @Autowired
+    private DepartmentService departmentService;
     
     @RequestMapping(value = "/savedepartment", method = RequestMethod.POST)
     public void saveDepartment(@RequestBody Department department) {
@@ -38,6 +44,33 @@ public class DepartmentController {
     @RequestMapping(value = "/deletedepartment", method = RequestMethod.POST)
     public void deleteDepartment(@RequestBody Department department) {
         departmentRepo.delete(department.getId());
+    }
+    
+     @RequestMapping(value = "/totaldepartment", method = RequestMethod.GET)
+    public Long getTotalDepartment() {
+        return departmentRepo.count();
+    }
+    
+    @RequestMapping(value = "/getdepartment/searchdepartment",method = RequestMethod.POST)
+    public Page<Department> searchDepartment(@RequestBody SearchData searchData, Pageable pageable){
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        Page<Department> departments = null;
+         if ("Name".equals(searchBy)) {
+            departments = departmentService.searchByName(keyword, pageable);
+        }
+        return departments;
+    }
+    
+    @RequestMapping(value = "/countsearchdepartment", method = RequestMethod.POST)
+    public long countSearchUnitProduct(@RequestBody SearchData searchData) {
+        long count = 0;
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        if ("Name".equals(searchBy)) {
+            count = departmentRepo.count(DepartmentSpec.namelike("%"+keyword+"%"));
+        }
+        return count;
     }
     
 }

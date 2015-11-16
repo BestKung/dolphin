@@ -49,12 +49,12 @@
             <table class="hoverable responsive-table" style="margin-top: 20px;">
                 <thead>
                     <tr>
-                        <th style="width: 10%">ID</th>
+                        <th style="width: 5%">ID</th>
                         <th style="width: 20%">ชื่อ</th>
                         <th style="width: 10%">H/N</th>
                         <th style="width: 15%">เลขประชาชน</th>
                         <th style="width: 20%">อีเมลล์</th>
-                        <th style="width: 15%">ข้อมูลเพิ่มเติม</th>
+                        <th style="width: 15%">จัดการ</th>
                     </tr>
                 </thead> 
                 <tbody>
@@ -64,7 +64,7 @@
                         <td>{{patient.hn}}</td>
                         <td>{{patient.pid}}</td>
                         <td>{{patient.email}}</td>
-                        <td><a href="" ng-click="clickMoreDetail(patient);alert(patient.patientPictureXray.nameXrayFilm)" class="activator" id="moredetail">more detail</a></td>
+                        <td><a href="" ng-click="clickMoreDetail(patient);alert(patient.patientPictureXray.nameXrayFilm)" class="activator btn" id="moredetail">ดูรายละเอียด</a></td>
                     </tr>
                 </tbody>
             </table>

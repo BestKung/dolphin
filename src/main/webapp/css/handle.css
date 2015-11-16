@@ -43,5 +43,9 @@ table th, table td {
     cursor: pointer;
     text-decoration: underline;
 }
+.btn:active{
+    position: relative;
+    top: 2px;
+}
 
 

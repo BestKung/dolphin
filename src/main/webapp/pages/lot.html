@@ -28,8 +28,8 @@
             </div>
             <div class="row">
                 <div class="col m6 center">
-                    <a href="" class="btn btn-green waves-effect waves-light" ng-click="saveLot()">บันทึกข้อมูล</a>
-                    <a href="" class="btn btn-orenge waves-effect waves-light" ng-click="clearData()">ล้างข้อมูล</a>
+                    <a href="" class="btn btn-green waves-light" ng-click="saveLot()">บันทึกข้อมูล</a>
+                    <a href="" class="btn btn-orenge waves-light" ng-click="clearData()">ล้างข้อมูล</a>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
             </div>
             <div class="row">
                 <div class="">
-                    <a class="btn waves-effect waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcDataContentLot()">Search</a>
+                    <a class="btn waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcDataContentLot()">Search</a>
                 </div>
             </div>
         </div>
@@ -99,8 +99,8 @@
                         <td>{{lo.dateIn}}</td>
                         <td>{{lo.dateOut}}</td>
                         <td>
-                             <a class="modal-trigger btn btn-red waves-effect waves-light" href="" ng-click="actionDelete(lo)" >ลบ</a>
-                            <a href="" class="btn btn-blue2 waves-effect waves-light" ng-click="updateLot(lo)">แก้ไข</a>
+                             <a class="modal-trigger btn btn-red waves-light" href="" ng-click="actionDelete(lo)" >ลบ</a>
+                            <a href="" class="btn btn-blue2 waves-light" ng-click="updateLot(lo)">แก้ไข</a>
                         </td>
                     </tr>
                 </tbody>
@@ -108,11 +108,11 @@
             <div class="row" id="card-employee">
                 <div class="col m12">
                     <ul class="pagination right" style="margin-top: 10px;">
-                        <li class="btn waves-effect btn-pagination" id="first-page-Lot" ng-click="firstPageLot()"><p style="margin-top: 2px;">&Lt;</p></li>
-                        <li class="btn waves-effect btn-pagination" id="pre-page-Lot" ng-click="prePageLot()"><p style="margin-top: 2px;">&LT</p>;</li>
-                        <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageLot + 1}}</p></li>
-                        <li class="btn waves-effect btn-pagination" id="next-page-Lot" ng-click="nextPageLot()"><p style="margin-top: 2px;">&GT;</p></li>
-                        <li class="btn waves-effect btn-pagination" id="final-page-Lot" ng-click="finalPageLot()"><p style="margin-top: 2px;">&Gt;</p></li>
+                        <li class="btn btn-pagination" id="first-page-Lot" ng-click="firstPageLot()"><p style="margin-top: 2px;">&Lt;</p></li>
+                        <li class="btn btn-pagination" id="pre-page-Lot" ng-click="prePageLot()"><p style="margin-top: 2px;">&LT</p>;</li>
+                        <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageLot + 1}}</p></li>
+                        <li class="btn btn-pagination" id="next-page-Lot" ng-click="nextPageLot()"><p style="margin-top: 2px;">&GT;</p></li>
+                        <li class="btn btn-pagination" id="final-page-Lot" ng-click="finalPageLot()"><p style="margin-top: 2px;">&Gt;</p></li>
                     </ul>
                 </div>
             </div>
@@ -162,10 +162,10 @@
             <table class="responsive-table hoverable">
                 <thead>
                     <tr>
-                        <th style="width:40%">ชื่อ</th>
+                        <th style="width:30%">ชื่อ</th>
                         <th style="width:30%">อีเมลล์</th>
-                        <th style="width:20%">เบอร์โทร</th>
-                        <th style="width:10%">เลือก</th>
+                        <th style="width:25%">เบอร์โทร</th>
+                        <th style="width:15%">เลือก</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -173,7 +173,7 @@
                         <td>{{emp.nameTh}}</td>
                         <th>{{emp.email}}</th>
                         <th>{{emp.mobile}}</th>
-                        <th><a class="select-human modal-close" ng-click="selectEmployee(emp)">เลือก</a></th>
+                        <th><a class="select-human modal-close btn" ng-click="selectEmployee(emp)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
@@ -181,11 +181,11 @@
         <div class="row">
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
-                    <li class="btn waves-effect btn-pagination" id="first-page-employee" ng-click="firstPageEmployee()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="pre-page-employee" ng-click="prePageEmployee()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageEmployee + 1}}</p></li>
-                    <li class="btn waves-effect btn-pagination" id="next-page-employee" ng-click="nextPageEmployee()"><p style="margin-top: 2px;">&GT;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="final-page-employee" ng-click="finalPageEmployee()"><p style="margin-top: 2px;">&Gt;</p></li>
+                    <li class="btn btn-pagination" id="first-page-employee" ng-click="firstPageEmployee()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn btn-pagination" id="pre-page-employee" ng-click="prePageEmployee()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageEmployee + 1}}</p></li>
+                    <li class="btn btn-pagination" id="next-page-employee" ng-click="nextPageEmployee()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn btn-pagination" id="final-page-employee" ng-click="finalPageEmployee()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>
             </div>
         </div>

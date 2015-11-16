@@ -57,12 +57,13 @@
             </div>
             <div class="row">
                 <div class="right">
-                    <a href="" class="btn btn-orenge waves-effect waves-light" ng-click="clearData()">Clear</a>
-                    <a href="" class="btn btn-green waves-effect waves-light" ng-click="saveAppointment()">Save</a>
+                    <a href="" class="btn btn-orenge waves-light" ng-click="clearData()">Clear</a>
+                    <a href="" class="btn btn-green waves-light" ng-click="saveAppointment()">Save</a>
                 </div>
             </div>
         </div>
     </div>
+    
 </div> 
 
 
@@ -90,7 +91,7 @@
                     </div>
                 </div>
                 <div class="col m2">
-                    <a class="btn waves-effect waves-light" style="margin-top: 30px; margin-left:calc(3.8rem)" ng-click="searchAppointment()">ค้นหา</a>
+                    <a class="btn waves-light" style="margin-top: 30px; margin-left:calc(3.8rem)" ng-click="searchAppointment()">ค้นหา</a>
                 </div>
                 <div class="col m2">
                     <div class="right">
@@ -107,14 +108,11 @@
             <div class="row">
                 <table class="responsive-table hoverable">
                     <thead>
-                        <tr>
-                            <th style="width:10px ">Id</th>
-                            <th style="width:20px ">ชื่อคนไข้</th>
-                            <th style="width:20px ">ชื่อหมอ</th>
-                            <th style="width:15px ">วันที่</th>
-                            <th style="width:20px ">รายการรักษา</th>
-                            <th style="width:10px ">เพิ่มเติม</th>
-                        </tr>
+                            <th style="width:10%" class="table-department" >Id</th>
+                            <th style="width:20%" class="table-department" >ชื่อคนไข้</th>
+                            <th style="width:20%" class="table-department" >ชื่อหมอ</th>
+                            <th style="width:15%" class="table-department" >วันที่</th>
+                            <th style="width:15%" class="table-department" >จัดการ</th>
                     </thead>
                     <tbody>
                         <tr ng-repeat="app in appointments.content">
@@ -122,19 +120,18 @@
                             <td>{{app.patient.name}}</td>
                             <td>{{app.doctor.nameTh}}</td>
                             <td>{{app.appointDay}}</td>
-                            <td>{{app.treatmentList}}</td>
-                            <td><a id="moredetail" class="activator" ng-click="moreDetail(app)">เพิ่มเติม</a></td>
+                            <td><a id="moredetail" class="activator btn" ng-click="moreDetail(app)">ดูรายละเอียด</a></td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="row">
                     <div class="col m12">
                         <ul class="pagination right" style="margin-top: 10px;">
-                            <li class="btn waves-effect btn-pagination" id="first-page-appointment" ng-click="firstPageAppointment()()"><p style="margin-top: 2px;">&Lt;</p></li>
-                            <li class="btn waves-effect btn-pagination" id="pre-page-appointment" ng-click="prePageAppointment()()"><p style="margin-top: 2px;">&LT</p>;</li>
-                            <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
-                            <li class="btn waves-effect btn-pagination" id="next-page-appointment" ng-click="nextPageAppointment()()"><p style="margin-top: 2px;">&GT;</p></li>
-                            <li class="btn waves-effect btn-pagination" id="final-page-appointment" ng-click="finalPageAppointment()()"><p style="margin-top: 2px;">&Gt;</p></li>
+                            <li class="btn btn-pagination" id="first-page-appointment" ng-click="firstPageAppointment()()"><p style="margin-top: 2px;">&Lt;</p></li>
+                            <li class="btn btn-pagination" id="pre-page-appointment" ng-click="prePageAppointment()()"><p style="margin-top: 2px;">&LT</p>;</li>
+                            <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
+                            <li class="btn btn-pagination" id="next-page-appointment" ng-click="nextPageAppointment()()"><p style="margin-top: 2px;">&GT;</p></li>
+                            <li class="btn btn-pagination" id="final-page-appointment" ng-click="finalPageAppointment()()"><p style="margin-top: 2px;">&Gt;</p></li>
                         </ul>
                     </div>
                 </div>
@@ -201,9 +198,9 @@
                 </div>
 
                 <div class="row margin-top center margin-top-20">
-                    <input type="submit" value="Cancel" class="btn btn-gray waves-effect waves-light" ng-click="cancel()">
-                    <input type="submit" value="Update" class="btn btn-blue2 waves-effect waves-light" ng-click="updateAppointment(appointmentDetail)">
-                    <input type="submit" value="Delete" class="btn btn-red waves-effect waves-light" ng-click="clickDelete(appointmentDetail)">
+                    <input type="submit" value="Cancel" class="btn btn-gray waves-light" ng-click="cancel()">
+                    <input type="submit" value="Update" class="btn btn-blue2 waves-light" ng-click="updateAppointment(appointmentDetail)">
+                    <input type="submit" value="Delete" class="btn btn-red waves-light" ng-click="clickDelete(appointmentDetail)">
                 </div>
             </div>
         </div>
@@ -263,11 +260,11 @@
         <div class="row">
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
-                    <li class="btn waves-effect btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
-                    <li class="btn waves-effect btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
+                    <li class="btn btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
+                    <li class="btn btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>
             </div>
         </div>
@@ -326,11 +323,11 @@
         <div class="row">
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
-                    <li class="btn waves-effect btn-pagination" id="first-page-doctor" ng-click="firstPageDoctor()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="pre-page-doctor" ng-click="prePageDoctor()()"><p style="margin-top: 2px;">&LT</p>;</li>
-                    <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPageDoctor + 1}}</p></li>
-                    <li class="btn waves-effect btn-pagination" id="next-page-doctor" ng-click="nextPageDoctor()"><p style="margin-top: 2px;">&GT;</p></li>
-                    <li class="btn waves-effect btn-pagination" id="final-page-doctor" ng-click="finalPageDoctor()"><p style="margin-top: 2px;">&Gt;</p></li>
+                    <li class="btn btn-pagination" id="first-page-doctor" ng-click="firstPageDoctor()"><p style="margin-top: 2px;">&Lt;</p></li>
+                    <li class="btn btn-pagination" id="pre-page-doctor" ng-click="prePageDoctor()()"><p style="margin-top: 2px;">&LT;</p></li>
+                    <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageDoctor + 1}}</p></li>
+                    <li class="btn btn-pagination" id="next-page-doctor" ng-click="nextPageDoctor()"><p style="margin-top: 2px;">&GT;</p></li>
+                    <li class="btn btn-pagination" id="final-page-doctor" ng-click="finalPageDoctor()"><p style="margin-top: 2px;">&Gt;</p></li>
                 </ul>
             </div>
         </div>
