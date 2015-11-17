@@ -129,6 +129,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     };
 
     function clearData() {
+        getUser();
         for (var i = 0; i < countTmpProduct; i++) {
             $http.post('/deletetmpproduct', $scope.tmpProducts.content[i]);
             getUser();
