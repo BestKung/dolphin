@@ -47,5 +47,11 @@ table th, table td {
     position: relative;
     top: 2px;
 }
+.fc-day-number:hover{
+    cursor: pointer;
+}
+.fc-title:hover{
+    cursor: pointer;
+}
 
 

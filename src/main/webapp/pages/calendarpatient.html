@@ -8,6 +8,32 @@
 
 <style>
     table th, table td { 
-    overflow: visible; 
-}
+        overflow: visible; 
+    }
 </style>
+
+<div id="modal-showDataDay" class="modal" style="border-radius: 10px;">
+    <div class="modal-content">
+        <div class="row center">
+            <h4 style="background: green;color: white;padding: 20px;" class="margin-top-20 magin-buttom-20">รายละเอียดการนัดรวมบุคคล</h4>
+        </div>
+        <h4 class="margin-left-20">{{dateClick}}</h4>
+    </div>
+    <div class="model-footer right">
+        <a href="" class="magin-button btn btn-gray modal-action modal-close" ng-click="clearData()">ยกเลิก</a>
+    </div>
+</div>
+
+<div id="modal-showDataEvent" class="modal" style="border-radius: 10px;">
+    <div class="modal-content">
+        <div class="row center">
+            <h4 style="background: green;color: white;padding: 20px;" class="margin-top-20 magin-buttom-20">รายละเอียดการนัดรายบุคคล</h4>
+        </div>
+        <h4 class="margin-left-20">{{title}}</h4>
+        <h4 class="margin-left-20">{{start}}</h4>
+        <h4 class="margin-left-20">{{end}}</h4>
+    </div>
+    <div class="model-footer right">
+        <a href="" class="magin-button btn btn-gray modal-action modal-close" ng-click="clearData()">ยกเลิก</a>
+    </div>
+</div>
