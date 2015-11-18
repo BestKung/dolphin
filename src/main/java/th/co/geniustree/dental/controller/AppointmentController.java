@@ -8,7 +8,9 @@ package th.co.geniustree.dental.controller;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +39,7 @@ public class AppointmentController {
 
     @RequestMapping(value = "/saveappointment", method = RequestMethod.POST)
     private void saveAppointment(@RequestBody Appointment appointment, Pageable pageable) throws ParseException {
+        appointment.setStatus("2");
         appointmentRepo.save(appointment);
     }
 
@@ -106,6 +109,29 @@ public class AppointmentController {
     @RequestMapping(value = "/deleteappointment", method = RequestMethod.POST)
     private void deleteAppointment(@RequestBody Integer id) {
         appointmentRepo.delete(id);
+    }
+
+    @RequestMapping(value = "/appointmentnontificationcount", method = RequestMethod.GET)
+    private Long appointmentNontificationCount(Pageable pageable) {
+        Long count = (long) appointmentRepo.findByStatus("1").size();
+        List<Appointment> listAppointment = appointmentRepo.findByStatus("2");
+        for (int i = 0; i < listAppointment.size(); i++) {
+            Appointment appointment = new Appointment();
+            appointment = listAppointment.get(i);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("D");
+            System.out.println("---------------------------------------------->Date Format" + dateFormat.format(appointment.getAppointDay()));
+            if (((Integer.parseInt(dateFormat.format(appointment.getAppointDay())) - Integer.parseInt(dateFormat.format(new Date()))) == 2)
+                    || (Integer.parseInt(dateFormat.format(appointment.getAppointDay())) - Integer.parseInt(dateFormat.format(new Date()))) == 1) {
+                appointment.setStatus("1");
+                appointmentRepo.save(appointment);
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    private Page<Appointment> getAppointmentNontification(Pageable pageable){
+    return null;
     }
 
 }

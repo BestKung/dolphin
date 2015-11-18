@@ -1,21 +1,23 @@
 var app = angular.module('app', ['checklist-model', 'ngRoute', 'employee', 'department'
             , 'employee-information', 'doctor', 'doctor-information', 'patient'
             , 'bill', 'detailHeal', 'listSelectHeal', 'priceAndExpireProduct', 'product', 'typeProduct', 'unitProduct', 'lot',
-    'patient-information', 'appointment', 'notifications','calendarPatient','calendarDoctor']);
+    'patient-information', 'appointment', 'notifications', 'calendarPatient', 'calendarDoctor']);
 var app = angular.module('app');
+
 app.controller('homeController', function ($scope, $http) {
     $scope.login = {};
     checkMobile();
+    $scope.totalNontification = 0;
+    
     function  checkMobile() {
         var $mobile = $(window).outerWidth() < 995;
         if ($mobile) {
             $('#nav-topic').css('display', 'none');
             $('body').css('overflow-y', 'hidden');
             $('#view').removeAttr('style').addClass('.margin-top');
-            console.log('mobile');
         }
     }
-
+    
     startPageStaff();
     function startPageStaff() {
         $http.get('/startpagestaff').success(function (data) {
@@ -37,12 +39,30 @@ app.controller('homeController', function ($scope, $http) {
     }
 
     $scope.clickLogout = function () {
-        console.log(!!$('#logout').hasClass('.btn-red'));
         if (!!$scope.login.id) {
             location.href = "/logout";
-            console.log('logout');
         }
     };
+
+    //======================================================= Nontification ==================================================================
+    getAppointment();
+    function getAppointment() {
+        $http.get('/appointmentnontificationcount').success(function (data) {
+            console.log(data + ' total nontification');
+            $scope.totalNontification = data;
+        });
+    }
+
+
+        $scope.showNontification = function(){
+            if($scope.totalNontification > 0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        };
+
 
 
 });

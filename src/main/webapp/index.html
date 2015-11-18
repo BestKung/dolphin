@@ -23,7 +23,11 @@
                     </div>
                     <div class="right margin-right hide-on-med-and-down">                      
                         <a href="#/notification"><i class=" margin-right-3 small mdi-social-notifications-on waves-effect waves-light">                           
-                            </i><span style="color: red; position: absolute; z-index: 1000; right: 58px; top: 2px;"><b>10</b></span></a>                       
+                            </i><span ng-show="showNontification()" style="padding: 2px 10px;background: red;color:  white;position: relative;left:-8px;top: -8px;border-radius: 5px;">
+                            {{totalNontification}}
+                        </span>
+                        </a>  
+                        
                     </div>
                     <div class="right margin-right hide-on-med-and-down">
                         <span style="margin-right: 10px;">{{login.nameTh}}</span>
