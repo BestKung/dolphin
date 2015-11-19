@@ -42,6 +42,8 @@ public class Appointment implements Serializable {
     @ManyToOne
     private Doctor doctor;
 
+    private String status;
+
     public Integer getId() {
         return id;
     }
@@ -104,6 +106,14 @@ public class Appointment implements Serializable {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

@@ -4,7 +4,27 @@
             <ul class="collapsible popout" data-collapsible="expandable">
                 <li>
                     <div class="collapsible-header"><i class="material-icons">phone_in_talk</i>เตือนวันนัดหมาย</div>
-                    <div class="collapsible-body"><p>หมดเวลาแล้วที่เธอต้องไป</p></div>
+                    <div class="collapsible-body">
+                    <table class="bordered hoverable responsive-table">
+                <thead>
+                <th style="width: 20px">สถานะ</th>
+                <th style="width: 30px">ชื่อคนไข้</th>
+                <th style="width: 30px;">ชื่อหมอ</th>
+                <th style="width: 20px">วันที่</th>
+                <th>เบอร์โทร</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="dep in departments.content">
+                        <td>{{dep.id}}</td>
+                        <td>{{dep.name}}</td>
+                        <td>
+                            <a class="modal-trigger btn btn-red waves-light" href="" ng-click="actionDelete(dep)" >Delete</a>
+                            <a href="" class="btn btn-blue2 waves-light" ng-click="actionUpdate(dep)">Update</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+                   </div> 
                 </li>
                 <li>
                     <div class="collapsible-header"><i class="material-icons">local_shipping</i>เตือนสินค้าใกล้หมด</div>
