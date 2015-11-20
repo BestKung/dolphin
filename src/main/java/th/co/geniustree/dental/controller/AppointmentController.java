@@ -146,8 +146,7 @@ public class AppointmentController {
         Date tomorrow = new Date(d.getTime() + (60 * 60 * 24 * 1000));
         String tomorrowString = sdf.format(tomorrow);
         Date date = sdf.parse(tomorrowString);
-//        System.out.println("------------------------------------>" + tomorrow);
-        return appointmentRepo.count(AppointmentSpec.appointmentDate(date));
+      return appointmentRepo.count(AppointmentSpec.appointmentDate(date));
     }
 
 }

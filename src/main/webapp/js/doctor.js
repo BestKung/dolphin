@@ -3,8 +3,12 @@ angular.module('doctor').controller('doctorController', function (employeeServic
     $scope.error = {};
     $scope.doctor = employeeService.doctorUpdate;
     $scope.doctor.birthDate = new Date(employeeService.doctorUpdate.birthDate);
+    $scope.doctor.startWork = new Date(employeeService.doctorUpdate.startWork);
+    $scope.doctor.endWork = new Date(employeeService.doctorUpdate.endWork);
     $scope.password = "";
     $scope.image;
+    $scope.authoritys = {};
+
 
     checkMobile();
     function  checkMobile() {
@@ -18,6 +22,16 @@ angular.module('doctor').controller('doctorController', function (employeeServic
             $('#select-department').css('width', 'calc(100% - 3rem)');
             $('#select-workstatus').css('width', 'calc(100% - 3rem)');
         }
+    }
+
+    getAuthority();
+    function getAuthority() {
+        $http.get('/getauthority')
+                .success(function (data) {
+                    $scope.authoritys = data;
+                }).error(function (data) {
+
+        });
     }
 
     $scope.saveDoctor = function () {
