@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.dental.repo;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,11 @@ import th.co.geniustree.dental.model.Appointment;
  *
  * @author Best
  */
-public interface AppointmentRepo extends JpaRepository<Appointment, Integer> , JpaSpecificationExecutor<Appointment>{
- public List<Appointment> findByStatus(String keyword);  
+public interface AppointmentRepo extends JpaRepository<Appointment, Integer>, JpaSpecificationExecutor<Appointment> {
+
+    public List<Appointment> findByStatus(String keyword);
+
+    public Page<Appointment> findByStatus(String keyword, Pageable pageable);
+
+    public Page<Appointment> findByAppointDay(Date keyword, Pageable pageable);
 }

@@ -39,7 +39,9 @@ public class AppointmentController {
 
     @RequestMapping(value = "/saveappointment", method = RequestMethod.POST)
     private void saveAppointment(@RequestBody Appointment appointment, Pageable pageable) throws ParseException {
+        if((appointment.getStatus() == null) || (" ".equals(appointment.getStatus()))){
         appointment.setStatus("2");
+        }
         appointmentRepo.save(appointment);
     }
 
@@ -53,21 +55,16 @@ public class AppointmentController {
         Page<Appointment> appointments = null;
         String ketyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
-        System.out.println("----------------------------------------------->Keyword" + ketyword);
         if ("ชื่อคนไข้".equals(searchBy)) {
-            System.out.println("-------------------------------------------patient");
             appointments = appointmentService.searchByPatientName(ketyword, pageable);
         }
         if ("ชื่อทันคเเพทย์".equals(searchBy)) {
-            System.out.println("-------------------------------------------Doctor");
             appointments = appointmentService.searchByDoctorName(ketyword, pageable);
         }
         if ("เบอร์โทรศัพท์".equals(searchBy)) {
-            System.out.println("-------------------------------------------mobile");
             appointments = appointmentService.searchByMobile(ketyword, pageable);
         }
         if ("วันที่นัด".equals(searchBy)) {
-            System.out.println("-------------------------------------------day");
             DateFormat sim = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             Date date = sim.parse(ketyword);
             appointments = appointmentService.searchByAppointmentDay(date, pageable);
@@ -86,19 +83,15 @@ public class AppointmentController {
         String searchBy = searchData.getSearchBy();
         long count = 0;
         if ("ชื่อคนไข้".equals(searchBy)) {
-            System.out.println("-------------------------------------------patient");
             count = appointmentRepo.count(AppointmentSpec.namePatientLike("%" + keyword + "%"));
         }
         if ("ชื่อทันคเเพทย์".equals(searchBy)) {
-            System.out.println("-------------------------------------------Doctor");
             count = appointmentRepo.count(AppointmentSpec.nameDoctorLike("%" + keyword + "%"));
         }
         if ("เบอร์โทรศัพท์".equals(searchBy)) {
-            System.out.println("-------------------------------------------mobile");
             count = appointmentRepo.count(AppointmentSpec.mobileLike("%" + keyword + "%"));
         }
         if ("วันที่นัด".equals(searchBy)) {
-            System.out.println("-------------------------------------------day");
             DateFormat sim = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             Date date = sim.parse(keyword);
             count = appointmentRepo.count(AppointmentSpec.appointmentDate(date));
@@ -119,19 +112,42 @@ public class AppointmentController {
             Appointment appointment = new Appointment();
             appointment = listAppointment.get(i);
             SimpleDateFormat dateFormat = new SimpleDateFormat("D");
-            System.out.println("---------------------------------------------->Date Format" + dateFormat.format(appointment.getAppointDay()));
-            if (((Integer.parseInt(dateFormat.format(appointment.getAppointDay())) - Integer.parseInt(dateFormat.format(new Date()))) == 2)
-                    || (Integer.parseInt(dateFormat.format(appointment.getAppointDay())) - Integer.parseInt(dateFormat.format(new Date()))) == 1) {
+            if (((Integer.parseInt(dateFormat.format(appointment.getAppointDay())) - Integer.parseInt(dateFormat.format(new Date()))) == 1) && ((!"0".equals(appointment.getStatus())))) {
                 appointment.setStatus("1");
                 appointmentRepo.save(appointment);
                 count++;
+            } else {
+                appointment.setStatus("2");
+                appointmentRepo.save(appointment);
             }
         }
         return count;
     }
+
+    @RequestMapping(value = "/appointnontification", method = RequestMethod.GET)
+    private Page<Appointment> getAppointmentNontification(Pageable pageable) {
+        Date d = new Date();
+        d.setHours(0);
+        d.setMinutes(0);
+        Date tomorrow = new Date(d.getTime() + (60 * 60 * 24 * 1000));
+        return appointmentRepo.findByAppointDay(tomorrow, pageable);
+    }
     
-    private Page<Appointment> getAppointmentNontification(Pageable pageable){
-    return null;
+     @RequestMapping(value = "/appointmentnontificationcountnotcontact", method = RequestMethod.GET)
+    private Long appointmentNontificationCountNotContact() {
+        return appointmentRepo.count(AppointmentSpec.appointmentStatus("1"));
+    }
+
+    @RequestMapping(value = "/appointmentnontificationcountall", method = RequestMethod.GET)
+    public Long appointmentNontificationCountAll() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        String dateString = sdf.format(new  Date());
+        Date d = sdf.parse(dateString);
+        Date tomorrow = new Date(d.getTime() + (60 * 60 * 24 * 1000));
+        String tomorrowString = sdf.format(tomorrow);
+        Date date = sdf.parse(tomorrowString);
+//        System.out.println("------------------------------------>" + tomorrow);
+        return appointmentRepo.count(AppointmentSpec.appointmentDate(date));
     }
 
 }

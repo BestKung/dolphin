@@ -142,3 +142,17 @@
     text-align: center;
     letter-spacing: .5px;
 }
+.btn-group{
+    color: white;
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    outline: 0;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+}
+.btn-group:active{
+    opacity: 0.7;
+}

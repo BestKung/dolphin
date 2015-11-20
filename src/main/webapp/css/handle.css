@@ -44,8 +44,7 @@ table th, table td {
     text-decoration: underline;
 }
 .btn:active{
-    position: relative;
-    top: 2px;
+    opacity: 0.7;
 }
 .fc-day-number:hover{
     cursor: pointer;

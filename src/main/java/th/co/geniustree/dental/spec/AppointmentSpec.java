@@ -61,4 +61,14 @@ public class AppointmentSpec {
         }
     };
     } 
+
+    public static Specification<Appointment> appointmentStatus(final String keyword){
+    return new Specification<Appointment>() {
+
+        @Override
+        public Predicate toPredicate(Root<Appointment> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+           return cb.like(root.get(Appointment_.status), keyword);
+        }
+    };
+    }
 }
