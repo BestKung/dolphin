@@ -5,6 +5,7 @@ angular.module('notifications').controller('notificationsController', function (
     $scope.currentPageAppointmentNontification = 0;
     $scope.totalNontificationAppointment = 0;
     $scope.totalNontificationAppointmentNotContact = 0;
+    $scope.outProducts = {};
     var pageAppointNontification = 0;
     var totalPageAppointNontification = 0;
 
@@ -26,7 +27,6 @@ angular.module('notifications').controller('notificationsController', function (
     getNontificationCountAll();
     function getNontificationCountAll(){
         $http.get('/appointmentnontificationcountall').success(function (data){
-            console.log(data+'-------------------------------------------------------------------------------------p');
             $scope.totalNontificationAppointment = data;
             findTotalPageAppointment();
         });
@@ -134,6 +134,39 @@ angular.module('notifications').controller('notificationsController', function (
         }
     };
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+    getOutProduct();    
+    function getOutProduct(){
+            $http.get('/getoutproduct').success(function (data){
+                $scope.outProducts = data;
+            });
+        }
+        
+        $scope.clickAcknowledge = function (out) {
+        var outProduct = {};
+        outProduct = {lot:new Date(out.lot.dateIn)}
+        outProduct = out;
+//        outProduct.statusNontificationValue = out.statusNontificationValue = '0';
+        appointment.endTime = new Date(moment(new Date(app.appointDay + " " + app.endTime)).format('YYYY-MM-d HH:mm:ss'));
+        appointment.startTime = new Date(moment(new Date(app.appointDay + " " + app.startTime)).format('YYYY-MM-d HH:mm:ss'));
+        $http.post('/saveappointment', appointment).success(function (data) {
+            getAppointNontification();
+            getAppointment();
+        });
+    };
+
+    $scope.clickNotAcknowledge = function (app) {
+        var appointment = {};
+        appointment = {appointDay: new Date(app.appointDay)};
+        appointment = app;
+        appointment.status = app.status = '1';
+        appointment.endTime = new Date(moment(new Date(app.appointDay + " " + app.endTime)).format('YYYY-MM-d HH:mm:ss'));
+        appointment.startTime = new Date(moment(new Date(app.appointDay + " " + app.startTime)).format('YYYY-MM-d HH:mm:ss'));
+        $http.post('/saveappointment', appointment).success(function (data) {
+            getAppointNontification();
+            getAppointment();
+        });
+    };
 
 });
 

@@ -366,6 +366,9 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
         });
     }
     $scope.savePriceAndExpireProduct = function () {
+        if(!$scope.priceAndExpireProduct.statusNontificationValue){
+            $scope.priceAndExpireProduct.statusNontificationValue = '1';
+        }
         $http.post('/savepriceandexpireproduct', $scope.priceAndExpireProduct).success(function (data) {
             loadPriceAndExpireProduct();
             getTotalListPriceAndExpireProduct();

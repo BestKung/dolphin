@@ -24,4 +24,6 @@ public interface AppointmentRepo extends JpaRepository<Appointment, Integer>, Jp
     public Page<Appointment> findByStatus(String keyword, Pageable pageable);
 
     public Page<Appointment> findByAppointDay(Date keyword, Pageable pageable);
+    
+    public List<Appointment> findByAppointDayAndStatus(Date day , String keyword);
 }

@@ -39,4 +39,14 @@ public class PriceAndExpireProductService {
         Specifications<PriceAndExpireProduct> specifications = Specifications.where(PriceAndExpireProductSpec.expireBetween(keyword));
         return priceAndExpireProductRepo.findAll(specifications, pageable);
     }
+    
+    public Page<PriceAndExpireProduct> searchByvalueLessThanOrEqualNontificationValue(Pageable pageable){
+        Specifications<PriceAndExpireProduct> specifications = Specifications.where(PriceAndExpireProductSpec.OutProduct());
+        return priceAndExpireProductRepo.findAll(specifications , pageable);
+    }
+    
+    public Page<PriceAndExpireProduct> searchByvalueLessThanOrEqualNontificationValueAndStatus(Pageable pageable){
+    Specifications<PriceAndExpireProduct> specifications = Specifications.where(PriceAndExpireProductSpec.outProductAndStatus());
+    return priceAndExpireProductRepo.findAll(specifications , pageable);
+    }
 }

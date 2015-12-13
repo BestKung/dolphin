@@ -5,6 +5,8 @@
  */
 package th.co.geniustree.dental.repo;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import th.co.geniustree.dental.model.PriceAndExpireProduct;
@@ -14,5 +16,7 @@ import th.co.geniustree.dental.model.PriceAndExpireProduct;
  * @author User
  */
 public interface PriceAndExpireProductRepo extends JpaRepository<PriceAndExpireProduct, Integer>,JpaSpecificationExecutor<PriceAndExpireProduct> {
+    
+//    public Page<PriceAndExpireProduct> findByValueLessThanOrEqualToNotificationsValue(Pageable pageable);
 
 }

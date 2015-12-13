@@ -95,4 +95,25 @@ public class PriceAndExpireProductController {
         }
         return count;
     }
+
+    @RequestMapping(value = "/countoutproduct" , method = RequestMethod.GET)
+    public Long countOutProduct() {
+        long count = 0;
+        long sizeAllProduct = priceAndExpireProductRepo.findAll().size();
+        for (int i = 0; i < sizeAllProduct; i++) {
+            PriceAndExpireProduct priceAndExpireProduct = new PriceAndExpireProduct();
+            priceAndExpireProduct = priceAndExpireProductRepo.findAll().get(i);
+            if ((priceAndExpireProduct.getNotificationsValue() >= priceAndExpireProduct.getValue()) && ("1".equals(priceAndExpireProduct.getStatusNontificationValue()))) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    @RequestMapping(value = "/getoutproduct", method = RequestMethod.GET)
+    public Page<PriceAndExpireProduct> getOutProduct(Pageable pageable){
+        return priceAndExpireProductService.searchByvalueLessThanOrEqualNontificationValue(pageable);
+    }
+    
+    
 }

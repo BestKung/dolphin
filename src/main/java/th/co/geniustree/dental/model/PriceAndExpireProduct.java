@@ -5,10 +5,8 @@
  */
 package th.co.geniustree.dental.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -61,6 +58,10 @@ public class PriceAndExpireProduct implements Serializable {
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
+    
+    private String statusNontificationValue;
+    
+    private String statusNontificationExpire;
 
     public Integer getId() {
         return id;
@@ -134,6 +135,22 @@ public class PriceAndExpireProduct implements Serializable {
         this.product = product;
     }
 
+    public String getStatusNontificationValue() {
+        return statusNontificationValue;
+    }
+
+    public void setStatusNontificationValue(String statusNontificationValue) {
+        this.statusNontificationValue = statusNontificationValue;
+    }
+
+    public String getStatusNontificationExpire() {
+        return statusNontificationExpire;
+    }
+
+    public void setStatusNontificationExpire(String statusNontificationExpire) {
+        this.statusNontificationExpire = statusNontificationExpire;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

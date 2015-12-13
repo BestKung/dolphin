@@ -8,7 +8,7 @@ app.controller('homeController', function ($scope, $http) {
     $scope.login = {};
     checkMobile();
     $scope.totalNontification = 0;
-    
+
     function  checkMobile() {
         var $mobile = $(window).outerWidth() < 995;
         if ($mobile) {
@@ -17,7 +17,7 @@ app.controller('homeController', function ($scope, $http) {
             $('#view').removeAttr('style').addClass('.margin-top');
         }
     }
-    
+
     startPageStaff();
     function startPageStaff() {
         $http.get('/startpagestaff').success(function (data) {
@@ -49,19 +49,27 @@ app.controller('homeController', function ($scope, $http) {
     function getAppointment() {
         $http.get('/appointmentnontificationcount').success(function (data) {
             console.log(data + ' total nontification');
-            $scope.totalNontification = data;
+            $scope.totalNontification = $scope.totalNontification + data;
+        });
+    }
+
+    getOutProduct();
+    function getOutProduct() {
+        $http.get('/countoutproduct').success(function (data) {
+            console.log(data + ' total nontification');
+            $scope.totalNontification = $scope.totalNontification + data;
         });
     }
 
 
-        $scope.showNontification = function(){
-            if($scope.totalNontification > 0){
-                return true;
-            }
-            else{
-                return false;
-            }
-        };
+    $scope.showNontification = function () {
+        if ($scope.totalNontification > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
 
 
 

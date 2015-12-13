@@ -5,6 +5,9 @@
  */
 package th.co.geniustree.dental.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,7 +62,7 @@ public class PatientController {
         picture.setNameXrayFilm(multipartRequest.getFile("xray").getOriginalFilename());
         picture.setContentXrayFilm(multipartRequest.getFile("xray").getBytes());
         picture.setMimeTypeXrayFilm(multipartRequest.getFile("xray").getName());
-
+        
         return picture;
     }
 
