@@ -17,6 +17,6 @@ import th.co.geniustree.dental.model.PriceAndExpireProduct;
  */
 public interface PriceAndExpireProductRepo extends JpaRepository<PriceAndExpireProduct, Integer>,JpaSpecificationExecutor<PriceAndExpireProduct> {
     
-//    public Page<PriceAndExpireProduct> findByValueLessThanOrEqualToNotificationsValue(Pageable pageable);
+//    public Page<PriceAndExpireProduct> findByValueLessThanOrEqualToNotificationsValue(Integer value , Integer nonValue , Pageable pageable);
 
 }

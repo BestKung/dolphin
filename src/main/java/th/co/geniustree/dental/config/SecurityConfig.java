@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.AntPathMatcher;
 import th.co.geniustree.dental.service.CustomUserService;
 
 /**
@@ -52,7 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/console/*")
                 .antMatchers("/css/**")
                 .antMatchers("/js/**")
-                .antMatchers("/materialize/**");
+                .antMatchers("/materialize/**")
+                .antMatchers("/image/**")
+                .antMatchers("/bootstrap-3.3.6-dist/**");
 
     }
 
