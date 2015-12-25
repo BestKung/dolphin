@@ -19,16 +19,16 @@ and open the template in the editor.
 
     </head>
     <body style="background: #f3f3f3;">
-       
+
         <form action="/login" method="post">
-                 <div class="text-center" style="margin-top: 15%">
-            <input type="text" id="form-login" placeholder="Username" style="height: 37px;z-index: 8000;margin-top: 142px;width: 250px;position: absolute;background: #f9f9f9 ;border: #f9f9f9;margin-left: -138px" name="email">
-            <input type="text" id="form-login" placeholder="Password" style="height: 37px;z-index: 8000;margin-top: 189px;width: 250px;position: absolute;background: #f9f9f9 ;border: #f9f9f9;margin-left: -138px"  name="password">
-            <input  src="../image/button.png" id="login-btn" type="image" style="position: absolute;z-index: 8000;margin-top: 236px;margin-left: -140px;width: 283px;height: 45px;">
-            <div style="margin-top: -30px;">
-                <img src="../image/box.png">
+            <div class="text-center" style="margin-top: 15%">
+                <input type="text" id="form-login-email" placeholder="Username" style="height: 37px;z-index: 8000;margin-top: 142px;width: 250px;position: absolute;background: #f9f9f9 ;border: #f9f9f9;margin-left: -138px" name="email">
+                <input type="text" id="form-login-password" placeholder="Password" style="height: 37px;z-index: 8000;margin-top: 189px;width: 250px;position: absolute;background: #f9f9f9 ;border: #f9f9f9;margin-left: -138px"  name="password">
+                <input  src="../image/button.png" id="login-btn" type="image" style="position: absolute;z-index: 8000;margin-top: 236px;margin-left: -140px;width: 283px;height: 45px;">
+                <div style="margin-top: -30px;">
+                    <img src="../image/box.png">
+                </div>
             </div>
-        </div>
         </form>
 
         <!--        <div class="container">
@@ -73,18 +73,26 @@ and open the template in the editor.
                         color: white;
                     }
                 </style>-->
+        <script>
+            checkMobile();
+            function  checkMobile() {
+                var $mobile = $(window).outerWidth() < 995;
+                if ($mobile) {
+                    $('#form-login-email').css('margin-left', '-115px');
+                    $('#form-login-password').css('margin-left', '-115px');
+                    $('#login-btn').css('margin-left', '-117px');
+                }
+            }
+        </script>
         <script src="../bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
         <style>
             body{
                 overflow-x: hidden;
             }
             #login-btn:hover{
-               box-shadow: 1px 1px 5px;
+                box-shadow: 1px 1px 5px;
             }
-            #login-btn:active{
-                position: relative;
-                top:  259px;
-            }
+
         </style>
     </body>
 </html>
