@@ -90,6 +90,8 @@ public class Doctor extends Employee implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private DoctorPicture doctorPicture;
+    
+    private Double salary;
 
     public String getPermitNo() {
         return permitNo;
@@ -258,7 +260,13 @@ public class Doctor extends Employee implements Serializable {
     public void setDoctorPicture(DoctorPicture doctorPicture) {
         this.doctorPicture = doctorPicture;
     }
-    
-   
 
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+    
 }

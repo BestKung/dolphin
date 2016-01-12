@@ -28,84 +28,80 @@ import javax.persistence.TemporalType;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-
 /**
  *
  * @author Best
  */
 @Entity
 @Table(name = "STAFF")
-public class Staff extends Employee implements Serializable{
+public class Staff extends Employee implements Serializable {
 
     @Column(name = "PERSONAL_ID")
     private String pid;
-    
-    
+
     @Column(name = "NAME_ENG")
     private String nameEng;
-   
+
     @Temporal(TemporalType.DATE)
     @Column(name = "BIRTH_DATE")
     private Date birthDate;
-   
+
     @Column(name = "SEX")
     private String sex;
     @Column(name = "BLOOD")
     private String blood;
-   
+
     @Column(name = "MARRY_STATUS")
     private String marryStatus;
     @Column(name = "NATION")
     private String nation;
     @Column(name = "RACE")
     private String race;
-   
+
     @Column(name = "SOLDER_STATUS")
     private String soldierStatus;
-   
+
     @Column(name = "ADDRESS_OF_PID")
     private String addressOfPid;
-   
+
     @Column(name = "CURRENT_ADDRESS", nullable = false)
     @NotBlank(message = "Current Address not Empty")
     private String currentAddress;
-   
+
     @Column(name = "TEL")
     private String tel;
-   
+
     @Column(name = "MOBILE", nullable = false)
     @NotBlank(message = "Mobile not Empty")
     private String mobile;
-   
+
     @Column(name = "START_WORK")
     @Temporal(TemporalType.DATE)
     private Date startWork;
-    
+
     @Column(name = "END_WORK")
     @Temporal(TemporalType.DATE)
     private Date endWork;
-   
+
     @Column(name = "WORK_STATUS")
     private String workStatus;
-   
+
     @ManyToOne
     @JoinColumn(name = "DEPARTMENT_ID")
     private Department department;
 
     @OneToOne(cascade = javax.persistence.CascadeType.ALL)
-    @JoinColumn(name = "CONTACT_ID" , nullable = true)
+    @JoinColumn(name = "CONTACT_ID", nullable = true)
     private Contact contact;
 
     @OneToOne(cascade = javax.persistence.CascadeType.ALL)
-    @JoinColumn(name = "BANK_ID" , nullable = true)
+    @JoinColumn(name = "BANK_ID", nullable = true)
     private Bank bank;
-    
-   
-    
+
     @OneToOne(cascade = CascadeType.ALL)
     private StaffPicture staffPicture;
 
-   
+    private Double salary;
 
     public String getPid() {
         return pid;
@@ -259,13 +255,20 @@ public class Staff extends Employee implements Serializable{
         this.bank = bank;
     }
 
- 
     public StaffPicture getStaffPicture() {
         return staffPicture;
     }
 
     public void setStafPicture(StaffPicture staffPicture) {
         this.staffPicture = staffPicture;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
     }
 
 }
