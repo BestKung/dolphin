@@ -20,4 +20,5 @@ public interface StaffRepo extends JpaRepository<Staff, Integer>, JpaSpecificati
    
     public Staff findByEmail(String email);
     public Page<Staff> findByDepartment(Department department , Pageable pageable);
+    public Page<Staff> findAllByOrderByIdDesc(Pageable pageable);
 }

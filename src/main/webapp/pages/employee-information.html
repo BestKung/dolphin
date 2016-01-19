@@ -50,7 +50,6 @@
             <table class="hoverable responsive-table" style="margin-top: 20px;">
                 <thead>
                     <tr>
-                        <th style="width: 10%">ลำดับ</th>
                         <th style="width: 20%">ชื่อ</th>
                         <th style="width: 20%">อีเมลล์</th>
                         <th style="width: 10%">สังกัดแผนก</th>
@@ -60,12 +59,13 @@
                 </thead> 
                 <tbody>
                     <tr ng-repeat="emp in employees.content">
-                        <td>{{emp.id}}</td>
-                        <td>{{emp.nameTh}}</td>
+                       <td>{{emp.nameTh}}</td>
                         <td>{{emp.email}}</td>
                         <td>{{emp.department.name}}</td>
                         <td>{{emp.workStatus}}</td>
-                        <td><a href="" ng-click="detailEmployee(emp)" class="activator btn" id="moredetail">ดูรายละเอียด</a></td>
+                        <td><a href="" ng-click="detailEmployee(emp)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
+                            <a class="btn-custom-radius btn-edit"><i class="mdi-content-create"></i></a>
+                            <a class="btn-custom-radius btn-delete"><i class="mdi-content-clear"></i></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -312,5 +312,11 @@
         <a href="" class="magin-button btn btn-red modal-action modal-close" ng-click="deleteEmployee()">Delete</a>
     </div>
 </div>
+
+<style>
+    .toast{
+        background-color: red;
+    }
+</style>
 
 

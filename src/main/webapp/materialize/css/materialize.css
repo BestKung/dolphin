@@ -5661,9 +5661,9 @@ small {
     display: -webkit-flex;
     display: flex;
     
-    // โอแก้ สี สองบรรทัดล่างนี้
+/*    // โอแก้ สี สองบรรทัดล่างนี้
     background-color:#00838f;
-    color: white;
+    color: white;*/
     
     -webkit-flex-align: center;
     -ms-flex-align: center;
