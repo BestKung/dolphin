@@ -56,7 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/materialize/**")
                 .antMatchers("/image/**")
                 .antMatchers("/bootstrap-3.3.6-dist/**");
-
-    }
+      }
 
 }

@@ -97,8 +97,8 @@
     padding: 20px;
 }
 .select-custom{
-   width: calc(100% - 3rem);
-   margin-left: 3rem
+    width: calc(100% - 3rem);
+    margin-left: 3rem
 }
 .necessary{
     color: red;
@@ -142,6 +142,24 @@
     text-align: center;
     letter-spacing: .5px;
 }
+.btn-custom-radius{
+    text-decoration: none;
+    color: #fff;
+    background-color: #26a69a;
+    text-align: center;
+    letter-spacing: .5px;
+    padding: 10px 15px 10px 15px;
+    border-radius: 5px;
+}
+.btn-custom-radius:hover{
+    text-decoration: none;
+    opacity: 0.7;
+    cursor: pointer;
+}
+.btn-custom-radius:active{
+    position: relative;
+    top: 1px;
+}
 .btn-group{
     color: white;
     border: none;
@@ -155,4 +173,16 @@
 }
 .btn-group:active{
     opacity: 0.7;
+}
+.btn-moredetail{
+    background: #4285f4;
+    color: white;
+}
+.btn-edit{
+    background-color: #32CE70 ;
+    color: white
+}
+.btn-delete{
+    background-color: #ff6d6d ;
+    color:white;
 }

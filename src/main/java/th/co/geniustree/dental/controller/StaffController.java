@@ -63,7 +63,7 @@ public class StaffController {
 
     @RequestMapping(value = "/staffs", method = RequestMethod.GET)
     public Page<Staff> getStaff(Pageable pageable) {
-        return staffRepo.findAll(pageable);
+        return staffRepo.findAllByOrderByIdDesc(pageable);
     }
 
     @RequestMapping(value = "/totalstaff", method = RequestMethod.GET)
