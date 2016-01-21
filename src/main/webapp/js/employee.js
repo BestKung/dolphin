@@ -107,13 +107,11 @@ var app = angular.module('employee')
                 if (confirmPassword()) {
                     $http.post('/savestaff', $scope.employee)
                             .success(function (data) {
-                                 $('#warp').html('<style>.toast{background-color:green}</style>');
+                                 $('#warp').html('<style>.toast{background-color:#86cb35}</style>');
                                 clearData();
-//                                 location.href="#/employee/information";
-                                
-                                Materialize.toast('บันทึกข้อมูลเรียบร้อย', 30000, 'rounded');
+                                Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
                             }).error(function (data) {
-                                 $('#warp').html('<style>.toast{background-color:red}</style>');
+                                 $('#warp').html('<style>.toast{background-color:#ea5956}</style>');
                         Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
                         $scope.error = data;
                         $('body,html').animate({scrollTop: 0}, "600");
