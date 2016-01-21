@@ -52,5 +52,9 @@ table th, table td {
 .fc-title:hover{
     cursor: pointer;
 }
+.lean-overlay{
+    overflow-x: scroll;
+}
+
 
 
