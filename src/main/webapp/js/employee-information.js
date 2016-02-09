@@ -140,6 +140,7 @@ angular.module('employee-information').controller('employeeInformationController
             $scope.selectEmployee = {};
             selectGetOrSearch();
             toPreScroll();
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
             $('span#close-card').trigger('click');
         }).error(function (data) {
         Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');

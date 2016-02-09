@@ -23,9 +23,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="">
-                    <a class="btn  waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcEmployee()">Search</a>
-                </div>
+                <div style="margin-top: 20px">
+                    <a class="btn-best btn-search" style="margin-left:calc(3.8rem)" ng-click="searcEmployee()"><i class="mdi-action-search" style="margin-right: 5px"></i>Search</a>
+                </div> 
             </div>
         </div>
     </div>
@@ -59,13 +59,13 @@
                 </thead> 
                 <tbody>
                     <tr ng-repeat="emp in employees.content">
-                       <td>{{emp.nameTh}}</td>
+                        <td>{{emp.nameTh}}</td>
                         <td>{{emp.email}}</td>
                         <td>{{emp.department.name}}</td>
                         <td>{{emp.workStatus}}</td>
                         <td><a href="" ng-click="detailEmployee(emp)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
-                            <a class="btn-custom-radius btn-edit"><i class="mdi-content-create"></i></a>
-                            <a class="btn-custom-radius btn-delete"><i class="mdi-content-clear"></i></a></td>
+                            <a class="btn-custom-radius btn-edit" ng-click="updateEmployee(emp)"><i class="mdi-content-create"></i></a>
+                            <a class="btn-custom-radius btn-delete" ng-click="clickDelete(emp)"><i class="mdi-action-delete"></i></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -236,6 +236,12 @@
                         <div class="col m3 s6">
                             <label class=" topic-detail">{{employeeDetail.workStatus}}</label>
                         </div>
+                        <div class="col m2 s6">
+                            <label class="right topic-detail">Salary : </label>
+                        </div>
+                        <div class="col m3 s6">
+                            <label class=" topic-detail">{{employeeDetail.salary}}</label>
+                        </div>
                     </div>
                 </div>
                 <span class="card-title grey-text text-darken-4" style="margin-top: 30px;">Authority</span>
@@ -313,10 +319,8 @@
     </div>
 </div>
 
-<style>
-    .toast{
-        background-color: red;
-    }
-</style>
+<div id="warp-toast">
+    
+</div>
 
 

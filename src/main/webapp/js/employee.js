@@ -109,14 +109,14 @@ var app = angular.module('employee')
                             .success(function (data) {
 
 
-                                 $('#warp').html('<style>.toast{background-color:green}</style>');
+                                 $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
 
                                 clearData();
                                 Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
                             }).error(function (data) {
 
 
-                                 $('#warp').html('<style>.toast{background-color:red}</style>');
+                                 $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
 
                        Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
                         $scope.error = data;

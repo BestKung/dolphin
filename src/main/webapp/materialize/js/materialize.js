@@ -615,7 +615,7 @@ else {
   $.fn.extend({
     openModal: function(options) {
 
-      $('body').css('overflow', 'hidden');
+      $('body').css('overflow', 'scoll');
 
       var defaults = {
         opacity: 0.5,

@@ -8,6 +8,7 @@ package th.co.geniustree.dental.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.dental.model.Employee;
@@ -32,5 +33,9 @@ public class EmployeeService {
     public Page<Employee> searchByEmail(String keyword , Pageable pageable){
       Specifications<Employee> specifications = Specifications.where(EmployeeSpec.emailLike("%"+keyword+"%"));
       return employeeRepo.findAll(specifications , pageable);
+    }
+    
+     private Sort sortByIdAsc() {
+        return new Sort(Sort.Direction.DESC, "id");
     }
 }

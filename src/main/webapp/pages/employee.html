@@ -10,7 +10,7 @@
                     </div>
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix">email</i>
-                        <input type="text" id="email" ng-model="employee.email" ng-change="error.violations.email.message = '';
+                        <input type="email" id="email" ng-model="employee.email" ng-change="error.violations.email.message = '';
                                     setBackgroundPrefixId()">
                         <label for="email" class="update">อีเมลล์<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.email.message}}</span></label>
                     </div>
@@ -33,7 +33,7 @@
                 <div class="row">
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix">credit_card</i>
-                        <input type="text" id="pid"  ng-model="employee.pid">
+                        <input type="number" maxlength="13" id="pid"  ng-model="employee.pid">
                         <label  for="pid" class="update">รหัสประชาชน</label>
                     </div>
                     <div class="col m6 s12 input-field">
@@ -126,12 +126,12 @@
                 <div class="row">
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix">phone</i>
-                        <input type="text" id="tel" ng-model="employee.tel">
+                        <input type="tel" id="tel" ng-model="employee.tel">
                         <label for="tel" class="update">เบอร์โทร</label>
                     </div>
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix">stay_current_portrait</i>
-                        <input type="text" id="mobile" ng-model="employee.mobile" ng-change="error.violations.mobile.message = '';
+                        <input type="tel" id="mobile" ng-model="employee.mobile" ng-change="error.violations.mobile.message = '';
                                     setBackgroundPrefixDepartmentWorkstatus()">
                         <label for="mobile" class="update">เบอร์โทรศัพท์มือถือ<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.mobile.message}}</span></label>
                     </div>
@@ -172,7 +172,7 @@
                 </div>
                 <div class="row">
                     <div class="col m6 s12 input-field">
-                        <i class="material-icons prefix clear-prefix">insert_invitation</i>
+                        <i class="material-icons prefix clear-prefix">attach_money</i>
                         <input type="number" id="salary" ng-model="employee.salary">
                         <label for="salary" class="update">เงินเดือน</label>
                     </div>
@@ -194,6 +194,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
     <div class="row">
         <div class="container">
@@ -228,7 +229,7 @@
                         </div>
                         <div class="input-field">
                             <i class="material-icons prefix clear-prefix">book</i>
-                            <input type="text" id="accountnumber" ng-model="employee.bank.accountNumber">
+                            <input type="number" id="accountnumber" ng-model="employee.bank.accountNumber">
                             <label for="accountnumber" class="update">หมายเลขบัญชี</label>
                         </div>
                     </div>
@@ -251,7 +252,7 @@
                         </div>
                         <div class="input-field">
                             <i class="material-icons prefix clear-prefix">phone</i>
-                            <input type="text" id="contacttel" ng-model="employee.contact.tel">
+                            <input type="tel" id="contacttel" ng-model="employee.contact.tel">
                             <label for="contacttel" class="update">เบอร์โทร</label>
                         </div>
                     </div>
@@ -263,11 +264,11 @@
         <div class="container">
             <div class="row">
                 <div class="offset m12" style="margin-right: 10px;">
-                    <button class="btn right waves-effect waves-light" ng-click="saveEmployee()" type="submit">บันทึก<i class="mdi-content-send right"></i></button>
-                    <input class="btn btn-gray waves-effect waves-light right" style="margin-right: 10px;"  type="submit" value="ล้างข้อมูล" ng-click="clearData()">
+                    <a class="btn-best btn-edit right" ng-click="saveEmployee()" type="submit">บันทึก<i class="mdi-content-send right"></i></a>
+                    <a class="btn-best btn-orenge right" style="margin-right: 10px;" ng-click="clearData()">ล้างข้อมูล <i class="mdi-action-cached right"></i></a>
                 </div>
             </div>
         </div>
     </div>
-<div id="warp">
+<div id="warp-toast">
 </div>
