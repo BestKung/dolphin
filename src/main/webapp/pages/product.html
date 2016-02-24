@@ -52,8 +52,8 @@
             </div>
             <div class="row">
                 <div class="col m6 center">
-                    <a href="" class="btn btn-green waves-light" ng-click="saveProduct()">บันทึกข้อมูล</a>
-                    <a href="" class="btn btn-orenge waves-light" ng-click="clearData()">ล้างข้อมูล</a>
+                    <a class="btn-best btn-edit right" ng-click="saveProduct()" type="submit">บันทึก<i class="mdi-content-send right"></i></a>
+                    <a class="btn-best btn-orenge right" ng-click="clearData()" style="margin-right: 10px;" >ล้างข้อมูล <i class="mdi-action-cached right"></i></a>
                 </div>
             </div>
         </div>
@@ -81,8 +81,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="">
-                    <a class="btn waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcDataContentProduct()">Search</a>
+                <div style="margin-top: 20px">
+                    <a class="btn-best btn-search" style="margin-left:calc(3.8rem)" ng-click="searcDataContentProduct()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
                 </div>
             </div>
         </div>
@@ -125,8 +125,8 @@
                         <td>{{pd.typeProduct.name}}</td>
                         <td>{{pd.unit.name}}</td>
                         <td>
-                            <a class="modal-trigger btn btn-red waves-light" href="" ng-click="actionDelete(pd)" >ลบ</a>
-                            <a href="" class="btn btn-blue2 waves-light" ng-click="updateProduct(pd)">แก้ไข</a>
+                            <a class="btn-custom-radius btn-edit" ng-click="updateProduct(pd)"><i class="mdi-content-create"></i></a>
+                            <a class="btn-custom-radius btn-delete" ng-click="actionDelete(pd)"><i class="mdi-action-delete"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -135,7 +135,7 @@
                 <div class="col m12">
                     <ul class="pagination right" style="margin-top: 10px;">
                         <li class="btn btn-pagination" id="first-page-product" ng-click="firstPageProduct()"><p style="margin-top: 2px;">&Lt;</p></li>
-                        <li class="btn btn-pagination" id="pre-page-product" ng-click="prePageProduct()"><p style="margin-top: 2px;">&LT</p>;</li>
+                        <li class="btn btn-pagination" id="pre-page-product" ng-click="prePageProduct()"><p style="margin-top: 2px;">&LT</p></li>
                         <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageProduct + 1}}</p></li>
                         <li class="btn btn-pagination" id="next-page-product" ng-click="nextPageProduct()"><p style="margin-top: 2px;">&GT;</p></li>
                         <li class="btn btn-pagination" id="final-page-product" ng-click="finalPageProduct()"><p style="margin-top: 2px;">&Gt;</p></li>

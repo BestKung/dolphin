@@ -22,8 +22,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="">
-                    <a class="btn waves-effect waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="selectGetOrSearch()">ค้นหา</a>
+                <div style="margin-top: 20px">
+                    <a class="btn-best btn-search" style="margin-left:calc(3.8rem)" ng-click="selectGetOrSearch()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
                 </div>
             </div>
         </div>
@@ -64,7 +64,11 @@
                         <td>{{patient.hn}}</td>
                         <td>{{patient.pid}}</td>
                         <td>{{patient.email}}</td>
-                        <td><a href="" ng-click="clickMoreDetail(patient);alert(patient.patientPictureXray.nameXrayFilm)" class="activator btn" id="moredetail">ดูรายละเอียด</a></td>
+                        <td>
+                            <a href="" ng-click="clickMoreDetail(patient);alert(patient.patientPictureXray.nameXrayFilm)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
+                            <!--                            <a class="btn-custom-radius btn-edit" ng-click="UpdateDoctor()"><i class="mdi-content-create"></i></a>
+                                                        <a class="btn-custom-radius btn-delete" ng-click="clickDelete(doctorDetail)"><i class="mdi-action-delete"></i></a>-->
+                        </td>
                     </tr>
                 </tbody>
             </table>

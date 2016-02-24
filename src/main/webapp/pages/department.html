@@ -18,8 +18,8 @@
             </div>
             <div class="row">
                 <div class="col m6 s12">
-                    <input type="submit" value="บันทึก" class="btn btn-green waves-light" ng-click="saveDepartment()">
-                    <input type="submit" value="ล้างข้อมูล" class="btn btn-orenge waves-light" ng-click="clearData()">
+                    <a class="btn-best btn-edit right" ng-click="saveDepartment()" type="submit">บันทึก<i class="mdi-content-send right"></i></a>
+                    <a class="btn-best btn-orenge right" ng-click="clearData()" style="margin-right: 10px;" >ล้างข้อมูล <i class="mdi-action-cached right"></i></a>
                 </div>
             </div>
         </div>
@@ -46,8 +46,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="">
-                    <a class="btn waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searcDataContentDepartment()">Search</a>
+                <div style="margin-top: 20px">
+                    <a class="btn-best btn-search" style="margin-left:calc(3.8rem)" ng-click="searcDataContentDepartment()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
                 </div>
             </div>
         </div>
@@ -82,8 +82,8 @@
                         <td>{{dep.id}}</td>
                         <td>{{dep.name}}</td>
                         <td>
-                            <a class="modal-trigger btn btn-red waves-light" href="" ng-click="actionDelete(dep)" >Delete</a>
-                            <a href="" class="btn btn-blue2 waves-light" ng-click="actionUpdate(dep)">Update</a>
+                            <a class="btn-custom-radius btn-edit" ng-click="actionUpdate(dep)"><i class="mdi-content-create"></i></a>
+                            <a class="btn-custom-radius btn-delete" ng-click="actionDelete(dep)"><i class="mdi-action-delete"></i></a>
                         </td>
                     </tr>
                 </tbody>

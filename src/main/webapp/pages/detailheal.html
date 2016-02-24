@@ -66,9 +66,9 @@
             </div>
 
             <div class="row">
-                <div class="col m6 right" style="position: relative;left: 175px;">
-                    <a href="" class="btn btn-green waves-light" ng-click="seveOrderHeal()">บันทึกข้อมูล</a>
-                    <a href="" class="btn btn-orenge waves-light" ng-click="clearData()">ล้างข้อมูล</a>
+                <div class="col m6 right" style="position: relative;">
+                    <a class="btn-best btn-edit right" ng-click="seveOrderHeal()" type="submit">บันทึก<i class="mdi-content-send right"></i></a>
+                    <a class="btn-best btn-orenge right" ng-click="clearData()" style="margin-right: 10px;" >ล้างข้อมูล <i class="mdi-action-cached right"></i></a>
                 </div>
             </div>
 
@@ -98,8 +98,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="">
-                    <a class="btn waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searchHistoryOfMedical()">Search</a>
+                <div style="margin-top: 20px">
+                    <a class="btn-best btn-search" style="margin-left:calc(3.8rem)" ng-click="searchHistoryOfMedical()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
                 </div>
             </div>
         </div>
@@ -139,7 +139,9 @@
                         <td>{{dh.doctor.nameTh}}</td>
                         <td>{{dh.dateHeal}}</td>
                         <td>
-                            <a class="activator btn" id="moredetail" ng-click="clickSeeDatailHeal(dh)" >ดูรายละเอียด</a>
+                            <a href="" ng-click="clickSeeDatailHeal(dh)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
+                            <!--                            <a class="btn-custom-radius btn-edit" ng-click="UpdateDoctor()"><i class="mdi-content-create"></i></a>
+                                                        <a class="btn-custom-radius btn-delete" ng-click="clickDelete(doctorDetail)"><i class="mdi-action-delete"></i></a>-->
                         </td>
                     </tr>
                 </tbody>
@@ -148,8 +150,8 @@
                 <div class="col m12">
                     <ul class="pagination right" style="margin-top: 10px;">
                         <li class="btn btn-pagination" id="first-page-detailheal" ng-click="firstPageDetailHeal()"><p style="margin-top: 2px;">&Lt;</p></li>
-                        <li class="btn btn-pagination" id="pre-page-detailheal" ng-click="prePageDetailHeal()"><p style="margin-top: 2px;">&LT</p>;</li>
-                        <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPage+1}}</p></li>
+                        <li class="btn btn-pagination" id="pre-page-detailheal" ng-click="prePageDetailHeal()"><p style="margin-top: 2px;">&LT;</p></li>
+                        <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
                         <li class="btn btn-pagination" id="next-page-detailheal" ng-click="nextPageDetailHeal()"><p style="margin-top: 2px;">&GT;</p></li>
                         <li class="btn btn-pagination" id="final-page-detailheal" ng-click="finalPageDetailHeal()"><p style="margin-top: 2px;">&Gt;</p></li>
                     </ul>
@@ -419,8 +421,8 @@
                         <th>{{typ.price}}</th>
                         <th>
                             <input id="value-of-operation" type="text" style="height:2rem" placeholder="จำนวน" ng-model="value">
-                 </th>
-                 <th><a class="select-human modal-close btn" ng-click="selectTypeOfMedical(typ,value)">เลือก</a></th>
+                        </th>
+                        <th><a class="select-human modal-close btn" ng-click="selectTypeOfMedical(typ, value)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>

@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <div style="margin-top: 20px">
-                    <a class="btn-best btn-search" style="margin-left:calc(3.8rem)" ng-click="searcEmployee()"><i class="mdi-action-search" style="margin-right: 5px"></i>Search</a>
+                    <a class="btn-best btn-search" style="margin-left:calc(3.8rem)" ng-click="searcEmployee()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
                 </div> 
             </div>
         </div>
@@ -47,28 +47,34 @@
                     </div>
                 </div>
             </div>
+        
             <table class="hoverable responsive-table" style="margin-top: 20px;">
                 <thead>
                     <tr>
+                        <th style="width: 10%">ลำดับ</th>
                         <th style="width: 20%">ชื่อ</th>
                         <th style="width: 20%">อีเมลล์</th>
                         <th style="width: 10%">สังกัดแผนก</th>
                         <th style="width: 10%">สถานะ</th>
-                        <th style="width: 15%">จัดการ</th>
+                        <th style="width: 25%">จัดการ</th>
                     </tr>
                 </thead> 
                 <tbody>
                     <tr ng-repeat="emp in employees.content">
+                        <td>{{emp.id}}</td>
                         <td>{{emp.nameTh}}</td>
                         <td>{{emp.email}}</td>
                         <td>{{emp.department.name}}</td>
                         <td>{{emp.workStatus}}</td>
-                        <td><a href="" ng-click="detailEmployee(emp)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
+                        <td>
+                            <a href="" ng-click="detailEmployee(emp)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
                             <a class="btn-custom-radius btn-edit" ng-click="updateEmployee(emp)"><i class="mdi-content-create"></i></a>
-                            <a class="btn-custom-radius btn-delete" ng-click="clickDelete(emp)"><i class="mdi-action-delete"></i></a></td>
+                            <a class="btn-custom-radius btn-delete" ng-click="clickDelete(emp)"><i class="mdi-action-delete"></i></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
+          
 
             <div class="row" id="card-employee">
                 <div class="col m12">

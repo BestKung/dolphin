@@ -183,7 +183,7 @@
                     </div>
                     <label class="active" for="workstatus">สถานะการทำงาน</label>
                 </div>
-                 <div class="col m6 s12 input-field">
+                <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix">stay_current_portrait</i>
                     <input type="number" id="salary" ng-model="doctor.salary">
                     <label for="salary" class="update">เงินเดือน</label>
@@ -192,17 +192,17 @@
         </div>
     </div>
 
-<!--    <div class="card">
-        <div class="card-content">
-            <span class="card-title"><h4 style="color: #000">กำหนดสิทธิ์</h4></span>
-            <div class="row" id="authority">
-                <div class="col m3 s12" ng-repeat="auth in authoritys.content">
-                    <input type="checkbox" checklist-model="employee.roles" checklist-value="auth" id="{{auth.role}}">
-                    <label for="{{auth.role}}">{{auth.role}}</label>
+    <!--    <div class="card">
+            <div class="card-content">
+                <span class="card-title"><h4 style="color: #000">กำหนดสิทธิ์</h4></span>
+                <div class="row" id="authority">
+                    <div class="col m3 s12" ng-repeat="auth in authoritys.content">
+                        <input type="checkbox" checklist-model="employee.roles" checklist-value="auth" id="{{auth.role}}">
+                        <label for="{{auth.role}}">{{auth.role}}</label>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>-->
+        </div>-->
 </div>
 
 <div class="row">
@@ -275,8 +275,8 @@
     <div class="container">
         <div class="row">
             <div class="offset m12" style="margin-right: 10px;">
-                <button class="btn right waves-effect waves-light" ng-click="saveDoctor()" type="submit">บันทึก<i class="mdi-content-send right"></i></button>
-                <input class="btn btn-gray waves-effect waves-light right" style="margin-right: 10px;"  type="submit" value="ล้างข้อมูล" ng-click="clearData()">
+                <a class="btn-best btn-edit right" ng-click="saveDoctor()" type="submit">บันทึก<i class="mdi-content-send right"></i></a>
+                <a class="btn-best btn-orenge right" ng-click="clearData()" style="margin-right: 10px;" >ล้างข้อมูล <i class="mdi-action-cached right"></i></a>
             </div>
         </div>
     </div>

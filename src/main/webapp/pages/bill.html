@@ -37,7 +37,7 @@
                                 <td></td>
                             </tr>
                             <tr ng-repeat="p in tmpProducts.content">
-                                <td>{{$index + dataSelectDetailHeal.orderHealDetailHeals.length +1}}</td>
+                                <td>{{$index + dataSelectDetailHeal.orderHealDetailHeals.length + 1}}</td>
                                 <td>{{p.priceAndExpireProduct.product.name}}</td>
                                 <td>{{p.value}}</td>
                                 <td>{{p.priceAndExpireProduct.priceSell * p.value}}</td>
@@ -71,9 +71,9 @@
             </div>
 
             <div class="row">
-                <div class="col m6 right" style="position: relative;left: 175px;">
-                    <a href="" class="btn btn-green waves-light" ng-click="saveBill()">บันทึกข้อมูล</a>
-                    <a href="" class="btn btn-orenge waves-light" ng-click="clearData()">ล้างข้อมูล</a>
+                <div class="col m6 right">
+                    <a class="btn-best btn-edit right" ng-click="saveBill()" type="submit">บันทึก<i class="mdi-content-send right"></i></a>
+                    <a class="btn-best btn-orenge right" ng-click="clearData()" style="margin-right: 10px;" >ล้างข้อมูล <i class="mdi-action-cached right"></i></a>
                 </div>
             </div>
 
@@ -103,8 +103,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="">
-                    <a class="btn waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searchBill()">Search</a>
+                <div style="margin-top: 20px">
+                    <a class="btn-best btn-search" style="margin-left:calc(3.8rem)" ng-click="searchBill()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
                 </div>
             </div>
         </div>
@@ -142,7 +142,9 @@
                         <td>{{bs.dateBill}}</td>
                         <td>{{bs.sumPrice}}</td>
                         <td>
-                            <a href="" class="activator btn" id="moredetail" ng-click="selectmMoreDetailBill(bs)" >ดูรายละเอียด</a>
+                            <a href="" ng-click="selectmMoreDetailBill(bs)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
+                            <!--                            <a class="btn-custom-radius btn-edit" ng-click="UpdateDoctor()"><i class="mdi-content-create"></i></a>
+                                                        <a class="btn-custom-radius btn-delete" ng-click="clickDelete(doctorDetail)"><i class="mdi-action-delete"></i></a>-->
                         </td>
                     </tr>
                 </tbody>
@@ -152,7 +154,7 @@
                     <ul class="pagination right" style="margin-top: 10px;">
                         <li class="btn btn-pagination" id="first-page-bill" ng-click="firstPageBill()"><p style="margin-top: 2px;">&Lt;</p></li>
                         <li class="btn btn-pagination" id="pre-page-bill" ng-click="prePageBill()"><p style="margin-top: 2px;">&LT</p>;</li>
-                        <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageBill+1}}</p></li>
+                        <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageBill + 1}}</p></li>
                         <li class="btn btn-pagination" id="next-page-bill" ng-click="nextPageBill()"><p style="margin-top: 2px;">&GT;</p></li>
                         <li class="btn btn-pagination" id="final-page-bill" ng-click="finalPageBill()"><p style="margin-top: 2px;">&Gt;</p></li>
                     </ul>
@@ -270,8 +272,8 @@
                         <td>{{det.patient.name}}</td>
                         <th>{{det.dateHeal}}</th>
                         <th><h6>{{det.doctor.nameTh}}</h6></th>
-                <th><a class="select-human modal-close btn" ng-click="selectDetailHeal(det)">เลือก</a></th>
-                </tr>
+                        <th><a class="select-human modal-close btn" ng-click="selectDetailHeal(det)">เลือก</a></th>
+                    </tr>
                 </tbody>                  
             </table>
         </div>

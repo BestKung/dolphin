@@ -17,13 +17,13 @@
                             <option value="อีเมลล์">อีเมลล์</option>
                             <option value="ชื่อ">ชื่อ</option>
                             <option value="เบอร์โทรศัพท์">เบอร์โทร</option>
-                         </select>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="">
-                    <a class="btn waves-light" style="margin-top: 10px; margin-left:calc(3.8rem)" ng-click="searchData()">ค้นหา</a>
+                <div style="margin-top: 20px">
+                    <a class="btn-best btn-search" style="margin-left:calc(3.8rem)" ng-click="searchData()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
                 </div>
             </div>
         </div>
@@ -49,12 +49,12 @@
             <table class="hoverable responsive-table" style="margin-top: 20px;">
                 <thead>
                     <tr>
-                        <th style="width: 5%">ลำดับ</th>
-                        <th style="width: 20%">ชื่อ</th>
-                        <th style="width: 20%">อีเมลล์</th>
+                        <th style="width: 15%">ลำดับ</th>
+                        <th style="width: 15%">ชื่อ</th>
+                        <th style="width: 15%">อีเมลล์</th>
                         <th style="width: 15%">โทรศัพท์</th>
-                        <th style="width: 10%">สถานะ</th>
-                        <th style="width: 15%">จัดการ</th>
+                        <th style="width: 15%">สถานะ</th>
+                        <th style="width: 25%">จัดการ</th>
                     </tr>
                 </thead> 
                 <tbody>
@@ -64,7 +64,11 @@
                         <td>{{doc.email}}</td>
                         <td>{{doc.mobile}}</td>
                         <td>{{doc.workStatus}}</td>
-                        <td><a href="" ng-click="moreDetail(doc)" class="activator btn" id="moredetail">ดูรายละเอียด</a></td>
+                        <td>
+                            <a href="" ng-click="moreDetail(doc)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
+                            <!--                            <a class="btn-custom-radius btn-edit" ng-click="UpdateDoctor()"><i class="mdi-content-create"></i></a>
+                                                        <a class="btn-custom-radius btn-delete" ng-click="clickDelete(doctorDetail)"><i class="mdi-action-delete"></i></a>-->
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -74,14 +78,14 @@
                     <ul class="pagination right" style="margin-top: 10px;">
                         <li class="btn waves-effect btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
                         <li class="btn waves-effect btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
-                        <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage+1}}</p></li>
+                        <li class="btn waves-effect btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
                         <li class="btn waves-effect btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
                         <li class="btn waves-effect btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
                     </ul>
                 </div>
             </div>
         </div>
-        
+
         <div class="card-reveal">
             <span class="card-title grey-text text-darken-4" id="close-card">ตารางข้อมูลทันตแพทย์<i class="material-icons right" ng-click="toPreScroll()">close</i></span>
             <div style="margin-top: 40px;" class="center">
@@ -158,7 +162,7 @@
                         <label class=" topic-detail">{{doctorDetail.sex}}</label>
                     </div>
                 </div>
-                 <div class="row">
+                <div class="row">
                     <div class="col m3 s6">
                         <label class="right topic-detail">Blood : </label>
                     </div>
@@ -242,14 +246,14 @@
                         <label class=" topic-detail">{{doctorDetail.endWork}}</label>
                     </div>
                 </div>
-                
+
             </div>
-<!--            <span class="card-title grey-text text-darken-4" style="margin-top: 30px;">Authority</span>
-            <div class="row">
-                <div class="col m3 s6" ng-repeat="auth in doctorDetail.roles">
-                    <label class="topic-detail">{{auth.role}}</label>
-                </div>
-            </div>-->
+            <!--            <span class="card-title grey-text text-darken-4" style="margin-top: 30px;">Authority</span>
+                        <div class="row">
+                            <div class="col m3 s6" ng-repeat="auth in doctorDetail.roles">
+                                <label class="topic-detail">{{auth.role}}</label>
+                            </div>
+                        </div>-->
             <span class="card-title grey-text text-darken-4" style="margin-top: 30px;">Bank</span>
             <div class="row">
                 <div class="col m3 s6">
@@ -296,7 +300,7 @@
                     <label class=" topic-detail">{{doctorDetail.contact.tel}}</label>
                 </div>
             </div>
- 
+
             <div class="row margin-top right">
                 <input type="submit" value="Cancel" class="btn btn-gray  waves-light" ng-click="cancel()">
                 <input type="submit" value="Update" class="btn btn-blue2  waves-light" ng-click="UpdateDoctor()">

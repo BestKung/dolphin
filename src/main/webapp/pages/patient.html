@@ -111,12 +111,12 @@
         <div class="card">
             <div class="card-content">
                 <span class="card-title" style="color: black"><h5>ประวัติทางการเเพทย์</h5></span>
-               <div class="row">
-                <div class="col m3 s12" ng-repeat="medi in medicalHistory.content">
-                    <input type="checkbox" checklist-model="patient.medicalHistory" checklist-value="medi" id="{{medi.disease}}">
-                    <label for="{{medi.disease}}">{{medi.disease}}</label>
+                <div class="row">
+                    <div class="col m3 s12" ng-repeat="medi in medicalHistory.content">
+                        <input type="checkbox" checklist-model="patient.medicalHistory" checklist-value="medi" id="{{medi.disease}}">
+                        <label for="{{medi.disease}}">{{medi.disease}}</label>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -190,8 +190,8 @@
     <div class="container">
         <div class="row">
             <div class="offset m12" style="margin-right: 10px;">
-                <button class="btn right waves-effect waves-light" ng-click="savePatient()" type="submit">บันทึก<i class="mdi-content-send right"></i></button>
-                <input class="btn btn-gray waves-effect waves-light right" style="margin-right: 10px;"  type="submit" value="ล้างข้อมูล" ng-click="clearData()">
+                <a class="btn-best btn-edit right" ng-click="savePatient()" type="submit">บันทึก<i class="mdi-content-send right"></i></a>
+                <a class="btn-best btn-orenge right" ng-click="clearData()" style="margin-right: 10px;" >ล้างข้อมูล <i class="mdi-action-cached right"></i></a>
             </div>
         </div>
     </div>
