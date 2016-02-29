@@ -10,8 +10,7 @@
                     </div>
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix">email</i>
-                        <input type="email" id="email" ng-model="employee.email" ng-change="error.violations.email.message = '';
-                                    setBackgroundPrefixId()">
+                        <input type="text" id="email" ng-model="employee.email" ng-change="error.violations.email.message = '';setBackgroundPrefixId()">
                         <label for="email" class="update">อีเมลล์<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.email.message}}</span></label>
                     </div>
                 </div>
@@ -51,7 +50,7 @@
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix">cake</i>
                         <input type="date" id="birthdate" class="datepicker" ng-model="employee.birthDate">
-                        <label for="birthdate" class="update">วันเกิด</label>
+                        <label for="birthdate" class="update" id="label-birthdate">วันเกิด</label>
                     </div>
                 </div>
                 <div class="row">
@@ -148,14 +147,14 @@
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix">insert_invitation</i>
                         <input type="date" id="startwork" class="datepicker" ng-model="employee.startWork">
-                        <label for="startwork" class="update">วันที่เริ่มทำงาน</label>
+                        <label for="startwork" class="update" id="label-startwork">วันที่เริ่มทำงาน</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix">insert_invitation</i>
                         <input type="date" id="endwork" class="datepicker" ng-model="employee.endWork">
-                        <label for="endwork" class="update">วันที่ออกจากงาน</label>
+                        <label for="endwork" class="update" id="label-endwork">วันที่ออกจากงาน</label>
                     </div>
                     <div class="col m6 s12 input-field">
                         <i class="material-icons prefix clear-prefix" id="workstatus">content_paste</i>

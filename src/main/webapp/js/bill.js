@@ -488,7 +488,9 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     }
 
     $scope.selectDetailHeal = function (det) {
-         $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
+         if( $scope.totalPrice != 0){
+             $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
+                      }
         totalPriceDetailHeal = 0;
         $scope.dataSelectDetailHeal = det;
         $scope.bill.detailHeal = det;

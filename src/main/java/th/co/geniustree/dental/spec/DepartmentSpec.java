@@ -29,4 +29,14 @@ public class DepartmentSpec {
         };
     }
     
+    
+        public static Specification<Department> idWhere(final Integer keyword){
+        return new Specification<Department>() {
+            @Override
+            public Predicate toPredicate(Root<Department> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.equal(root.get(Department_.id), keyword);
+            }
+        };
+        }
+    
 }

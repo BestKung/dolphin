@@ -109,8 +109,7 @@ angular.module('employee-information').controller('employeeInformationController
         if (!!emp.staffPicture) {
             console.log('has image');
             document.getElementById('img-employee').src = "data:image/jpg;base64," + emp.staffPicture.contentImage;
-        }
-        else {
+        } else {
             $http.get('/getnoimage').success(function (data) {
                 console.log(data);
                 console.log('error');
@@ -135,7 +134,7 @@ angular.module('employee-information').controller('employeeInformationController
     $scope.deleteEmployee = function () {
         console.log('delete' + $scope.selectEmployee);
         $http.post('/deletestaff', $scope.selectEmployee).success(function (data) {
-             Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
+            Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
             console.log('delete success');
             $scope.selectEmployee = {};
             selectGetOrSearch();
@@ -143,7 +142,8 @@ angular.module('employee-information').controller('employeeInformationController
             $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
             $('span#close-card').trigger('click');
         }).error(function (data) {
-        Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
         $('i#close-card').trigger('click');
     };
@@ -169,8 +169,7 @@ angular.module('employee-information').controller('employeeInformationController
     function selectGetOrSearch() {
         if (!!$scope.searchData.keyword) {
             searcEmployee();
-        }
-        else {
+        } else {
             getEmployees();
         }
     }

@@ -16,9 +16,12 @@ import th.co.geniustree.dental.model.Staff;
  *
  * @author Best
  */
-public interface StaffRepo extends JpaRepository<Staff, Integer>, JpaSpecificationExecutor<Staff>{
-   
+public interface StaffRepo extends JpaRepository<Staff, Integer>, JpaSpecificationExecutor<Staff> {
+
     public Staff findByEmail(String email);
-    public Page<Staff> findByDepartment(Department department , Pageable pageable);
+
+    public Page<Staff> findByDepartment(Department department, Pageable pageable);
+
     public Page<Staff> findAllByOrderByIdDesc(Pageable pageable);
+
 }

@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import th.co.geniustree.dental.validator.EmailUnique;
 
 /**
  *
@@ -35,29 +35,30 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Employee implements Serializable,UserDetails {
+public class Employee implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @EmailUnique()
     @Column(name = "EMAIL", nullable = false)
-    @NotBlank(message = "E-mail not Empty")
+    @NotBlank(message = "กรุณากรอก อีเมล")
     @Email(message = "example@example.com")
     private String email;
 
     @Column(name = "PASSWORD", nullable = false)
-    @NotBlank(message = "Password not Empty")
+    @NotBlank(message = "กรุณากรอกรหัสผ่าน")
     private String password;
 
     @Column(name = "NAME_TH", nullable = false)
-    @NotBlank(message = "Name(TH) not Empty")
+    @NotBlank(message = "กรุณากรอกชื่อ ถาษาไทย")
     private String nameTh;
-    
+
     private String type;
     private boolean enable = true;
-   
-     @ManyToMany
+
+    @ManyToMany
     @Column(name = "ROLES")
     private List<Authority> roles;
 
@@ -68,7 +69,7 @@ public class Employee implements Serializable,UserDetails {
     public void setNameTh(String nameTh) {
         this.nameTh = nameTh;
     }
-     
+
     public Integer getId() {
         return id;
     }
@@ -116,7 +117,7 @@ public class Employee implements Serializable,UserDetails {
     public void setRoles(List<Authority> roles) {
         this.roles = roles;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 3;

@@ -8,6 +8,7 @@ package th.co.geniustree.dental.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +33,7 @@ public class DepartmentController {
     private DepartmentService departmentService;
     
     @RequestMapping(value = "/savedepartment", method = RequestMethod.POST)
-    public void saveDepartment(@RequestBody Department department) {
+    public void saveDepartment(@Validated @RequestBody Department department) {
         departmentRepo.save(department);
     }
     
@@ -46,18 +47,21 @@ public class DepartmentController {
         departmentRepo.delete(department.getId());
     }
     
-     @RequestMapping(value = "/totaldepartment", method = RequestMethod.GET)
+    @RequestMapping(value = "/totaldepartment", method = RequestMethod.GET)
     public Long getTotalDepartment() {
         return departmentRepo.count();
     }
     
-    @RequestMapping(value = "/getdepartment/searchdepartment",method = RequestMethod.POST)
-    public Page<Department> searchDepartment(@RequestBody SearchData searchData, Pageable pageable){
+    @RequestMapping(value = "/getdepartment/searchdepartment", method = RequestMethod.POST)
+    public Page<Department> searchDepartment(@RequestBody SearchData searchData, Pageable pageable) {
         String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
         Page<Department> departments = null;
-         if ("Name".equals(searchBy)) {
+        if ("ชื่อเเผนก".equals(searchBy)) {
             departments = departmentService.searchByName(keyword, pageable);
+        }
+        if ("ลำดับ".equals(searchBy)) {
+            departments = departmentService.searchById(keyword, pageable);
         }
         return departments;
     }
@@ -67,8 +71,11 @@ public class DepartmentController {
         long count = 0;
         String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
-        if ("Name".equals(searchBy)) {
-            count = departmentRepo.count(DepartmentSpec.namelike("%"+keyword+"%"));
+        if ("ชื่อเเผนก".equals(searchBy)) {
+            count = departmentRepo.count(DepartmentSpec.namelike("%" + keyword + "%"));
+        }
+        if ("ลำดับ".equals(searchBy)) {
+            count = departmentRepo.count(DepartmentSpec.idWhere(Integer.parseInt(keyword)));
         }
         return count;
     }

@@ -23,9 +23,14 @@ public class DepartmentService {
 
     @Autowired
     private DepartmentRepo departmentRepo;
-    
-    public Page<Department> searchByName(String keyword,Pageable pageable){
-        Specifications<Department> specifications = Specifications.where(DepartmentSpec.namelike("%"+keyword+"%"));
+
+    public Page<Department> searchByName(String keyword, Pageable pageable) {
+        Specifications<Department> specifications = Specifications.where(DepartmentSpec.namelike("%" + keyword + "%"));
+        return departmentRepo.findAll(specifications, pageable);
+    }
+
+    public Page<Department> searchById(String keyword, Pageable pageable) {
+        Specifications<Department> specifications = Specifications.where(DepartmentSpec.idWhere(Integer.parseInt(keyword)));
         return departmentRepo.findAll(specifications, pageable);
     }
 }

@@ -220,3 +220,15 @@
 .btn-search:active{
     box-shadow: 1px 1px 5px black;
 }
+.btn-cancelv2{
+    background-color: #9E9E9E;
+    color: white;
+}
+.btn-cancelv2:hover{
+    background-color: #9E9E9E;
+    opacity: 0.7;
+}
+.btn-cancelv2:active{
+    background-color: #9E9E9E;
+    opacity: 0.7;
+}
