@@ -10,15 +10,16 @@
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix">create</i>
-                    <input type="text" ng-model="nameStream" ng-click="clickEmployee()" ng-change="changePrefix('#prefix-appointment-employee')">
-                    <label id="label-nameStaffReam">ชื่อคนกำกับนำเข้า</label>
+                    <input type="text" ng-model="nameStream" ng-click="clickEmployee()" 
+                           ng-change="changePrefix('#prefix-appointment-employee'); error.violations.nameStaffReam.message = '';">
+                    <label id="label-nameStaffReam">ชื่อคนกำกับนำเข้า<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.nameStaffReam.message}}</span></label>
                 </div>
             </div>
             <div class="row col6">
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix">file_download</i>
-                    <input type="date" id="dateIn" class="datepicker" ng-model="lot.dateIn">
-                    <label for="dateIn" class="active" id="namedepartment1" >วันที่นำเข้า</label>
+                    <input type="date" id="dateIn" class="datepicker" ng-model="lot.dateIn" ng-change="error.violations.dateIn.message = '';">
+                    <label for="dateIn" class="active" id="namedepartment1" >วันที่นำเข้า<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.dateIn.message}}</span></label>
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix">file_upload</i>
@@ -169,7 +170,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="emp in employees.content">
+                    <tr ng-repeat="emp in employees.content | orderBy:'id':true"">
                         <td>{{emp.nameTh}}</td>
                         <th>{{emp.email}}</th>
                         <th>{{emp.mobile}}</th>
@@ -193,4 +194,6 @@
     <div class="model-footer right">
         <a href="" class="magin-button btn btn-gray modal-action modal-close">Cancle</a>
     </div>
+</div>
+<div id="warp-toast">
 </div>

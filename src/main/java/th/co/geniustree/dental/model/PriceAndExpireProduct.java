@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -39,24 +40,30 @@ public class PriceAndExpireProduct implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date notificationsExpire;
 
-    @Column(name = "VALUE")
+    @Column(name = "VALUE",nullable = false)
+    @NotBlank(message = "กรุณาระบุจำนวนสินค้า")
     private Integer value;
 
-    @Column(name = "NOTIFICATIONSVALUE")
+    @Column(name = "NOTIFICATIONSVALUE",nullable = false)
+    @NotBlank(message = "กรุณาระบุกำหนดการแจ้งเตือนจำนวนสินค้า")
     private Integer notificationsValue;
 
-    @Column(name = "PRICEBUY")
+    @Column(name = "PRICEBUY",nullable = false)
+    @NotBlank(message = "กรุณาระบุราคาซื้อ")
     private Double priceBuy;
 
-    @Column(name = "PRICESELL")
+    @Column(name = "PRICESELL",nullable = false)
+    @NotBlank(message = "กรุณาระบุราคาขาย")
     private Double priceSell;
 
     @ManyToOne
-    @JoinColumn(name = "LOT_ID")
+    @JoinColumn(name = "LOT_ID",nullable = false)
+    @NotBlank(message = "กรุณาระบุรอบนำเข้าด้วยครับ")
     private Lot lot;
 
     @ManyToOne
-    @JoinColumn(name = "PRODUCT_ID")
+    @JoinColumn(name = "PRODUCT_ID",nullable = false)
+    @NotBlank(message = "กรุณาระบุชื่อสินค้าด้วยครับ")
     private Product product;
     
     private String statusNontificationValue;

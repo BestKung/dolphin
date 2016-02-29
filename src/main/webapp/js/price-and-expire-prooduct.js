@@ -36,6 +36,7 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
     $scope.priceAndExpireProducts = {};
     $scope.priceAndExpireProduct = {};
     $scope.priceAndExpireProductdelete = {};
+    $scope.error = {};
 //===========================================================================================
 
 
@@ -165,8 +166,7 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
         if (!!$scope.searchDataLot.keyword) {
             searcDataContentLot();
             console.log('searchhhhh');
-        }
-        else {
+        } else {
             loadLot();
         }
     }
@@ -324,8 +324,7 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
         if (!!$scope.searchDataProduct.keyword) {
             searcDataContentProduct();
             console.log('searchhhhh');
-        }
-        else {
+        } else {
             loadProduct();
         }
     }
@@ -366,7 +365,7 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
         });
     }
     $scope.savePriceAndExpireProduct = function () {
-        if(!$scope.priceAndExpireProduct.statusNontificationValue){
+        if (!$scope.priceAndExpireProduct.statusNontificationValue) {
             $scope.priceAndExpireProduct.statusNontificationValue = '1';
         }
         $http.post('/savepriceandexpireproduct', $scope.priceAndExpireProduct).success(function (data) {
@@ -375,9 +374,12 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
             $scope.priceAndExpireProduct = {};
             $scope.product = "";
             $scope.lot = "";
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
             Materialize.toast('saveข้อมูลเรียบร้อย', 3000, 'rounded');
         }).error(function (data) {
-
+            $scope.error = data;
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
 
@@ -522,8 +524,7 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
         if (!!$scope.searchDataPriceAndExpireProduct.keyword) {
             $scope.searcDataContentPriceAndExpireProduct();
             totalPagesPriceAndExpireProduct();
-        }
-        else {
+        } else {
             $scope.pagePriceAndExpireProduct = 0;
             $scope.currentPagePriceAndExpireProduct = 0;
             loadPriceAndExpireProduct();
@@ -534,8 +535,7 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
     function selectGetOrSearchPriceAndExpireProduct() {
         if (!!$scope.searchDataPriceAndExpireProduct.keyword) {
             searcDataContentPriceAndExpireProduct();
-        }
-        else {
+        } else {
             loadPriceAndExpireProduct();
         }
     }

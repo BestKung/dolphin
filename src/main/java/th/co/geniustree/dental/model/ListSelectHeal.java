@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -29,10 +31,12 @@ public class ListSelectHeal implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
+    @NotBlank(message = "กรุณาระบุชื่อรายการรักษา")
     private String name;
 
-    @Column(name = "PRICE")
+    @Column(name = "PRICE", nullable = false)
+    @NotNull(message = "กรุณาระบุราคา")
     private Double price;
 
     @JsonIgnore

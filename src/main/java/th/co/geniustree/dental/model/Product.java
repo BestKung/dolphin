@@ -38,22 +38,27 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotBlank(message = "Name not Empty")
-    @Column(name = "NAME")
+    
+    @Column(name = "NAME",nullable = false)
+    @NotBlank(message = "กรุณาระบุชื่อสินค้า")
     private String name;
 
-    @Column(name = "BARCODE_MAIN")
+    @Column(name = "BARCODE_MAIN",nullable = false)
+    @NotBlank(message = "กรุณาระบุบาร์โค้ดหลัก")
     private String barCode_Main;
 
-    @Column(name = "BARCODE_SUB")
+    @Column(name = "BARCODE_SUB",nullable = false)
+    @NotBlank(message = "กรุณาระบุบาร์โค้ดย่อย")
     private String barCode_Sub;
 
     @ManyToOne
-    @JoinColumn(name = "TYPEPRODUCT_ID")
+    @JoinColumn(name = "TYPEPRODUCT_ID",nullable = false)
+    @NotBlank(message = "กรุณาระบุประเภทสินค้า")
     private TypeProduct typeProduct;
 
     @ManyToOne
-    @JoinColumn(name = "UNIT_ID")
+    @JoinColumn(name = "UNIT_ID",nullable = false)
+    @NotBlank(message = "กรุณาระบุสินค้า")
     private UnitProduct unit;
 
     @JsonIgnore

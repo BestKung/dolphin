@@ -133,7 +133,7 @@
                 <th style="width: 15%" class="table-department">จัดการ</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="dh in detailHeals.content">
+                    <tr ng-repeat="dh in detailHeals.content | orderBy:'id':true"">
                         <td>{{dh.id}}</td>
                         <td>{{dh.patient.name}}</td>
                         <td>{{dh.doctor.nameTh}}</td>
@@ -457,7 +457,8 @@
         <a href="" class="magin-button btn btn-gray modal-action modal-close">ยกเลิก</a>
     </div>
 </div>
-
+<div id="warp-toast">
+</div>
 
 
 

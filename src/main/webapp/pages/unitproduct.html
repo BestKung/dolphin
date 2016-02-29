@@ -12,8 +12,8 @@
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" >format_underlined</i>
-                    <input type="text" id="name" ng-model="unitProduct.name">
-                    <label class="active" id="namedepartment" for="name">ชื่อหน่วย</label>
+                    <input type="text" id="name" ng-model="unitProduct.name" ng-change="error.violations.name.message = '';">
+                    <label class="active" id="namedepartment" for="name">ชื่อหน่วย<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.name.message}}</span></label>
                 </div>
             </div>
             <div class="row">
@@ -76,7 +76,7 @@
                 <th style="width: 30px;"class="table-department">จัดการ</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="up in unitProducts.content">
+                    <tr ng-repeat="up in unitProducts.content | orderBy:'id':true"">
                         <td>{{up.id}}</td>
                         <td>{{up.name}}</td>
                         <td>
@@ -111,4 +111,6 @@
         <a href="" class="magin-button btn btn-red modal-action modal-close" ng-click="deleteUnitProduct()">ลบ</a>
         <a href="" class="magin-button btn btn-gray modal-action modal-close" ng-click="clearData()">ยกเลิก</a>
     </div>
+</div>
+<div id="warp-toast">
 </div>

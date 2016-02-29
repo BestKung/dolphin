@@ -137,7 +137,7 @@
                 <th style="width: 10%" class="table-department">ดูรายละเอียดเพิ่มเติม</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="bs in bills.content">
+                    <tr ng-repeat="bs in bills.content | orderBy:'id':true"">
                         <td>{{bs.id}}</td>
                         <td>{{bs.dateBill}}</td>
                         <td>{{bs.sumPrice}}</td>
@@ -365,4 +365,6 @@
         <a href="" class="magin-button btn btn-red modal-action modal-close" ng-click="deleteBill()">ลบ</a>
         <a href="" class="magin-button btn btn-gray modal-action modal-close">ยกเลิก</a>
     </div>
+</div>
+<div id="warp-toast">
 </div>
