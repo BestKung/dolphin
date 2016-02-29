@@ -25,22 +25,27 @@ public class StaffSearchService {
     private StaffRepo staffRepo;
 
     public Page<Staff> searchByName(String keyword, Pageable pageable) {
-        Specifications<Staff> specifications = Specifications.where(StaffSpec.nameLike("%"+keyword+"%"));
+        Specifications<Staff> specifications = Specifications.where(StaffSpec.nameLike("%" + keyword + "%"));
         return staffRepo.findAll(specifications, pageable);
     }
 
     public Page<Staff> searchByEmail(String keyword, Pageable pageable) {
-        Specifications<Staff> specifications = Specifications.where(StaffSpec.emailLike("%"+keyword+"%"));
+        Specifications<Staff> specifications = Specifications.where(StaffSpec.emailLike("%" + keyword + "%"));
         return staffRepo.findAll(specifications, pageable);
     }
 
     public Page<Staff> searchByMobile(String keyword, Pageable pageable) {
-        Specifications<Staff> specifications = Specifications.where(StaffSpec.mobileLike("%"+keyword+"%"));
+        Specifications<Staff> specifications = Specifications.where(StaffSpec.mobileLike("%" + keyword + "%"));
         return staffRepo.findAll(specifications, pageable);
     }
-    
-    public Page<Staff> searchByPid(String keyword , Pageable pageable){
-    Specifications<Staff> specifications = Specifications.where(StaffSpec.pidLike("%"+keyword+"%"));
-    return staffRepo.findAll(specifications , pageable);
+
+    public Page<Staff> searchByPid(String keyword, Pageable pageable) {
+        Specifications<Staff> specifications = Specifications.where(StaffSpec.pidLike("%" + keyword + "%"));
+        return staffRepo.findAll(specifications, pageable);
+    }
+
+    public Page<Staff> searchById(Integer keyword, Pageable pageable) {
+        Specifications<Staff> specifications = Specifications.where(StaffSpec.idWhere(keyword));
+        return staffRepo.findAll(specifications, pageable);
     }
 }

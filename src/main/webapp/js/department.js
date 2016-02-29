@@ -12,6 +12,7 @@ angular.module('department').controller('departmentController', function ($scope
     $scope.departments = {};
     $scope.department = {};
     $scope.depqrtmentUpdate = {};
+    $scope.error = {};
 
     checkMobile();
     function  checkMobile() {
@@ -26,10 +27,14 @@ angular.module('department').controller('departmentController', function ($scope
                 .success(function (data) {
                     getDepartment();
                     $scope.department = {};
+                    $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
                     Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
                     getTotalListDepartment();
                 }).error(function (data) {
             $('body,html').animate({scrollTop: 0}, "600");
+            $scope.error = data;
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
 
@@ -64,9 +69,11 @@ angular.module('department').controller('departmentController', function ($scope
                 .success(function (data) {
                     getDepartment();
                     $scope.department = {};
+                    $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
                     Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
                 }).error(function (data) {
-
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
 
@@ -179,8 +186,7 @@ angular.module('department').controller('departmentController', function ($scope
         if (!!$scope.searchDataDepartment.keyword) {
             $scope.searcDataContentDepartment();
             totalPagesDepartment();
-        }
-        else {
+        } else {
             $scope.pageDepartment = 0;
             $scope.currentPageDepartment = 0;
             getDepartment();
@@ -191,8 +197,7 @@ angular.module('department').controller('departmentController', function ($scope
     function selectGetOrSearchDepartment() {
         if (!!$scope.searchDataDepartment.keyword) {
             searcDataContentDepartment();
-        }
-        else {
+        } else {
             getDepartment();
         }
     }

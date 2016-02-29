@@ -31,10 +31,26 @@ var app = angular.module('employee')
                 if (!!employeeService.employeeUpdate.id) {
                     $('.update').addClass('active');
                     $('.clear-prefix').css('color', '#00bcd4')
-                }
-                else {
+                } else {
                     $('.update').removeClass('active');
                 }
+            }
+
+            checkDaye();
+            function checkDaye() {
+                if (!!$scope.employee.birthDate) {
+                    $scope.employee.birthDate = new Date();
+                    $('#label-birthdate').addClass('active');
+                }
+                if (!!$scope.employee.startWork) {
+                    $scope.employee.startWork = new Date();
+                    $('#label-startwork').addClass('active');
+                }
+                if (!!$scope.employee.endWork) {
+                    $scope.employee.endWork = new Date();
+                    $('#label-endwork').addClass('active');
+                }
+
             }
 
             function clearData() {
@@ -60,8 +76,7 @@ var app = angular.module('employee')
                         $('#confirm').css('color', 'red');
                         $('#confirm').html('clear');
                     }
-                }
-                else {
+                } else {
                     $('#confirm').html('');
                 }
             };
@@ -80,8 +95,7 @@ var app = angular.module('employee')
             function showDepartment() {
                 if (!!employeeService.employeeUpdate.department) {
                     getDepartment(employeeService.employeeUpdate.department.id);
-                }
-                else {
+                } else {
                     getDepartment(1);
                 }
             }
@@ -107,24 +121,17 @@ var app = angular.module('employee')
                 if (confirmPassword()) {
                     $http.post('/savestaff', $scope.employee)
                             .success(function (data) {
-
-
-                                 $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
-
+                                $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
                                 clearData();
                                 Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
                             }).error(function (data) {
-
-
-                                 $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
-
-                       Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
+                        $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+                        Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
                         $scope.error = data;
                         $('body,html').animate({scrollTop: 0}, "600");
                     });
                     console.log('save success');
-                }
-                else {
+                } else {
                     console.log('password error');
                     $('body,html').animate({scrollTop: 0}, "600");
                 }
@@ -138,24 +145,21 @@ var app = angular.module('employee')
                 $http.post('/savestaffimage', fd, {
                     transformRequest: angular.identity,
                     headers: {'Content-Type': undefined}
-                })
-                        .success(function (data) {
-                            $scope.employee.staffPicture = data;
-                        });
+                }).success(function (data) {
+                    $scope.employee.staffPicture = data;
+                });
             };
 
             if (!!$scope.employee.staffPicture) {
                 if (!!$scope.employee.staffPicture.contentImage) {
                     console.log('true');
                     document.getElementById('employee-picture').src = "data:image/jpg;base64," + $scope.employee.staffPicture.contentImage;
-                }
-                else {
+                } else {
                     console.log('false');
                     NoImage();
                 }
 
-            }
-            else {
+            } else {
                 console.log('no image');
                 NoImage();
             }
@@ -172,8 +176,7 @@ var app = angular.module('employee')
                 var email = $scope.employee.email;
                 if (email.length != 0) {
                     $('#id').css('color', '#00bcd4');
-                }
-                else if (email.length == 0) {
+                } else if (email.length == 0) {
                     $('#id').css('color', 'black');
                 }
             };
@@ -184,8 +187,7 @@ var app = angular.module('employee')
                     $('#sex').css('color', '#00bcd4');
                     $('#blood').css('color', '#00bcd4');
                     $('#marrystatus').css('color', '#00bcd4');
-                }
-                else if (currentAddress == 0) {
+                } else if (currentAddress == 0) {
                     $('#sex').css('color', 'black');
                     $('#blood').css('color', 'black');
                     $('#marrystatus').css('color', 'black');
@@ -197,8 +199,7 @@ var app = angular.module('employee')
                 if (mobile != 0) {
                     $('#department').css('color', '#00bcd4');
                     $('#workstatus').css('color', '#00bcd4');
-                }
-                else if (mobile == 0) {
+                } else if (mobile == 0) {
                     $('#department').css('color', 'black');
                     $('#workstatus').css('color', 'black');
                 }

@@ -32,6 +32,7 @@ import th.co.geniustree.dental.spec.StaffSpec;
  */
 @RestController
 public class StaffController {
+
     @Autowired
     private EmployeeRepo employeeRepo;
     @Autowired
@@ -63,52 +64,56 @@ public class StaffController {
 
     @RequestMapping(value = "/staffs", method = RequestMethod.GET)
     public Page<Staff> getStaff(Pageable pageable) {
-        return staffRepo.findAllByOrderByIdDesc(pageable);
+        return staffRepo.findAll(pageable);
     }
 
     @RequestMapping(value = "/totalstaff", method = RequestMethod.GET)
     public Long getTotalStaff() {
         return staffRepo.count();
     }
-    
-   
-     @RequestMapping(value = "/searchstaff/count" , method = RequestMethod.POST)
-    public Long getTotalSearch(@RequestBody SearchData searchData){
-    String searchBy = searchData.getSearchBy();
-    String keyword = searchData.getKeyword();
-    Long count = null;
-    if ("Email".equals(searchBy)) {
-            count = staffRepo.count(StaffSpec.emailLike("%"+keyword+"%"));
+
+    @RequestMapping(value = "/searchstaff/count", method = RequestMethod.POST)
+    public Long getTotalSearch(@RequestBody SearchData searchData) {
+        String searchBy = searchData.getSearchBy();
+        String keyword = searchData.getKeyword();
+        Long count = null;
+        if ("อีเมล".equals(searchBy)) {
+            count = staffRepo.count(StaffSpec.emailLike("%" + keyword + "%"));
         }
-        if ("Name".equals(searchBy)) {
-            count = staffRepo.count(StaffSpec.nameLike("%"+keyword+"%"));
+        if ("ชื่อ".equals(searchBy)) {
+            count = staffRepo.count(StaffSpec.nameLike("%" + keyword + "%"));
         }
-        if ("Mobile".equals(searchBy)) {
-            count = staffRepo.count(StaffSpec.mobileLike("%"+keyword+"%"));
-         }
-        if ("Personal ID".equals(searchBy)) {
-            count = staffRepo.count(StaffSpec.pidLike("%"+keyword+"%"));
+        if ("หมายเลยโทรศัพท์".equals(searchBy)) {
+            count = staffRepo.count(StaffSpec.mobileLike("%" + keyword + "%"));
+        }
+        if ("รหัสบัตรประชาชน".equals(searchBy)) {
+            count = staffRepo.count(StaffSpec.pidLike("%" + keyword + "%"));
+        }
+        if ("ลำดับ".equals(searchBy)) {
+            count = staffRepo.count(StaffSpec.idWhere(Integer.parseInt(keyword)));
         }
         return count;
     }
 
-    
     @RequestMapping(value = "/searchstaff", method = RequestMethod.POST)
     public Page<Staff> search(@RequestBody SearchData searchData, Pageable pageable) {
         String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
         Page<Staff> staff = null;
-        if ("Email".equals(searchBy)) {
+        if ("อีเมล".equals(searchBy)) {
             staff = employeeSearchService.searchByEmail(keyword, pageable);
         }
-        if ("Name".equals(searchBy)) {
+        if ("ชื่อ".equals(searchBy)) {
             staff = employeeSearchService.searchByName(keyword, pageable);
         }
-        if ("Mobile".equals(searchBy)) {
+        if ("หมายเลยโทรศัพท์".equals(searchBy)) {
             staff = employeeSearchService.searchByMobile(keyword, pageable);
-         }
-        if ("Personal ID".equals(searchBy)) {
+        }
+        if ("รหัสบัตรประชาชน".equals(searchBy)) {
             staff = employeeSearchService.searchByPid(keyword, pageable);
+        }
+        if ("ลำดับ".equals(searchBy)) {
+            staff = employeeSearchService.searchById(Integer.parseInt(keyword), pageable);
         }
         return staff;
     }
@@ -122,11 +127,11 @@ public class StaffController {
     public void deleteStaff(@RequestBody Staff staff) {
         staffRepo.delete(staff);
     }
-    
-      @RequestMapping(value = "/startpagestaff", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/startpagestaff", method = RequestMethod.GET)
     public Employee getCurrentLogin() {
         Employee employee = (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Integer id = employeeRepo.findByEmail(employee.getEmail()).getId();
-       return employeeRepo.findOne(id);
+        return employeeRepo.findOne(id);
     }
 }

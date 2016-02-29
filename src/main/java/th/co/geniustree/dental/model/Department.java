@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotBlank;
+import th.co.geniustree.dental.validator.DepartmentNameUnique;
 
 /**
  *
@@ -31,13 +32,11 @@ public class Department implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @Column(name = "NAME", nullable = false)
-    @NotBlank(message = "Department Name not Empty")
-    private String name;
 
-//    @OneToMany(mappedBy = "department" , cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private List<Staff> staff;
+    @DepartmentNameUnique
+    @Column(name = "NAME", nullable = false)
+    @NotBlank(message = "กรุณากรอกชื่อเเผนก")
+    private String name;
 
     public Integer getId() {
         return id;
@@ -54,14 +53,6 @@ public class Department implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-//    public List<Staff> getStaff() {
-//        return staff;
-//    }
-//
-//    public void setEmployees(List<Staff> staff) {
-//        this.staff = staff;
-//    }
 
     @Override
     public int hashCode() {

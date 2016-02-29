@@ -21,6 +21,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -37,7 +38,7 @@ public class Lot implements Serializable {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "DATEIN",nullable = false)
-    @NotBlank(message = "กรุณาระบุวันที่นำเข้า")
+    @NotNull(message = "กรุณาระบุวันที่นำเข้า")
     private Date dateIn;
 
     @Column(name = "DATEOUT")

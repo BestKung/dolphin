@@ -52,13 +52,11 @@ public class Product implements Serializable {
     private String barCode_Sub;
 
     @ManyToOne
-    @JoinColumn(name = "TYPEPRODUCT_ID",nullable = false)
-    @NotBlank(message = "กรุณาระบุประเภทสินค้า")
+    @JoinColumn(name = "TYPEPRODUCT_ID")
     private TypeProduct typeProduct;
 
     @ManyToOne
-    @JoinColumn(name = "UNIT_ID",nullable = false)
-    @NotBlank(message = "กรุณาระบุสินค้า")
+    @JoinColumn(name = "UNIT_ID")
     private UnitProduct unit;
 
     @JsonIgnore

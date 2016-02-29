@@ -15,5 +15,8 @@ import th.co.geniustree.dental.model.Department;
  * @author Best
  */
 public interface DepartmentRepo extends JpaRepository<Department, Integer>,JpaSpecificationExecutor<Department>{
+ 
+    public Department findByNameIgnoreCase(String value);
+   
     
 }
