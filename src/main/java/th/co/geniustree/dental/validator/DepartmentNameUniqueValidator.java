@@ -28,12 +28,19 @@ public class DepartmentNameUniqueValidator implements ConstraintValidator<Depart
 
     @Override
     public boolean isValid(String t, ConstraintValidatorContext cvc) {
-        System.out.println("----------------------------------------------------------------------------------------->Hello");
+        Department department = departmentRepo.findByNameIgnoreCase(t);
         if (Strings.isNullOrEmpty(t)) {
+            System.out.println("1");
             return true;
         }
-        Department department = departmentRepo.findByNameIgnoreCase(t);
-        return department == null;
+        if (department != null) {
+            if (department.getId() != null) {
+                System.out.println("2");
+                return true;
+            }
+            return false;
+        }
+        return true;
     }
 
 }

@@ -28,11 +28,18 @@ public class EmailUniqueValidator implements ConstraintValidator<EmailUnique, St
 
     @Override
     public boolean isValid(String t, ConstraintValidatorContext cvc) {
-        System.out.println("----------------------------------------------------------------------------------------->Hello");
+        Employee findByEmailIgnoreCase = employeeRepo.findByEmailIgnoreCase(t);
         if (Strings.isNullOrEmpty(t)) {
+            System.out.println("1");
             return true;
         }
-        Employee findByEmailIgnoreCase = employeeRepo.findByEmailIgnoreCase(t);
-        return findByEmailIgnoreCase == null;
+        if (findByEmailIgnoreCase != null) {
+            if (findByEmailIgnoreCase.getId() != null) {
+                System.out.println("2");
+                return true;
+            }
+            return false;
+        }
+        return true;
     }
 }

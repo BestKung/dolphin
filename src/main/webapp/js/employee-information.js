@@ -79,9 +79,13 @@ angular.module('employee-information').controller('employeeInformationController
     $scope.searcEmployee = function () {
         console.log('search');
         $http.post('/searchstaff', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
-            $scope.employees = data;
-            searchStaffCount();
-            console.log(data);
+            if (data.content.length != 0) {
+                $scope.employees = data;
+                searchStaffCount();
+            }
+            else{
+                getEmployees();
+            }
         }).error(function (data) {
 
         });

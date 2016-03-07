@@ -104,6 +104,7 @@ public class StaffController {
             staff = employeeSearchService.searchByEmail(keyword, pageable);
         }
         if ("ชื่อ".equals(searchBy)) {
+            System.out.println("---------------------------------------->");
             staff = employeeSearchService.searchByName(keyword, pageable);
         }
         if ("หมายเลยโทรศัพท์".equals(searchBy)) {
