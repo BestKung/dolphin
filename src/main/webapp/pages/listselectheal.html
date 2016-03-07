@@ -12,13 +12,13 @@
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" >event_note</i>
-                    <input type="text" id="name" ng-model="listSelectHeal.name">
-                    <label class="active" id="namedepartment" for="name">ชื่อชนิดการรักษา</label>
+                    <input type="text" id="name" ng-model="listSelectHeal.name" ng-change="error.violations.name.message = '';">
+                    <label class="active" for="name">ชื่อชนิดการรักษา<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.name.message}}</span></label>
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" >attach_money</i>
-                    <input type="text" id="name" ng-model="listSelectHeal.price">
-                    <label class="active" id="namedepartment" for="name">ราคา</label>
+                    <input type="number" id="price" ng-model="listSelectHeal.price" ng-change="error.violations.price.message = '';">
+                    <label class="active" for="price">ราคา<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.price.message}}</span></label>
                 </div>
             </div>
             <div class="row">
@@ -83,7 +83,7 @@
                 <th style="width: 30px;"class="table-department">จัดการ</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="lsh in listSelectHeals.content">
+                    <tr ng-repeat="lsh in listSelectHeals.content | orderBy:'id':true">
                         <td>{{lsh.id}}</td>
                         <td>{{lsh.name}}</td>
                         <td>{{lsh.price}}</td>
@@ -121,4 +121,5 @@
         <a href="" class="magin-button btn btn-gray modal-action modal-close" ng-click="clearData()">ยกเลิก</a>
     </div>
 </div>
-
+<div id="warp-toast">
+</div>

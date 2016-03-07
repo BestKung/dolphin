@@ -15,6 +15,7 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
     var totalListEmployee = 0;
     $scope.searchDataEmployee = {};
     $scope.searchDataEmployee.keyword = "";
+    $scope.error = {};
 //===========================================================================================
 
 //paginLot
@@ -49,8 +50,12 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
             $scope.lot = {};
             $scope.nameStream = "";
             getTotalListLot();
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
             Materialize.toast('saveข้อมูลเรียบร้อย', 3000, 'rounded');
         }).error(function (data) {
+            $scope.error = data;
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
 
@@ -216,8 +221,7 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
         if (!!$scope.searchDataEmployee.keyword) {
             searcDataContentEmployee();
             console.log('searchhhhh');
-        }
-        else {
+        } else {
             loadEmployees();
         }
     }
@@ -358,8 +362,7 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
         if (!!$scope.searchDataLot.keyword) {
             $scope.searcDataContentLot();
             totalPagesLot();
-        }
-        else {
+        } else {
             $scope.pageLot = 0;
             $scope.currentPageLot = 0;
             loadLot();
@@ -370,8 +373,7 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
     function selectGetOrSearchLot() {
         if (!!$scope.searchDataLot.keyword) {
             searcDataContentLot();
-        }
-        else {
+        } else {
             loadLot();
         }
     }

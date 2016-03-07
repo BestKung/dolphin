@@ -16,6 +16,7 @@ angular.module('product').controller('productController', function ($scope, $htt
     var totalListProduct = 0;
     $scope.searchDataProduct = {};
     $scope.searchDataProduct.keyword = "";
+    $scope.error = {};
 
 //===========================================================================================
 
@@ -57,8 +58,12 @@ angular.module('product').controller('productController', function ($scope, $htt
             loadUnitProduct();
             $scope.product = {};
             getTotalListProduct();
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
             Materialize.toast('saveข้อมูลเรียบร้อย', 3000, 'rounded');
         }).error(function (data) {
+            $scope.error = data;
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
 
@@ -95,7 +100,7 @@ angular.module('product').controller('productController', function ($scope, $htt
         $('#namedepartment').addClass('active');
         $('body,html').animate({scrollTop: 0}, "600");
     };
-    
+
     // pagingProduct
     getTotalListProduct();
     function getTotalListProduct() {
@@ -205,8 +210,7 @@ angular.module('product').controller('productController', function ($scope, $htt
         if (!!$scope.searchDataProduct.keyword) {
             $scope.searcDataContentProduct();
             totalPagesProduct();
-        }
-        else {
+        } else {
             $scope.pageProduct = 0;
             $scope.currentPageProduct = 0;
             loadProduct();
@@ -217,8 +221,7 @@ angular.module('product').controller('productController', function ($scope, $htt
     function selectGetOrSearchProduct() {
         if (!!$scope.searchDataProduct.keyword) {
             searcDataContentProduct();
-        }
-        else {
+        } else {
             loadProduct();
         }
     }

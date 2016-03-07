@@ -96,6 +96,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('#preffix-id-detailheal , #prefix-dateheal-detailheal , #prefix-detailheal-patient , #prefix-detailheal-doctor , #prefix-detailheal-detailheal').css('color', 'black');
             getDetailHeal();
             Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
         });
     };
     $scope.clearData = function () {

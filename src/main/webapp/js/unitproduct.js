@@ -11,6 +11,7 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
     var totalList = 0;
     $scope.searchData = {};
     $scope.searchData.keyword = "";
+    $scope.error = {};
 
     loadUnitProduct();
     function loadUnitProduct() {
@@ -25,9 +26,12 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
             loadUnitProduct();
             $scope.unitProduct = {};
             getTotalList();
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
             Materialize.toast('saveข้อมูลเรียบร้อย', 3000, 'rounded');
         }).error(function (data) {
-
+            $scope.error = data;
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
 
@@ -66,14 +70,13 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
         if (!!$scope.searchData.keyword) {
             $scope.searcDataContent();
             totalPages();
-        }
-        else {
+        } else {
             $scope.page = 0;
             $scope.currentPage = $scope.page + 1;
             loadUnitProduct();
             totalPages();
         }
-        
+
     };
 
     $scope.searcDataContent = function () {
@@ -99,8 +102,7 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
     function selectGetOrSearch() {
         if (!!$scope.searchData.keyword) {
             searcDataContent();
-        }
-        else {
+        } else {
             loadUnitProduct();
         }
     }

@@ -10,6 +10,7 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
     var totalList = 0;
     $scope.searchData = {};
     $scope.searchData.keyword = "";
+    $scope.error = {};
 
     loadListSelectHeal();
     function loadListSelectHeal() {
@@ -22,9 +23,15 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
         $http.post('/savelistselectheal', $scope.listSelectHeal).success(function (data) {
             loadListSelectHeal();
             $scope.listSelectHeal = {};
-            Materialize.toast('saveข้อมูลเรียบร้อย', 3000, 'rounded');
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
+            Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
             getTotalList();
         }).error(function (data) {
+            $scope.error = data;
+            console.log(data);
+            $('body,html').animate({scrollTop: 0}, "600");
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
 
@@ -62,8 +69,7 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
         if (!!$scope.searchData.keyword) {
             $scope.searcDataContent();
             totalPages();
-        }
-        else {
+        } else {
             $scope.page = 0;
             $scope.currentPage = $scope.page + 1;
             loadListSelectHeal();
@@ -95,8 +101,7 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
     function selectGetOrSearch() {
         if (!!$scope.searchData.keyword) {
             searcDataContent();
-        }
-        else {
+        } else {
             loadListSelectHeal();
         }
     }

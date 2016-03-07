@@ -61,7 +61,8 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             $scope.dataSelectDetailHeal = {};
             $('.update').removeClass('active');
             $('#bill-prefix-dateBill , #bill-prefix-id').css('color', 'black');
-            Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
+            Materialize.toast('saveข้อมูลเรียบร้อย', 3000, 'rounded');
         });
 
     };
@@ -169,7 +170,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             getUser();
         }
         totalPriceDetailHeal = $scope.totalPrice - totalPriceProduct;
-     };
+    };
 
     $scope.clickDeeteBill = function () {
         $('#modal-delete-bill').openModal();
@@ -193,8 +194,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     function selectGetOrSearchBill() {
         if (!!$scope.searchDataBill.keyword) {
             searchBill();
-        }
-        else {
+        } else {
             getBill();
         }
     }
@@ -350,10 +350,10 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             valueIsNan = true;
         }
         if (!valueIsNan) {
-             var tmpProduct = {};
+            var tmpProduct = {};
             tmpProduct.priceAndExpireProduct = selectProduct;
             tmpProduct.value = value;
-           tmpProduct.user = user.nameTh;
+            tmpProduct.user = user.nameTh;
             tmpProduct.id = undefined;
             if (countTmpProduct > 0) {
                 for (var i = 0; i < countTmpProduct; i++) {
@@ -397,8 +397,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     function selectGetOrSearchProduct() {
         if (!!$scope.searchDataProduct.keyword) {
             searchProduct();
-        }
-        else {
+        } else {
             getProduct();
         }
     }
@@ -488,9 +487,11 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     }
 
     $scope.selectDetailHeal = function (det) {
+        $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
          if( $scope.totalPrice != 0){
              $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
                       }
+
         totalPriceDetailHeal = 0;
         $scope.dataSelectDetailHeal = det;
         $scope.bill.detailHeal = det;
@@ -506,7 +507,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         $scope.bill.detailHeal = undefined;
         $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
         totalPriceDetailHeal = 0;
-     };
+    };
 
     function countDetailHeal() {
         $http.get('/countdetailheal').success(function (data) {
@@ -525,7 +526,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     function searchDetailHeal() {
         $http.post('/loaddetailheal/searchdetailheal', $scope.searchDataDetailHeal, {params: {page: PageDetailHeal, size: 10}}).success(function (data) {
             $scope.detailHeals = data;
-         });
+        });
     }
 
     function countSearchDetailHeal() {
@@ -538,8 +539,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     function selectGetOrSearchDetailHeal() {
         if (!!$scope.searchDataDetailHeal.keyword) {
             searchDetailHeal();
-        }
-        else {
+        } else {
             getDetailHeal();
         }
     }

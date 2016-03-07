@@ -34,8 +34,8 @@ public class TypeProduct implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotBlank(message = "Name not Empty")
-    @Column(name = "NAME")
+    @Column(name = "NAME",nullable = false)
+    @NotBlank(message = "กรุณาระบุชื่อประเภทสินค้า")
     private String name;
 
     @Temporal(TemporalType.DATE)

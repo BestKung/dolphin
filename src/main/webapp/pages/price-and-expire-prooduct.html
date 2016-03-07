@@ -12,25 +12,25 @@
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix" >file_download</i>
-                    <input type="text" ng-model="lot" ng-click="clickLot()" ng-change="changePrefix('#prefix-appointment-lot')">
-                    <label id="label-lot" class="active">รอบสินค้า</label>
+                    <input type="text" ng-model="lot" ng-click="clickLot()" ng-change="changePrefix('#prefix-appointment-lot') error.violations.lot.message = '';">
+                    <label id="label-lot" class="active">รอบสินค้า<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.lot.message}}</span></label>
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix" >local_grocery_store</i>
-                    <input type="text" ng-model="product" ng-click="clickProduct()" ng-change="changePrefix('#prefix-appointment-product')">
-                    <label id="label-product" class="active">ชื่อสินค้า</label>
+                    <input type="text" ng-model="product" ng-click="clickProduct()" ng-change="changePrefix('#prefix-appointment-product') error.violations.product.message = '';">
+                    <label id="label-product" class="active">ชื่อสินค้า<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.product.message}}</span></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" >functions</i>
-                    <input type="text" id="name" ng-model="priceAndExpireProduct.value">
-                    <label class="active" id="namedepartment" for="name">จำนวนสินค้า</label>
+                    <input type="number" id="name" ng-model="priceAndExpireProduct.value" ng-change="error.violations.value.message = '';">
+                    <label class="active" for="name">จำนวนสินค้า<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.value.message}}</span></label>
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" >notifications_active</i>
-                    <input type="text" id="name" ng-model="priceAndExpireProduct.notificationsValue">
-                    <label class="active" id="namedepartment" for="name">กำหนดการแจ้งเตือนจำนวนสินค้า</label>
+                    <input type="number" id="name" ng-model="priceAndExpireProduct.notificationsValue" ng-change="error.violations.notificationsValue.message = '';">
+                    <label class="active" for="name">กำหนดการแจ้งเตือนจำนวนสินค้า<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.notificationsValue.message}}</span></label>
                 </div>
             </div>
             <div class="row">
@@ -48,13 +48,13 @@
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" >format_bold</i>
-                    <input type="text" id="name" ng-model="priceAndExpireProduct.priceBuy">
-                    <label class="active" id="namedepartment" for="name">ราคาซื้อ</label>
+                    <input type="number" id="name" ng-model="priceAndExpireProduct.priceBuy" ng-change="error.violations.priceBuy.message = '';">
+                    <label class="active" id="namedepartment" for="name">ราคาซื้อ<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.priceBuy.message}}</span></label>
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" >attach_money</i>
-                    <input type="text" id="name" ng-model="priceAndExpireProduct.priceSell">
-                    <label class="active" id="namedepartment" for="name">ราคาขาย</label>
+                    <input type="number" id="name" ng-model="priceAndExpireProduct.priceSell" ng-change="error.violations.priceSell.message = '';">
+                    <label class="active" id="namedepartment" for="name">ราคาขาย<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.priceSell.message}}</span></label>
                 </div>
             </div>
             <div class="row">
@@ -127,7 +127,7 @@
                 <th style="width: 10%"class="table-department">จัดการ</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="paep in priceAndExpireProducts.content">
+                    <tr ng-repeat="paep in priceAndExpireProducts.content | orderBy:'id':true"">
                         <td>{{paep.id}}</td>
                         <td>{{paep.lot.dateIn}}</td>
                         <td>{{paep.product.name}}</td>
@@ -298,4 +298,6 @@
     <div class="model-footer right">
         <a href="" class="magin-button btn btn-gray modal-action modal-close">Cancle</a>
     </div>
+</div>
+<div id="warp-toast">
 </div>

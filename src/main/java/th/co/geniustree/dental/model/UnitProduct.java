@@ -31,8 +31,9 @@ public class UnitProduct implements Serializable {
     @Id
     private Integer id;
 
-    @NotBlank(message = "Name not Empty")
-    @Column(name = "NAME")
+    
+    @Column(name = "NAME",nullable = false)
+    @NotBlank(message = "กรุณาระบุชื่อหน่วย")
     private String name;
 
     @JsonIgnore

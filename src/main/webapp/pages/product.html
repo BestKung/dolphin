@@ -10,8 +10,8 @@
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" >local_grocery_store</i>
-                    <input type="text" id="name" ng-model="product.name">
-                    <label class="active" id="namedepartment" for="name">ชื่อสินค้า</label>
+                    <input type="text" id="name" ng-model="product.name" ng-change="error.violations.name.message = '';">
+                    <label class="active" for="name">ชื่อสินค้า<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.name.message}}</span></label>
                 </div>
             </div>
             <div class="row">
@@ -41,13 +41,13 @@
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" >crop_din</i>
-                    <input type="text" id="name" ng-model="product.barCode_Main">
-                    <label class="active" id="namedepartment" for="name">บาร์โค้ดหลัก</label>
+                    <input type="text" id="name" ng-model="product.barCode_Main" ng-change="error.violations.barCode_Main.message = '';">
+                    <label class="active" id="namedepartment" for="name">บาร์โค้ดหลัก<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.barCode_Main.message}}</span></label>
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix" >crop_free</i>
-                    <input type="text" id="name" ng-model="product.barCode_Sub">
-                    <label class="active" id="namedepartment" for="name">บาร์โค้ดย่อย</label>
+                    <input type="text" id="name" ng-model="product.barCode_Sub" ng-change="error.violations.barCode_Sub.message = '';">
+                    <label class="active" id="namedepartment" for="name">บาร์โค้ดย่อย<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.barCode_Sub.message}}</span></label>
                 </div>
             </div>
             <div class="row">
@@ -117,7 +117,7 @@
                 <th style="width: 30px;"class="table-department">จัดการ</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="pd in products.content">
+                    <tr ng-repeat="pd in products.content | orderBy:'id':true"">
                         <td>{{pd.id}}</td>
                         <td>{{pd.name}}</td>
                         <td>{{pd.barCode_Main}}</td>
@@ -156,4 +156,6 @@
         <a href="" class="magin-button btn btn-red modal-action modal-close" ng-click="deleteProduct()">ลบ</a>
         <a href="" class="magin-button btn btn-gray modal-action modal-close" ng-click="clearData()">ยกเลิก</a>
     </div>
+</div>
+<div id="warp-toast">
 </div>
