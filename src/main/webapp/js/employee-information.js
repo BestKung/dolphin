@@ -84,6 +84,7 @@ angular.module('employee-information').controller('employeeInformationController
                 searchStaffCount();
             }
             else{
+                 $('#modal-notfont').openModal();
                 getEmployees();
             }
         }).error(function (data) {

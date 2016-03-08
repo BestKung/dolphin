@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import th.co.geniustree.dental.validator.EmailUnique;
+import th.co.geniustree.dental.validator.EmployeeEmailUnique;
 
 /**
  *
@@ -41,7 +41,7 @@ public class Employee implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @EmailUnique()
+    @EmployeeEmailUnique()
     @Column(name = "EMAIL", nullable = false)
     @NotBlank(message = "กรุณากรอก อีเมล")
     @Email(message = "example@example.com")

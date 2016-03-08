@@ -27,8 +27,8 @@ angular.module('doctor-information').controller('doctorInformationController', f
         });
     }
 
-    $scope.UpdateDoctor = function () {
-        employeeService.doctorUpdate = $scope.doctorDetail;
+    $scope.UpdateDoctor = function (doctor) {
+        employeeService.doctorUpdate = doctor;
         location.href = "#/doctor";
     };
 
@@ -45,8 +45,7 @@ angular.module('doctor-information').controller('doctorInformationController', f
         }
         if (!!detail.doctorPicture) {
             document.getElementById('img-employee').src = "data:image/jpg;base64," + $scope.doctorDetail.doctorPicture.content;
-        }
-        else {
+        } else {
             $http.get('/getnoimage').success(function (data) {
                 console.log(data);
                 console.log('error');
@@ -75,8 +74,13 @@ angular.module('doctor-information').controller('doctorInformationController', f
 
     function searchData() {
         $http.post('/searchdoctor', $scope.search, {params: {page: page, size: $scope.size}}).success(function (data) {
-            $scope.doctors = data;
-            countSearchDoctor();
+            if (data.content.length != 0) {
+                $scope.doctors = data;
+                countSearchDoctor();
+            } else {
+                $('#modal-notfont').openModal();
+                getDoctor();
+            }
         });
     }
 
@@ -87,24 +91,26 @@ angular.module('doctor-information').controller('doctorInformationController', f
     function selectGetOrSearch() {
         if (!!$scope.search.keyword) {
             searchData();
-        }
-        else {
+        } else {
             getDoctor();
         }
     }
 
-    $scope.clickDelete = function () {
+    $scope.clickDelete = function (doc) {
+        $scope.doctorDetail = doc;
         $('#modal-delete').openModal({dismissible: false});
     };
 
     $scope.deleteDoctor = function () {
         $http.post('/deletedoctor', $scope.doctorDetail).success(function (data) {
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
             Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
             selectGetOrSearch();
             toPreScroll();
             $('span#close-card').trigger('click');
-        }).error(function (data){
-             Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
+        }).error(function (data) {
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
 
@@ -137,9 +143,9 @@ angular.module('doctor-information').controller('doctorInformationController', f
             $('#next-page').addClass('disabled');
             $('#final-page').addClass('disabled');
         }
-        if(totalpages > 1){
-             $('#first-page').addClass('disabled');
-                $('#pre-page').addClass('disabled');
+        if (totalpages > 1) {
+            $('#first-page').addClass('disabled');
+            $('#pre-page').addClass('disabled');
         }
     }
 

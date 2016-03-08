@@ -9,6 +9,7 @@ angular.module('patient').controller('patientController', function (patientServi
     $scope.patientPictureCurrent;
     $scope.patientPictureAfter;
     $scope.patientPictureXrayFilm;
+    $scope.error = {};
     var imageIsNo;
 
     getMedicalHistory();
@@ -21,23 +22,35 @@ angular.module('patient').controller('patientController', function (patientServi
     $scope.savePatient = function () {
         console.log($scope.patient.patientPicture);
         $http.post('/savepatient', $scope.patient).success(function (data) {
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
             Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
             console.log('success');
             clearData();
         }).error(function (data) {
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
             Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
+            $('body,html').animate({scrollTop: 0}, "600");
+            $scope.error = data;
         });
     };
 
+
+
     hasPatientService();
     function hasPatientService() {
-        console.log('service..........' + $scope.patient);
         if (!!patientService.patienUpdate.id) {
             $('.update').addClass('active');
             $('.clear-prefix').css('color', '#00bcd4')
-        }
-        else {
+        } else {
             $('.update').removeClass('active');
+        }
+    }
+
+    checkDate();
+    function checkDate() {
+        if (!!$scope.patient.birthDate) {
+            $scope.patient.birthDate = new Date();
+            $('#label-birthdate').addClass('active');
         }
     }
 
@@ -45,8 +58,7 @@ angular.module('patient').controller('patientController', function (patientServi
         var hn = $scope.patient.hn;
         if (hn.length != 0) {
             $('#id').css('color', '#00bcd4');
-        }
-        else if (hn.length == 0) {
+        } else if (hn.length == 0) {
             $('#id').css('color', 'black');
         }
     };
@@ -56,8 +68,7 @@ angular.module('patient').controller('patientController', function (patientServi
         if (sex.length != 0) {
             $('#sex').css('color', '#00bcd4');
             $('#blood').css('color', '#00bcd4');
-        }
-        else if (sex.length == 0) {
+        } else if (sex.length == 0) {
             $('#sex').css('color', 'black');
             $('#blood').css('color', 'black');
         }
@@ -146,14 +157,12 @@ angular.module('patient').controller('patientController', function (patientServi
             if (!!$scope.patient.patientPictureXray.contentXrayFilm) {
                 console.log('true');
                 document.getElementById('patient-xrayfilm').src = "data:image/jpg;base64," + $scope.patient.patientPictureXray.contentXrayFilm;
-            }
-            else {
+            } else {
                 console.log('false');
                 noImageXray();
             }
 
-        }
-        else {
+        } else {
             console.log('no image');
             noImageXray();
         }
@@ -162,14 +171,12 @@ angular.module('patient').controller('patientController', function (patientServi
             if (!!$scope.patient.patientPictureBefore.contentBefore) {
                 console.log('true');
                 document.getElementById('patient-before').src = "data:image/jpg;base64," + $scope.patient.patientPictureBefore.contentBefore;
-            }
-            else {
+            } else {
                 console.log('false');
                 noImageBefore();
             }
 
-        }
-        else {
+        } else {
             console.log('no image');
             noImageBefore();
         }
@@ -178,14 +185,12 @@ angular.module('patient').controller('patientController', function (patientServi
             if (!!$scope.patient.patientPictureCurrent.contentCurrent) {
                 console.log('true');
                 document.getElementById('patient-current').src = "data:image/jpg;base64," + $scope.patient.patientPictureCurrent.contentCurrent;
-            }
-            else {
+            } else {
                 console.log('false');
                 noImageCurrent();
             }
 
-        }
-        else {
+        } else {
             console.log('no image');
             noImageCurrent();
         }
@@ -194,14 +199,12 @@ angular.module('patient').controller('patientController', function (patientServi
             if (!!$scope.patient.patientPictureAfter.contentAfter) {
                 console.log('true');
                 document.getElementById('patient-after').src = "data:image/jpg;base64," + $scope.patient.patientPictureAfter.contentAfter;
-            }
-            else {
+            } else {
                 console.log('false');
                 noImageAfter()
             }
 
-        }
-        else {
+        } else {
             console.log('no image');
             noImageAfter();
         }

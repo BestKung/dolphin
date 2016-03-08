@@ -9,14 +9,14 @@
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="id">label</i>
                     <input type="text" id="id" disabled ng-model="doctor.id">
-                    <label for="id" class="update">ID</label>
+                    <label for="id" class="update">ลำดับ</label>
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix email">email</i>
                     <input type="text" id="email" ng-model="doctor.email" ng-change="setBackgroundPrefixId();
                                     error.violations.email.message = '';
                                     changePrefix('.email')">
-                    <label for="email" class="update">อีเมลล์<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.email.message}}</span></label>
+                    <label for="email" class="update">อีเมล<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.email.message}}</span></label>
                 </div>
             </div>
             <div class="row">
@@ -25,14 +25,14 @@
                     <input type="password" id="password"  ng-model="password" ng-change="comparePassword();
                                     error.violations.password.message = '';
                                     changePrefix('.password')">
-                    <label for="password" class="update">พาสเวิร์ด<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.password.message}}</span></label>
+                    <label for="password" class="update">รหัสผ่าน<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.password.message}}</span></label>
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix confirmpassword">lock</i>
                     <input type="password" id="confirmpassword"  ng-model="doctor.password" ng-change="comparePassword();
                                     error.violations.password.message = '';
                                     changePrefix('.confirmpassword')">
-                    <label for="confirmpassword" class="update">ยืนยังพาสเวิร์ด<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.password.message}}</span></label>
+                    <label for="confirmpassword" class="update">ยืนยันรหัสผ่าน<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.password.message}}</span></label>
                     <i class="material-icons right-input-custom" id="confirm"></i>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix birthdate">cake</i>
                     <input type="date" id="birthdate" class="datepicker" ng-model="doctor.birthDate" ng-change="changePrefix('.birthdate')">
-                    <label for="birthdate" class="update">วันเกิด</label>
+                    <label for="birthdate" class="update" id="label-birthdate">วันเกิด</label>
                 </div>
             </div>
             <div class="row">
@@ -163,12 +163,12 @@
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix">insert_invitation</i>
                     <input type="date" id="startwork" class="datepicker" ng-model="doctor.startWork">
-                    <label for="startwork" class="update">วันที่เริ่มทำงาน</label>
+                    <label for="startwork" class="update" id="label-startwork">วันที่เริ่มทำงาน</label>
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix">insert_invitation</i>
                     <input type="date" id="endwork" class="datepicker" ng-model="doctor.endWork">
-                    <label for="endwork" class="update">วันที่ออกจากงาน</label>
+                    <label for="endwork" class="update" id="label-endwork">วันที่ออกจากงาน</label>
                 </div>
             </div>
             <div class="row">
@@ -192,17 +192,6 @@
         </div>
     </div>
 
-    <!--    <div class="card">
-            <div class="card-content">
-                <span class="card-title"><h4 style="color: #000">กำหนดสิทธิ์</h4></span>
-                <div class="row" id="authority">
-                    <div class="col m3 s12" ng-repeat="auth in authoritys.content">
-                        <input type="checkbox" checklist-model="employee.roles" checklist-value="auth" id="{{auth.role}}">
-                        <label for="{{auth.role}}">{{auth.role}}</label>
-                    </div>
-                </div>
-            </div>
-        </div>-->
 </div>
 
 <div class="row">
@@ -282,3 +271,5 @@
     </div>
 </div>
 
+<div id="warp-toast">
+</div>

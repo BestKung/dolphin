@@ -54,7 +54,7 @@
                         <th style="width: 10%">H/N</th>
                         <th style="width: 15%">เลขประชาชน</th>
                         <th style="width: 20%">อีเมลล์</th>
-                        <th style="width: 15%">จัดการ</th>
+                        <th style="width: 30%">จัดการ</th>
                     </tr>
                 </thead> 
                 <tbody>
@@ -66,8 +66,8 @@
                         <td>{{patient.email}}</td>
                         <td>
                             <a href="" ng-click="clickMoreDetail(patient);alert(patient.patientPictureXray.nameXrayFilm)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
-                            <!--                            <a class="btn-custom-radius btn-edit" ng-click="UpdateDoctor()"><i class="mdi-content-create"></i></a>
-                                                        <a class="btn-custom-radius btn-delete" ng-click="clickDelete(doctorDetail)"><i class="mdi-action-delete"></i></a>-->
+                            <a class="btn-custom-radius btn-edit" ng-click="updatePatient(patient)"><i class="mdi-content-create"></i></a>
+                            <a class="btn-custom-radius btn-delete" ng-click="clickDelete(patient)"><i class="mdi-action-delete"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -94,7 +94,7 @@
             <div style="margin-top: 20px;">
                 <div class="row">
                     <div class="col m3 s6">
-                        <label class="right topic-detail">ID : </label>
+                        <label class="right topic-detail">ลำดับ : </label>
                     </div>
                     <div class="col m3 s6">
                         <label class=" topic-detail">{{patientDetail.id}}</label>
@@ -192,7 +192,7 @@
                 </div> 
                 <div class="row">
                     <div class="col m3 s6">
-                        <label class="right topic-detail">อีเมลล์ : </label>
+                        <label class="right topic-detail">อีเมล : </label>
                     </div>
                     <div class="col m3 s6">
                         <label class=" topic-detail">{{patientDetail.email}}</label>
@@ -228,10 +228,10 @@
             </div>
 
 
-            <div class="row margin-top right">
-                <input type="submit" value="Cancel" class="btn btn-gray waves-effect waves-light" ng-click="cancel()">
-                <input type="submit" value="Update" class="btn btn-blue2 waves-effect waves-light" ng-click="updatePatient(patientDetail)">
-                <input type="submit" value="Delete" class="btn btn-red waves-effect waves-light" ng-click="clickDelete()">
+            <div class="row margin-top-20 center" style="margin-right: 10px">
+                <a class="btn-custom-radius btn-cancelv2" ng-click="cancel()"><i class="mdi-content-clear"></i></a>
+                <a class="btn-custom-radius btn-edit" ng-click="updatePatient(patientDetail)"><i class="mdi-content-create"></i></a>
+                <a class="btn-custom-radius btn-delete" ng-click="clickDelete(patientDetail)"><i class="mdi-action-delete"></i></a>
             </div>
         </div>
     </div>
@@ -249,5 +249,19 @@
         <a href="" class="magin-button btn btn-red modal-action modal-close" ng-click="deletePatient()">Delete</a>
     </div>
 </div>
+
+<div id="warp-toast">
+</div>
+
+<div id="modal-notfont" class="modal" style="border-radius: 10px;">
+    <div class="modal-content">
+        <div class="row center" style="height: 150px;">
+            <div style="margin-top: 60px">
+                <font size="100" color="#90a4ae"> ไม่พบข้อมูล</font>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 

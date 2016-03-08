@@ -59,14 +59,14 @@ public class Doctor extends Employee implements Serializable {
     private String addressOfPid;
 
     @Column(name = "CURRENT_ADDRESS", nullable = false)
-    @NotBlank(message = "Current Address not Empty")
+    @NotBlank(message = "กรุณากรอกที่อยู่ปัจจุบัน")
     private String currentAddress;
 
     @Column(name = "TEL")
     private String tel;
 
     @Column(name = "MOBILE", nullable = false)
-    @NotBlank(message = "Mobile not Empty")
+    @NotBlank(message = "กรุณากรอกหมายเลขโทรศัพท์")
     private String mobile;
 
     @Column(name = "START_WORK")

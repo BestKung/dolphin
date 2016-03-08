@@ -58,7 +58,6 @@ INSERT INTO STAFF_PICTURE(id,content_image,name,type) values(null,'ffd8ffe112a14
 
 
 -- test ของ โอนะ   
-INSERT INTO MEDICALHISTORY(DISEASE) VALUES('ปกติ');
 INSERT INTO MEDICALHISTORY(DISEASE) VALUES('ความดันโลหิตสูง');
 INSERT INTO MEDICALHISTORY(DISEASE) VALUES('โรคโลหิตจาง');
 INSERT INTO MEDICALHISTORY(DISEASE) VALUES('ละลายลิ่มเลือด');

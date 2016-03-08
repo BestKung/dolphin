@@ -26,15 +26,15 @@
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix">person</i>
-                    <input type="text" id="name" ng-model="patient.name" ng-change="setBackgroundPrefixSex()">
-                    <label for="name" class="update">ชื่อ/สกุล</label>
+                    <input type="text" id="name" ng-model="patient.name" ng-change="setBackgroundPrefixSex();error.violations.name.message = ''">
+                    <label for="name" class="update">ชื่อ/สกุล<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.name.message}}</span></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix">cake</i>
                     <input type="date" class="datepicker" id="birthdate" ng-model="patient.birthDate">
-                    <label  for="birthdate" class="update">วันเกิด</label>
+                    <label  for="birthdate" class="update" id="label-birthdate">วันเกิด</label>
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="sex">wc</i>
@@ -195,4 +195,6 @@
             </div>
         </div>
     </div>
+</div>
+<div id="warp-toast">
 </div>

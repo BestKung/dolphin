@@ -74,6 +74,10 @@ public class DoctorController {
             System.out.println("-------------------------------->mobile");
             doctors = doctorSearchService.searchByMobile(keyword, pageable);
         }
+        if ("ลำดับ".equals(searchBy)) {
+            System.out.println("-------------------------------->mobile");
+            doctors = doctorSearchService.searchById(Integer.parseInt(keyword), pageable);
+        }
         return doctors;
     }
 
@@ -82,7 +86,7 @@ public class DoctorController {
         return doctorRepo.count();
     }
 
-    @RequestMapping(value = "/countsearchdoctor" , method = RequestMethod.POST)
+    @RequestMapping(value = "/countsearchdoctor", method = RequestMethod.POST)
     private Long countSearchDoctor(@RequestBody SearchData searchData) {
         String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
@@ -99,10 +103,14 @@ public class DoctorController {
             System.out.println("-------------------------------->mobile");
             count = doctorRepo.count(DoctorSpec.mobileLike("%" + keyword + "%"));
         }
+        if ("ลำดับ".equals(searchBy)) {
+            System.out.println("-------------------------------->mobile");
+            count = doctorRepo.count(DoctorSpec.idWhere(Integer.parseInt(keyword)));
+        }
         return count;
     }
 
-    @RequestMapping(value = "/deletedoctor" , method = RequestMethod.POST)
+    @RequestMapping(value = "/deletedoctor", method = RequestMethod.POST)
     private void deleteDoctor(@RequestBody Doctor doctor) {
         doctorRepo.delete(doctor);
     }

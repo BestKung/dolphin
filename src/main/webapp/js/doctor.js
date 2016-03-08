@@ -7,7 +7,6 @@ angular.module('doctor').controller('doctorController', function (employeeServic
     $scope.doctor.endWork = new Date(employeeService.doctorUpdate.endWork);
     $scope.password = "";
     $scope.image;
-    $scope.authoritys = {};
 
 
     checkMobile();
@@ -24,28 +23,36 @@ angular.module('doctor').controller('doctorController', function (employeeServic
         }
     }
 
-    getAuthority();
-    function getAuthority() {
-        $http.get('/getauthority')
-                .success(function (data) {
-                    $scope.authoritys = data;
-                }).error(function (data) {
-
-        });
+    checkDate();
+    function checkDate() {
+         if (!!$scope.doctor.birthDate) {
+            $scope.doctor.birthDate = new Date();
+            $('#label-birthdate').addClass('active');
+            console.log($('#label-birthdate'));
+        }
+        if (!!$scope.doctor.startWork) {
+            $scope.doctor.startWork = new Date();
+            $('#label-startwork').addClass('active');
+        }
+        if (!!$scope.doctor.endWork) {
+            $scope.doctor.endWork = new Date();
+            $('#label-endwork').addClass('active');
+        }
     }
 
     $scope.saveDoctor = function () {
         if (confirmPassword()) {
             $http.post('/savedoctor', $scope.doctor).success(function (data) {
+                $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
                 Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
                 clearData();
             }).error(function (data) {
+                $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
                 Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
                 $scope.error = data;
                 $('body,html').animate({scrollTop: 0}, "600");
             });
-        }
-        else {
+        } else {
             console.log('error valid password!');
             $('body,html').animate({scrollTop: 0}, "600");
         }
@@ -57,9 +64,7 @@ angular.module('doctor').controller('doctorController', function (employeeServic
             $('.update').addClass('active');
             $('.clear-prefix').css('color', '#00bcd4')
         }
-        else {
-            $('.update').removeClass('active');
-        }
+
     }
 
 
@@ -80,13 +85,11 @@ angular.module('doctor').controller('doctorController', function (employeeServic
         if (!!$scope.doctor.doctorPicture) {
             if (!!$scope.doctor.doctorPicture.content) {
                 document.getElementById('employee-picture').src = "data:image/jpg;base64," + $scope.doctor.doctorPicture.content;
-            }
-            else {
+            } else {
                 NoImage();
             }
 
-        }
-        else {
+        } else {
             NoImage();
         }
     }
@@ -108,8 +111,7 @@ angular.module('doctor').controller('doctorController', function (employeeServic
                 $('#confirm').css('color', 'red');
                 $('#confirm').html('clear');
             }
-        }
-        else {
+        } else {
             $('#confirm').html('');
         }
     };
@@ -148,8 +150,7 @@ angular.module('doctor').controller('doctorController', function (employeeServic
         var email = $scope.doctor.email;
         if (email.length != 0) {
             $('#id').css('color', '#00bcd4');
-        }
-        else if (email.length == 0) {
+        } else if (email.length == 0) {
             $('#id').css('color', 'black');
         }
     };
@@ -159,8 +160,7 @@ angular.module('doctor').controller('doctorController', function (employeeServic
         if (currentAddress != 0) {
             $('#sex').css('color', '#00bcd4');
             $('#blood').css('color', '#00bcd4');
-        }
-        else if (currentAddress == 0) {
+        } else if (currentAddress == 0) {
             $('#sex').css('color', 'black');
             $('#blood').css('color', 'black');
         }
@@ -170,8 +170,7 @@ angular.module('doctor').controller('doctorController', function (employeeServic
         var mobile = $scope.doctor.mobile;
         if (mobile != 0) {
             $('#workstatus').css('color', '#00bcd4');
-        }
-        else if (mobile == 0) {
+        } else if (mobile == 0) {
             $('#workstatus').css('color', 'black');
         }
     };

@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -34,6 +35,7 @@ public class Patient implements Serializable {
     private Integer id;
     private String hn;
     private String pid;
+    @NotBlank(message = "กรุณากรอกชื่อ")
     private String name;
     
     @Column(name="BIRTHDATE")

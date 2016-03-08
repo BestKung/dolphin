@@ -1,5 +1,5 @@
 angular.module('patient-information', []);
-angular.module('patient-information').controller('patientInformationController', function (patientService,$scope, $http) {
+angular.module('patient-information').controller('patientInformationController', function (patientService, $scope, $http) {
     $scope.patients = {};
     $scope.patientDetail = {};
     $scope.search = {};
@@ -22,45 +22,50 @@ angular.module('patient-information').controller('patientInformationController',
         }
     }
 
- 
-
     getPatient();
     function getPatient() {
         $http.get('/getpatient', {params: {size: $scope.size, page: page}}).success(function (data) {
             $scope.patients = data;
         });
     }
-    
-    
-    $scope.clickDelete = function () {
+
+    $scope.clickDelete = function (patient) {
+        $scope.patientDetail = patient;
         $('#modal-delete').openModal({dismissible: false});
-     };
+    };
 
-
-    $scope.deletePatient = function (){
-        $http.post('/deletepatient' , $scope.patientDetail).success(function (data){
+    $scope.deletePatient = function () {
+        $http.post('/deletepatient', $scope.patientDetail).success(function (data) {
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
             Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
-            console.log('delete success');
+            getPatient();
             $scope.cancel();
-        }).error(function (data){
+        }).error(function (data) {
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
             Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
     };
-    
-    $scope.updatePatient = function (patient){
+
+    $scope.updatePatient = function (patient) {
         patientService.patienUpdate = patient;
-          location.href = "#/patient";
+        location.href = "#/patient";
     };
-    
+
     $scope.searchPatient = function () {
         searchPatient();
     };
-    
-        function searchPatient(){
-             $http.post('/searchpatient', $scope.search).success(function (data) {
-            $scope.patients = data;
+
+    function searchPatient() {
+        $http.post('/searchpatient', $scope.search).success(function (data) {
+            if (data.content.length != 0) {
+                $scope.patients = data;
+                countSearchPatient();
+            } else {
+                $('#modal-notfont').openModal();
+                getPatient();
+            }
         });
-        }
+    }
 
     countPatient();
     function countPatient() {
@@ -70,18 +75,17 @@ angular.module('patient-information').controller('patientInformationController',
             console.log('total page : ' + totalPage);
         });
     }
-    
-     function selectGetOrSearch() {
+
+    function selectGetOrSearch() {
         if (!!$scope.search.keyword) {
             searchPatient();
-        }
-        else {
+        } else {
             getPatient();
         }
     }
-    
-    
-    $scope.selectGetOrSearch = function (){
+
+
+    $scope.selectGetOrSearch = function () {
         page = 0;
         $scope.currentPage = page;
         selectGetOrSearch();
@@ -191,26 +195,22 @@ angular.module('patient-information').controller('patientInformationController',
         }
         if (!!$scope.patientDetail.patientPictureXray) {
             document.getElementById('img-patientxray').src = "data:image/jpg;base64," + $scope.patientDetail.patientPictureXray.contentXrayFilm;
-        }
-        else {
+        } else {
             NoImageXray();
         }
         if (!!$scope.patientDetail.patientPictureBefore) {
             document.getElementById('img-patientbefore').src = "data:image/jpg;base64," + $scope.patientDetail.patientPictureBefore.contentBefore;
-        }
-        else {
+        } else {
             NoImageBefore();
         }
         if (!!$scope.patientDetail.patientPictureCurrent) {
             document.getElementById('img-patientcurrent').src = "data:image/jpg;base64," + $scope.patientDetail.patientPictureCurrent.contentCurrent;
-        }
-        else {
+        } else {
             NoImageCurrent();
         }
         if (!!$scope.patientDetail.patientPictureAfter) {
             document.getElementById('img-patientafter').src = "data:image/jpg;base64," + $scope.patientDetail.patientPictureAfter.contentAfter;
-        }
-        else {
+        } else {
             NoImageAfter();
         }
 
@@ -244,13 +244,13 @@ angular.module('patient-information').controller('patientInformationController',
         });
     }
     ;
-    
+
     $scope.cancel = function () {
         toPreScroll();
         $('span#close-card').trigger('click');
     };
-    
-     function toPreScroll() {
+
+    function toPreScroll() {
         $('body,html').animate({scrollTop: $scope.preScroll}, "0");
     }
 

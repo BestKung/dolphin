@@ -18,10 +18,10 @@ import javax.validation.Payload;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-@Constraint(validatedBy = EmailUniqueValidator.class)
-public @interface EmailUnique {
+@Constraint(validatedBy = EmailUniqueValidatEmployeeor.class)
+public @interface EmployeeEmailUnique {
 
-     public String message() default "{th.co.geniustree.validator.EmailUnique.message}";
+     public String message() default "{th.co.geniustree.validator.EmployeeEmailUnique.message}";
 
     public Class<?>[] groups() default {};
 

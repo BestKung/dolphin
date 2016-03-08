@@ -16,13 +16,13 @@ import th.co.geniustree.dental.repo.EmployeeRepo;
  *
  * @author BestKung
  */
-public class EmailUniqueValidator implements ConstraintValidator<EmailUnique, String> {
+public class EmailUniqueValidatEmployeeor implements ConstraintValidator<EmployeeEmailUnique, String> {
 
     @Autowired
     private EmployeeRepo employeeRepo;
 
     @Override
-    public void initialize(EmailUnique a) {
+    public void initialize(EmployeeEmailUnique a) {
 
     }
 

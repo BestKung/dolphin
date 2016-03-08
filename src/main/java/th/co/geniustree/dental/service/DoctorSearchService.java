@@ -22,25 +22,27 @@ import th.co.geniustree.dental.spec.StaffSpec;
  */
 @Service
 public class DoctorSearchService {
-    
+
     @Autowired
     private DoctorRepo doctorRepo;
-    
-    
-    public Page<Doctor> searchByName(String keyword , Pageable pageable){
-        Specifications<Doctor> specifications = Specifications.where(DoctorSpec.nameLike("%"+keyword+"%"));
-        return doctorRepo.findAll(specifications , pageable);
+
+    public Page<Doctor> searchByName(String keyword, Pageable pageable) {
+        Specifications<Doctor> specifications = Specifications.where(DoctorSpec.nameLike("%" + keyword + "%"));
+        return doctorRepo.findAll(specifications, pageable);
     }
-    
-    
-    public Page<Doctor> searchByEmail(String keyword , Pageable pageable){
-      Specifications<Doctor> specifications = Specifications.where(DoctorSpec.emailLike("%"+keyword+"%"));
-      return doctorRepo.findAll(specifications , pageable);
+
+    public Page<Doctor> searchByEmail(String keyword, Pageable pageable) {
+        Specifications<Doctor> specifications = Specifications.where(DoctorSpec.emailLike("%" + keyword + "%"));
+        return doctorRepo.findAll(specifications, pageable);
     }
-   
-    
-    public Page<Doctor> searchByMobile(String keyword , Pageable pageable){
-    Specifications<Doctor> specifications = Specifications.where(DoctorSpec.mobileLike("%"+keyword+"%"));
-    return doctorRepo.findAll(specifications , pageable);
+
+    public Page<Doctor> searchByMobile(String keyword, Pageable pageable) {
+        Specifications<Doctor> specifications = Specifications.where(DoctorSpec.mobileLike("%" + keyword + "%"));
+        return doctorRepo.findAll(specifications, pageable);
+    }
+
+    public Page<Doctor> searchById(Integer keyword, Pageable pageable) {
+        Specifications<Doctor> specifications = Specifications.where(DoctorSpec.idWhere(keyword));
+        return doctorRepo.findAll(specifications, pageable);
     }
 }

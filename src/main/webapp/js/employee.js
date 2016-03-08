@@ -36,8 +36,8 @@ var app = angular.module('employee')
                 }
             }
 
-            checkDaye();
-            function checkDaye() {
+            checkDate();
+            function checkDate() {
                 if (!!$scope.employee.birthDate) {
                     $scope.employee.birthDate = new Date();
                     $('#label-birthdate').addClass('active');
