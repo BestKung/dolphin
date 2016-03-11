@@ -7,7 +7,7 @@
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-appointment-id">label</i>
                     <input type="text" id="id" disabled ng-model="appointment.id">
-                    <label for="id" class="update" id="label-appointment-id">ID</label>
+                    <label for="id" class="update" id="label-appointment-id">ลำดับ</label>
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix treatmentlist">content_paste</i>
@@ -31,12 +31,12 @@
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-appointment-mobile">call</i>
                     <input type="text" id="mobile" ng-model="appointment.mobile" ng-change="changePrefix('#prefix-appointment-mobile')">
-                    <label for="mobile" class="update">เบอร์ติดต่อ</label>
+                    <label for="mobile" class="update" id="label-mobile">เบอร์ติดต่อ</label>
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-appointment-appointday">today</i>
-                    <input type="text" id="appointday" class="datepicker" ng-model="appointment.appointDay" ng-change="changePrefix('#prefix-appointment-appointday')">
-                    <label for="appointday" class="update">วันที่</label>
+                    <input type="text" id="appointday" class="datepicker" ng-model="appointment.appointDay" ng-change="changePrefix('#prefix-appointment-appointday');error.violations.appointDay.message = ''">
+                    <label for="appointday" class="update" id="label-appointday">วันที่<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.appointDay.message}}</span></label>
                 </div>
             </div>
             <div class="row">
@@ -67,8 +67,6 @@
 </div> 
 
 
-
-
 <div class="container">
     <div class="card">
         <div class="card-content">
@@ -91,7 +89,6 @@
                     </div>
                 </div>
                 <div class="col m2">
-<!--                    <a class="btn waves-light" style="margin-top: 30px; margin-left:calc(3.8rem)" ng-click="searchAppointment()">ค้นหา</a>-->
                     <a class="btn-best btn-search" ng-click="searchAppointment()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
                 </div>
                 <div class="col m2">
@@ -109,11 +106,11 @@
             <div class="row">
                 <table class="responsive-table hoverable">
                     <thead>
-                    <th style="width:10%" class="table-department" >Id</th>
+                    <th style="width:15%" class="table-department" >Id</th>
                     <th style="width:20%" class="table-department" >ชื่อคนไข้</th>
                     <th style="width:20%" class="table-department" >ชื่อหมอ</th>
                     <th style="width:15%" class="table-department" >วันที่</th>
-                    <th style="width:15%" class="table-department" >จัดการ</th>
+                    <th style="width:30%" class="table-department" >จัดการ</th>
                     </thead>
                     <tbody>
                         <tr ng-repeat="app in appointments.content">
@@ -123,8 +120,8 @@
                             <td>{{app.appointDay}}</td>
                             <td>
                                 <a href="" ng-click="moreDetail(app)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
-                                <!--                            <a class="btn-custom-radius btn-edit" ng-click="UpdateDoctor()"><i class="mdi-content-create"></i></a>
-                                                            <a class="btn-custom-radius btn-delete" ng-click="clickDelete(doctorDetail)"><i class="mdi-action-delete"></i></a>-->
+                                <a class="btn-custom-radius btn-edit" ng-click="updateAppointment(app)"><i class="mdi-content-create"></i></a>
+                                <a class="btn-custom-radius btn-delete" ng-click="clickDelete(app)"><i class="mdi-action-delete"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -201,11 +198,10 @@
                         <label class=" topic-detail">{{appointmentDetail.endTime}}</label>
                     </div>
                 </div>
-
-                <div class="row margin-top center margin-top-20">
-                    <input type="submit" value="Cancel" class="btn btn-gray waves-light" ng-click="cancel()">
-                    <input type="submit" value="Update" class="btn btn-blue2 waves-light" ng-click="updateAppointment(appointmentDetail)">
-                    <input type="submit" value="Delete" class="btn btn-red waves-light" ng-click="clickDelete(appointmentDetail)">
+                <div class="row margin-top-20 center" style="margin-right: 10px">
+                    <a class="btn-custom-radius btn-cancelv2" ng-click="cancel()"><i class="mdi-content-clear"></i></a>
+                    <a class="btn-custom-radius btn-edit" ng-click="updateAppointment(appointmentDetail)"><i class="mdi-content-create"></i></a>
+                    <a class="btn-custom-radius btn-delete"ng-click="clickDelete(appointmentDetail)"><i class="mdi-action-delete"></i></a>
                 </div>
             </div>
         </div>
@@ -357,3 +353,15 @@
     </div>
 </div>
 
+<div id="modal-appointment" class="modal" style="border-radius: 10px;">
+    <div class="modal-content">
+        <div class="row center" style="height: 150px;">
+            <div style="margin-top: 60px">
+                <font size="100" color="#90a4ae">ไม่สามารถนัดย้อนหลังได้</font>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="warp-toast">
+</div>

@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -28,6 +30,7 @@ public class Appointment implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Temporal(TemporalType.DATE)
+    @NotNull(message = "กรุณากรอกวันนัด")
     private Date appointDay;
     @Temporal(TemporalType.TIME)
     private Date startTime;

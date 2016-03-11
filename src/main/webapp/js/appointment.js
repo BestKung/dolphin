@@ -21,6 +21,7 @@ angular.module('appointment').controller('appointmentController', function ($sco
     $scope.doctors = {};
     $scope.preScroll = 0;
     $scope.sizeAppointment = 10;
+    $scope.error = {};
     var totalDoctor = 0;
     var totalPageDoctor = 0;
     var pageDoctor = 0;
@@ -29,8 +30,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
     var totalAppointment = 0;
     var totalPageAppointment = 0;
     var pageAppointment = 0;
-
-
     $scope.saveAppointment = function () {
         if (!!$scope.startTime) {
             $scope.appointment.startTime = new Date(moment(new Date($scope.appointment.appointDay + " " + $scope.startTime)).format('YYYY-MM-d HH:mm:ss'));
@@ -38,12 +37,31 @@ angular.module('appointment').controller('appointmentController', function ($sco
         if (!!$scope.endTime) {
             $scope.appointment.endTime = new Date(moment(new Date($scope.appointment.appointDay + " " + $scope.endTime)).format('YYYY-MM-d HH:mm:ss'));
         }
-        $http.post('/saveappointment', $scope.appointment).success(function (data) {
-            selectGetOrSearchAppointment();
-            $scope.clearData();
-            countAppointment();
-        });
+        if (($scope.appointment.endTime - $scope.appointment.startTime) < 0) {
+            $('#modal-appointment').openModal();
+        } else {
+            $http.post('/saveappointment', $scope.appointment).success(function (data) {
+                selectGetOrSearchAppointment();
+                $scope.clearData();
+                countAppointment();
+                $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
+                Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
+            }).error(function (data) {
+                $scope.error = data;
+                $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+                Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
+            });
+        }
     };
+
+//
+//    checkDate();
+//    function checkDate() {
+//        if ($scope.appointment.appointDay == undefined) {
+//            $scope.appointment.appointDay = new Date();
+//            $('#label-appointday').addClass('active');
+//        }
+//    }
 
     getAppointment();
     function getAppointment() {
@@ -55,11 +73,15 @@ angular.module('appointment').controller('appointmentController', function ($sco
     $scope.deleteAppointment = function (app) {
         $http.post('/deleteappointment', app.id).success(function (data) {
             selectGetOrSearchAppointment();
-            toPreScroll();
             $('span#close-card').trigger('click');
-        });
+            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
+            Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
+        })
+                .error(function (data) {
+                    $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+                    Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
+                });
     };
-
     $scope.updateAppointment = function (app) {
         $scope.appointment = app;
         $scope.startTime = app.startTime;
@@ -71,7 +93,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $('body,html').animate({scrollTop: 0}, "600");
         $('span#close-card').trigger('click');
     };
-
     $scope.getAppointment = function () {
         pageAppointment = 0;
         getAppointment();
@@ -79,12 +100,10 @@ angular.module('appointment').controller('appointmentController', function ($sco
         countAppointment();
         findTotalPageAppointment();
     };
-
     $scope.searchAppointment = function () {
         searchAppointment();
         countSearchAppointment();
     };
-
     function searchAppointment() {
         $http.post('/searchappointment', $scope.searchDataAppointment, {params: {page: pageAppointment, size: $scope.sizeAppointment}}).success(function (data) {
             $scope.appointments = data;
@@ -99,9 +118,7 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $scope.doctor = {};
         $('.update').removeClass('active');
         $('.clear-prefix').css('color', 'black');
-
     };
-
     countAppointment();
     function countAppointment() {
         $http.get('/countappointment').success(function (data) {
@@ -143,18 +160,15 @@ angular.module('appointment').controller('appointmentController', function ($sco
         if (!!$scope.searchDataAppointment.keyword) {
             searchAppointment();
             countSearchAppointment();
-        }
-        else {
+        } else {
             getAppointment();
             countAppointment();
         }
     };
-
     function selectGetOrSearchAppointment() {
         if (!!$scope.searchDataAppointment.keyword) {
             searchAppointment();
-        }
-        else {
+        } else {
             getAppointment();
         }
     }
@@ -172,7 +186,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             $('#final-page-appointment').removeClass('disabled');
         }
     };
-
     $scope.prePageAppointment = function () {
         if (!$('#first-page-appointment').hasClass('disabled')) {
             pageAppointment--;
@@ -186,7 +199,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             $('#final-page-appointment').removeClass('disabled');
         }
     };
-
     $scope.nextPageAppointment = function () {
         if (!$('#final-page-appointment').hasClass('disabled')) {
             pageAppointment++;
@@ -200,7 +212,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             $('#first-page-appointment').removeClass('disabled');
         }
     };
-
     $scope.finalPageAppointment = function () {
         if (!$('#final-page-appointment').hasClass('disabled')) {
             pageAppointment = totalPageAppointment - 1;
@@ -214,7 +225,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             $('#first-page-appointment').removeClass('disabled');
         }
     };
-
     function getPatient() {
         $http.get('/getpatient', {params: {page: pagePatient, size: 10}}).success(function (data) {
             $scope.patients = data;
@@ -225,10 +235,10 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $scope.preScroll = $(window).scrollTop();
         $('body,html').animate({scrollTop: 400}, "400");
         $scope.appointmentDetail = app;
-        if(!!app.startTime){
+        if (!!app.startTime) {
             $scope.appointmentDetail.startTime = moment(new Date(app.appointDay + " " + app.startTime)).format('hh:mm a');
         }
-        if(!!app.endTime){
+        if (!!app.endTime) {
             $scope.appointmentDetail.endTime = moment(new Date(app.appointDay + " " + app.endTime)).format('hh:mm a');
         }
         var topic = document.getElementsByClassName('topic-detail');
@@ -238,12 +248,10 @@ angular.module('appointment').controller('appointmentController', function ($sco
             }
         }
     };
-
     $scope.cancel = function () {
         toPreScroll();
         $('span#close-card').trigger('click');
     };
-
     function toPreScroll() {
         $('body,html').animate({scrollTop: $scope.preScroll}, "0");
     }
@@ -251,7 +259,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
     $scope.toPreScroll = function () {
         toPreScroll();
     };
-
     function getDoctor() {
         $http.get('getdoctor', {params: {page: pageDoctor, size: 10}}).success(function (data) {
             $scope.doctors = data;
@@ -264,8 +271,9 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $('#modal-patient').closeModal();
         $('#label-appointment-patient').addClass('active');
         $('#prefix-appointment-patient').css('color', '#00bcd4');
+        $scope.appointment.mobile = $scope.patient.mobile;
+        $('#label-mobile').addClass('active');
     };
-
     $scope.selectDoctor = function (doctor) {
         $scope.appointment.doctor = doctor;
         $scope.doctor = $scope.appointment.doctor;
@@ -273,7 +281,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $('#label-appointment-doctor').addClass('active');
         $('#prefix-appointment-doctor').css('color', '#00bcd4');
     };
-
     $scope.searchPatient = function () {
         $http.post('/searchpatient', $scope.searchData, {params: {page: pagePatient, size: 10}}).success(function (data) {
             $scope.patients = data;
@@ -281,7 +288,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             console.log(totalPage);
         });
     };
-
     function searchPatient() {
         $http.post('/searchpatient', $scope.searchData, {params: {page: pagePatient, size: 10}}).success(function (data) {
             $scope.patients = data;
@@ -294,7 +300,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             countSearchDctor();
         });
     };
-
     function searchDoctor() {
         $http.post('/searchdoctor', $scope.searchDataDoctor, {params: {page: pageDoctor, size: 10}}).success(function (data) {
             $scope.doctors = data;
@@ -338,8 +343,7 @@ angular.module('appointment').controller('appointmentController', function ($sco
     function selectGetOrSearch() {
         if (!!$scope.searchData.keyword) {
             searchPatient();
-        }
-        else {
+        } else {
             getPatient();
         }
     }
@@ -347,8 +351,7 @@ angular.module('appointment').controller('appointmentController', function ($sco
     function selectGetOrSearchDoctor() {
         if (!!$scope.searchDataDoctor.keyword) {
             searchDoctor();
-        }
-        else {
+        } else {
             getDoctor();
         }
     }
@@ -398,7 +401,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             $('#final-page').removeClass('disabled');
         }
     };
-
     $scope.prePage = function () {
         if (!$('#first-page').hasClass('disabled')) {
             pagePatient--;
@@ -412,7 +414,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             $('#final-page').removeClass('disabled');
         }
     };
-
     $scope.nextPage = function () {
         if (!$('#final-page').hasClass('disabled')) {
             pagePatient++;
@@ -427,7 +428,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             console.log('next');
         }
     };
-
     $scope.finalPage = function () {
         if (!$('#final-page').hasClass('disabled')) {
             pagePatient = totalPage - 1;
@@ -441,7 +441,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
             $('#first-page').removeClass('disabled');
         }
     };
-
     $scope.firstPageDoctor = function () {
         pageDoctor = 0;
         $scope.currentPageDoctor = pageDoctor;
@@ -451,7 +450,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $('#next-page-doctor').removeClass('disabled');
         $('#final-page-doctor').removeClass('disabled');
     };
-
     $scope.prePageDoctor = function () {
         pageDoctor--;
         $scope.currentPageDoctor = pageDoctor;
@@ -463,7 +461,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $('#next-page-doctor').removeClass('disabled');
         $('#final-page-doctor').removeClass('disabled');
     };
-
     $scope.nextPageDoctor = function () {
         pageDoctor++;
         $scope.currentPageDoctor = pageDoctor;
@@ -476,7 +473,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $('#first-page-doctor').removeClass('disabled');
         $('#pre-page-doctor').removeClass('disabled');
     };
-
     $scope.finalPageDoctor = function () {
         pageDoctor = totalPageDoctor - 1;
         $scope.currentPageDoctor = pageDoctor;
@@ -486,54 +482,42 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $('#first-page-doctor').removeClass('disabled');
         $('#pre-page-doctor').removeClass('disabled');
     };
-
     $scope.setBackgroundPrefixIdAppointment = function () {
         $('#label-appointment-id').addClass('active');
         $('#prefix-appointment-id').addClass('active');
     };
-
     $scope.changePrefix = function (my) {
         $(my).css('color', '#00bcd4');
     };
-
     $('.datepicker').pickadate({
         selectMonths: true,
         selectYears: 200,
         format: 'yyyy-mm-dd',
         container: 'body'
     });
-
     $('#time-starttime input').ptTimeSelect({
         onClose: function (i) {
             $scope.startTime = $(i).val() + "";
-            var m = moment(new Date($scope.appointment.appointDay + " " + $scope.startTime)).format('YYYY-MM-dd HH:mm:ss') + "";
-            var dd = new Date(moment(new Date('2015-10-09 11:13 PM')).format('EEE, dd MMM YYYY HH:mm:ss zzz'));
-            console.log(moment(new Date('2015-10-09 11:23 PM')).format('YYYY-MM-d HH:mm:ss') + ',,,,,,,,,,,,,,,,,,,,,,,');
-
             $('#label-starttime').addClass('active');
             $('#prefix-starttime').addClass('active');
         }
     });
-
     $('#time-endtime input').ptTimeSelect({
         onClose: function (i) {
             $scope.endTime = $(i).val() + "";
-            console.log($scope.endTime);
             $('#label-endtime').addClass('active');
             $('#prefix-endtime').addClass('active');
         }
     });
-
-    $scope.clickDelete = function () {
+    $scope.clickDelete = function (app) {
+        $scope.appointmentDetail = app;
         $('#modal-delete-appointment').openModal();
     };
-
     $scope.clickPatient = function () {
         getPatient();
         countPatient();
         $('#modal-patient').openModal();
     };
-
     $scope.clickDoctor = function () {
         getDoctor();
         countDoctor();

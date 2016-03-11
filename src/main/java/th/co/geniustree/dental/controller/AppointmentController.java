@@ -16,6 +16,7 @@ import static org.hibernate.criterion.Projections.count;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,9 +40,9 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @RequestMapping(value = "/saveappointment", method = RequestMethod.POST)
-    private void saveAppointment(@RequestBody Appointment appointment, Pageable pageable) throws ParseException {
-        if((appointment.getStatus() == null) || (" ".equals(appointment.getStatus()))){
-        appointment.setStatus("1");
+    private void saveAppointment(@Validated @RequestBody Appointment appointment, Pageable pageable) throws ParseException {
+        if ((appointment.getStatus() == null) || (" ".equals(appointment.getStatus()))) {
+            appointment.setStatus("1");
         }
         appointmentRepo.save(appointment);
     }
@@ -107,13 +108,13 @@ public class AppointmentController {
 
     @RequestMapping(value = "/appointmentnontificationcount", method = RequestMethod.GET)
     private Long appointmentNontificationCount(Pageable pageable) {
-         Date d = new Date();
+        Date d = new Date();
         d.setHours(0);
         d.setMinutes(0);
         Date tomorrow = new Date(d.getTime() + (60 * 60 * 24 * 1000));
         long count = 0;
         count = appointmentRepo.findByAppointDayAndStatus(tomorrow, "1").size();
-       
+
 //        List<Appointment> listAppointment = appointmentRepo.findByStatus("2");
 //        for (int i = 0; i < listAppointment.size(); i++) {
 //            Appointment appointment = new Appointment();
@@ -128,7 +129,6 @@ public class AppointmentController {
 //                appointmentRepo.save(appointment);
 //            }
 //        }
-        
         return count;
     }
 
@@ -140,10 +140,10 @@ public class AppointmentController {
         Date tomorrow = new Date(d.getTime() + (60 * 60 * 24 * 1000));
         return appointmentRepo.findByAppointDay(tomorrow, pageable);
     }
-    
-     @RequestMapping(value = "/appointmentnontificationcountnotcontact", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/appointmentnontificationcountnotcontact", method = RequestMethod.GET)
     private Long appointmentNontificationCountNotContact() {
-         Date d = new Date();
+        Date d = new Date();
         d.setHours(0);
         d.setMinutes(0);
         Date tomorrow = new Date(d.getTime() + (60 * 60 * 24 * 1000));
@@ -155,12 +155,12 @@ public class AppointmentController {
     @RequestMapping(value = "/appointmentnontificationcountall", method = RequestMethod.GET)
     public Long appointmentNontificationCountAll() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        String dateString = sdf.format(new  Date());
+        String dateString = sdf.format(new Date());
         Date d = sdf.parse(dateString);
         Date tomorrow = new Date(d.getTime() + (60 * 60 * 24 * 1000));
         String tomorrowString = sdf.format(tomorrow);
         Date date = sdf.parse(tomorrowString);
-      return appointmentRepo.count(AppointmentSpec.appointmentDate(date));
+        return appointmentRepo.count(AppointmentSpec.appointmentDate(date));
     }
 
 }
