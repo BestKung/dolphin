@@ -42,7 +42,7 @@
                                 <td>{{p.value}}</td>
                                 <td>{{p.priceAndExpireProduct.priceSell * p.value}}</td>
                                 <td>บาท</td>
-                                <td><input type="submit" class="btn btn-red" value="ลบ" ng-click="deleteTmpProduct(p)"></td>
+                                <td><a class="btn-custom-radius btn-delete" ng-click="deleteTmpProduct(p)"><i class="mdi-action-delete"></i></a></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -153,7 +153,7 @@
                 <div class="col m12">
                     <ul class="pagination right" style="margin-top: 10px;">
                         <li class="btn btn-pagination" id="first-page-bill" ng-click="firstPageBill()"><p style="margin-top: 2px;">&Lt;</p></li>
-                        <li class="btn btn-pagination" id="pre-page-bill" ng-click="prePageBill()"><p style="margin-top: 2px;">&LT</p>;</li>
+                        <li class="btn btn-pagination" id="pre-page-bill" ng-click="prePageBill()"><p style="margin-top: 2px;">&LT;</p></li>
                         <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageBill + 1}}</p></li>
                         <li class="btn btn-pagination" id="next-page-bill" ng-click="nextPageBill()"><p style="margin-top: 2px;">&GT;</p></li>
                         <li class="btn btn-pagination" id="final-page-bill" ng-click="finalPageBill()"><p style="margin-top: 2px;">&Gt;</p></li>
@@ -253,8 +253,8 @@
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
-            <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searchDetailHeal()">
+            <div class="col m3 " style="margin-top: 30px;">
+                <a class="btn-best btn-search" ng-click="searchDetailHeal()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
             </div>
         </div>
         <div class="row">
@@ -272,7 +272,7 @@
                         <td>{{det.patient.name}}</td>
                         <th>{{det.dateHeal}}</th>
                         <th><h6>{{det.doctor.nameTh}}</h6></th>
-                        <th><a class="select-human modal-close btn" ng-click="selectDetailHeal(det)">เลือก</a></th>
+                        <th><a class="modal-close btn-best btn-edit" ng-click="selectDetailHeal(det)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
@@ -281,7 +281,7 @@
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
                     <li class="btn btn-pagination" id="first-page-detailheal" ng-click="firstPageDetailHeal()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn btn-pagination" id="pre-page-detailheal" ng-click="prePageDetailHeal()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn btn-pagination" id="pre-page-detailheal" ng-click="prePageDetailHeal()"><p style="margin-top: 2px;">&LT;</p></li>
                     <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageDetailHeal + 1}}</p></li>
                     <li class="btn btn-pagination" id="next-page-detailheal" ng-click="nextPageDetailHeal()"><p style="margin-top: 2px;">&GT;</p></li>
                     <li class="btn btn-pagination" id="final-page-detailheal" ng-click="finalPageDetailHeal()"><p style="margin-top: 2px;">&Gt;</p></li>
@@ -308,8 +308,8 @@
                 <input type="text" id="search" ng-model="searchDataProduct.keyword">
                 <label for="search" >ค้นหา : </label>
             </div>
-            <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searchProduct()">
+            <div class="col m3 " style="margin-top: 30px;">
+                <a class="btn-best btn-search" ng-click="searchProduct()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
             </div>
         </div>
         <div class="row">
@@ -318,7 +318,7 @@
                     <tr>
                         <th style="width:15%">ลำดับ</th>
                         <th style="width:35%">ชื่อสินค้า</th>
-                        <th style="width:20%">ราคา</th>
+                        <th style="width:10%">ราคา</th>
                         <th style="width:15%">จำนวน</th>
                         <th style="width:15%">เลือก</th>
                     </tr>
@@ -331,7 +331,7 @@
                         <th>
                             <input id="value-of-operation" type="text" style="height:2rem" placeholder="จำนวน" ng-model="valueProduct">
                         </th>
-                        <th><a class="select-human modal-close btn" ng-click="selectProductToBill(pro, valueProduct)">เลือก</a></th>
+                        <th><a class="modal-close btn-best btn-edit" ng-click="selectProductToBill(pro, valueProduct)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
@@ -340,7 +340,7 @@
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
                     <li class="btn btn-pagination" id="first-page-product" ng-click="firstPageProduct()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn btn-pagination" id="pre-page-product" ng-click="prePageProduct()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn btn-pagination" id="pre-page-product" ng-click="prePageProduct()"><p style="margin-top: 2px;">&LT;</p></li>
                     <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageProduct + 1}}</p></li>
                     <li class="btn btn-pagination" id="next-page-product" ng-click="nextPageProduct()"><p style="margin-top: 2px;">&GT;</p></li>
                     <li class="btn btn-pagination" id="final-page-product" ng-click="finalPageProduct()"><p style="margin-top: 2px;">&Gt;</p></li>

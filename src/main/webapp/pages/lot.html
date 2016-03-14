@@ -155,8 +155,8 @@
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
-            <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searcDataContentEmployee()">
+             <div class="col m3 " style="margin-top: 30px;">
+                <a class="btn-best btn-search" ng-click="searcDataContentEmployee()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
             </div>
         </div>
         <div class="row">
@@ -164,9 +164,9 @@
                 <thead>
                     <tr>
                         <th style="width:30%">ชื่อ</th>
-                        <th style="width:30%">อีเมลล์</th>
+                        <th style="width:25%">อีเมลล์</th>
                         <th style="width:25%">เบอร์โทร</th>
-                        <th style="width:15%">เลือก</th>
+                        <th style="width:20%">เลือก</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -174,7 +174,7 @@
                         <td>{{emp.nameTh}}</td>
                         <th>{{emp.email}}</th>
                         <th>{{emp.mobile}}</th>
-                        <th><a class="select-human modal-close btn" ng-click="selectEmployee(emp)">เลือก</a></th>
+                        <th><a class="modal-close btn-best btn-edit" ng-click="selectEmployee(emp)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
