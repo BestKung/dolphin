@@ -21,6 +21,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.seeDetailHeal = {};
     $scope.size = 10;
     $scope.preScroll = 0;
+    $scope.error = {};
     var user = "";
     var historyOfMedicalAndTypeOfMedical = {};
     var typeOfMedicalForSave = {};
@@ -50,16 +51,22 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         getUser();
     }
 
+    checkDate();
+    function checkDate() {
+        if ($scope.detailHeal.dateHeal == undefined) {
+            $scope.detailHeal.dateHeal = new Date();
+            $('#label-dateheal').addClass('active');
+        }
+    }
+
     function countTypeOfMedical() {
         getUser();
         $http.post('/counttypeofmedical', user).success(function (data) {
-
         });
     }
 
     $scope.deleteOrderHeal = function (or) {
         for (var i = 0; i < or.orderHealDetailHeals.length; i++) {
-
             $http.post('/deleteorderheal', or.orderHealDetailHeals[i]);
         }
         ;
@@ -95,8 +102,12 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $('.update').removeClass('active');
             $('#preffix-id-detailheal , #prefix-dateheal-detailheal , #prefix-detailheal-patient , #prefix-detailheal-doctor , #prefix-detailheal-detailheal').css('color', 'black');
             getDetailHeal();
-            Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
             $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
+            Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
+        }).error(function (data) {
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
+            $scope.error = data;
         });
     };
     $scope.clearData = function () {
@@ -188,8 +199,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     function selectGetOrSearchPatient() {
         if (!!$scope.searchDataPatient.keyword) {
             searchPatient();
-        }
-        else {
+        } else {
             getPatient();
         }
     }
@@ -197,8 +207,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     function selectGetOrSearchDoctor() {
         if (!!$scope.searchDataDoctor.keyword) {
             searchDoctor();
-        }
-        else {
+        } else {
             getDoctor();
         }
     }
@@ -206,8 +215,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     function selectGetOrSearchTypeOfMedical() {
         if (!!$scope.searchDataTypeOfMedical.keyword) {
             searchTypeOfMedical();
-        }
-        else {
+        } else {
             getTypeOfMedical();
         }
     }
@@ -221,8 +229,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     function selectGetOrSearchDetailHeal() {
         if (!!$scope.searchDataHistoryOfMedical.keyword) {
             $scope.searchHistoryOfMedical();
-        }
-        else {
+        } else {
             getDetailHeal();
         }
     }
@@ -285,12 +292,15 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
             $http.post('/deletedetailheal', del).success(function (data) {
                 getDetailHeal();
                 $('span#close-card').trigger('click');
-                toPreScroll();
+                $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
                 Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
+            }).error(function (data) {
+                $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+                Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
             });
         });
     };
-    $scope.clickUpdateDetailHeal = function () {
+    $scope.clickUpdateDetailHeal = function (detailheal) {
         $('.update').addClass('active');
         $('#preffix-id-detailheal , #prefix-dateheal-detailheal , #prefix-detailheal-patient , #prefix-detailheal-doctor , #prefix-detailheal-detailheal').css('color', '#00bcd4');
         $('body,html').animate({scrollTop: 0}, "600");
@@ -305,6 +315,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $('.update').addClass('active');
         $('body,html').animate({scrollTop: 0}, "600");
         $('span#close-card').trigger('click');
+        $scope.seeDetailHeal = detailheal;
         $scope.detailHeal = $scope.seeDetailHeal;
         $scope.detailHeal.dateHeal = new Date(moment(new Date($scope.seeDetailHeal.dateHeal)).format('YYYY-MM-D'));
         $scope.patient = $scope.seeDetailHeal.patient;
@@ -324,8 +335,14 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     };
     $scope.searchHistoryOfMedical = function () {
         $http.post('/loaddetailheal/searchdetailheal', $scope.searchDataHistoryOfMedical, {params: {page: pageDetailHeal, size: $scope.size}}).success(function (data) {
-            $scope.detailHeals = data;
-            countSearchDetailHeal();
+            if (data.content.length != 0) {
+                $scope.detailHeals = data;
+                countSearchDetailHeal();
+            } else {
+                $('#modal-notfont').openModal();
+                getDetailHeal();
+            }
+
         });
     };
     $scope.searchPatient = function () {
@@ -757,7 +774,8 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         getTypeOfMedical();
         countTypeOfMedical();
     };
-    $scope.clickDeleteDetailHeal = function () {
+    $scope.clickDeleteDetailHeal = function (detailheal) {
+        $scope.seeDetailHeal = detailheal;
         $('#modal-delete-detailheal').openModal();
     };
     $scope.changePrefix = function (my) {

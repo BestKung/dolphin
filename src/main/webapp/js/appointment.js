@@ -54,11 +54,11 @@ angular.module('appointment').controller('appointmentController', function ($sco
         }
     };
 
-//
+
 //    checkDate();
 //    function checkDate() {
 //        if ($scope.appointment.appointDay == undefined) {
-//            $scope.appointment.appointDay = new Date();
+////            $scope.appointment.appointDay = moment(new Date().format('YYYY-MM-d'));
 //            $('#label-appointday').addClass('active');
 //        }
 //    }
@@ -106,7 +106,12 @@ angular.module('appointment').controller('appointmentController', function ($sco
     };
     function searchAppointment() {
         $http.post('/searchappointment', $scope.searchDataAppointment, {params: {page: pageAppointment, size: $scope.sizeAppointment}}).success(function (data) {
-            $scope.appointments = data;
+            if (data.content.length != 0) {
+                $scope.appointments = data;
+            } else {
+                $('#modal-notfont').openModal();
+                getAppointment();
+            }
         });
     }
 
@@ -285,7 +290,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $http.post('/searchpatient', $scope.searchData, {params: {page: pagePatient, size: 10}}).success(function (data) {
             $scope.patients = data;
             countSearchPatient();
-            console.log(totalPage);
         });
     };
     function searchPatient() {
@@ -310,7 +314,6 @@ angular.module('appointment').controller('appointmentController', function ($sco
         $http.get('/countpatient').success(function (data) {
             $scope.totalPatient = data;
             findTotalPage();
-            console.log('total page : ' + totalPage);
         });
     }
 

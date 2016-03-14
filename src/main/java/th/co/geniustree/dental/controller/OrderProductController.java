@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import th.co.geniustree.dental.model.Bill;
-import static th.co.geniustree.dental.model.Bill_.orderProduct;
 import th.co.geniustree.dental.model.OrderProduct;
 import th.co.geniustree.dental.repo.BillRepo;
 import th.co.geniustree.dental.repo.OrderProductRepo;

@@ -84,7 +84,7 @@
                             <option value="ชื่อคนไข้">ชื่อคนไข้</option>
                             <option value="ชื่อทันคเเพทย์">ชื่อทันคเเพทย์</option>
                             <option value="เบอร์โทรศัพท์">เบอร์โทรศัพท์</option>
-                            <option value="วันที่นัด">วันที่นัด (ปปปป/ดด/วว)</option>
+                            <option value="วันที่นัด">วันที่นัด (ปปปป-ดด-วว)</option>
                         </select>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="col m2">
                     <div class="right">
-                        <span class="">Show Page : </span>
+                        <span class="">เเสดงการนัด : </span>
                         <select class="browser-default" ng-change="selectGetOrSearchAppointment()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="sizeAppointment" ng-init="sizeAppointment = '10'">
                             <option value="10">10</option>
                             <option value="20">20</option>
@@ -345,7 +345,8 @@
         <div class="row center">
             <h4 style="background: red;color: white;padding: 20px;" class="margin-top-20 magin-buttom-20">ลบการนัด</h4>
         </div>
-        <h5 class="margin-left-20">ลบ : การนัด {{appointmentDetail.patient.name+' วันที่ : '+appointmentDetail.appointDay}}</h5>
+        <h5 class="margin-left-20">ลบการนัด : {{appointmentDetail.patient.name}}</h5>
+         <h5 class="margin-left-20">{{' วันที่ : '+appointmentDetail.appointDay}}</h5>
     </div>
     <div class="model-footer right">
         <a href="" class="magin-button btn btn-gray modal-action modal-close">Cancle</a>
@@ -364,4 +365,14 @@
 </div>
 
 <div id="warp-toast">
+</div>
+
+<div id="modal-notfont" class="modal" style="border-radius: 10px;">
+    <div class="modal-content">
+        <div class="row center" style="height: 150px;">
+            <div style="margin-top: 60px">
+                <font size="100" color="#90a4ae"> ไม่พบข้อมูล</font>
+            </div>
+        </div>
+    </div>
 </div>

@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -68,19 +69,15 @@ public class OrderHealController {
 //
 //    }
     @RequestMapping(value = "/saveorderheal", method = RequestMethod.POST)
-    public void saveDetailHeal(@RequestBody HistoryOfMedicalAndTypeOfMedical historyOfMedicalAndTypeOfMedical) {
+    public void saveDetailHeal(@Validated @RequestBody HistoryOfMedicalAndTypeOfMedical historyOfMedicalAndTypeOfMedical) {
         DetailHeal detailHeal = historyOfMedicalAndTypeOfMedical.getDetailHeal();
         List<TypeOfMedical> typeOfMedicals = historyOfMedicalAndTypeOfMedical.getTypeOfMedicals();
         DetailHeal detailHealTmp = detailHeal;
         detailHealRepo.save(detailHeal);
         for (int i = 0; i < typeOfMedicals.size(); i++) {
-//             System.out.println("--------------------------------------->getid: "+);
             OrderHeal orderHeal = new OrderHeal();
-            System.out.println("----------------------------------------->detailheal : " + detailHeal);
             orderHeal.setDetailHeal(detailHealTmp);
-            System.out.println("----------------------------------------->ListSelectHeal : " + typeOfMedicals.get(i).getListSelectHeal());
             orderHeal.setListSelectHeal(typeOfMedicals.get(i).getListSelectHeal());
-            System.out.println("------------------------------------------>value : " + typeOfMedicals.get(i).getValue());
             orderHeal.setValue(typeOfMedicals.get(i).getValue());
             orderHealRepo.save(orderHeal);
         }

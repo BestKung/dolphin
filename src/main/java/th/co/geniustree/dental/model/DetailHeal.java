@@ -23,6 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -54,8 +56,6 @@ public class DetailHeal implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "detailHeal")
     private List<OrderHeal> orderHealDetailHeals;
-    
-    
 
     public Integer getId() {
         return id;

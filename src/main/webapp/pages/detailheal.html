@@ -10,15 +10,15 @@
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-dateheal-detailheal">today</i>
-                    <input type="date" id="dateIn" class="datepicker" ng-model="detailHeal.dateHeal" ng-change="changePrefix('#prefix-dateheal-detailheal')">
-                    <label for="dateIn" class="update" id="namedate" >วันที่รักษา</label>
+                    <input type="date" id="dateIn" class="datepicker" ng-model="detailHeal.dateHeal" ng-change="changePrefix('#prefix-dateheal-detailheal');error.violations.dateHeal.message = ''">
+                    <label for="dateIn" class="update" id="label-dateheal" >วันที่รักษา<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.dateHeal.message}}</span></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-detailheal-patient">mood_bad</i>
-                    <input type="text" id="patient-detailheal" ng-model="patient.name" ng-click="clickPatient()" ng-change="changePrefix('#prefix-detailheal-patient')">
-                    <label class="update" for="patient-detailheal" id="label-detailheal-patient">ชื่อคนไข้</label>
+                    <input type="text" id="patient-detailheal" ng-model="patient.name" ng-click="clickPatient()" ng-change="changePrefix('#prefix-detailheal-patient');error.violations.patient.message = ''">
+                    <label class="update" for="patient-detailheal" id="label-detailheal-patient">ชื่อคนไข้<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.patient.message}}</span></label>
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-detailheal-doctor">mood</i>
@@ -82,12 +82,12 @@
                 <div class="col m6 input-field">
                     <i class="material-icons prefix">search</i>
                     <input type="text" id="search" ng-model="searchDataHistoryOfMedical.keyword">
-                    <label for="search" >Search : </label>
+                    <label for="search" >ค้นหา : </label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m3">
-                    <span><h6>Search By : </h6></span>
+                    <span><h6>ค้นหาจาก : </h6></span>
                     <div class="select-custom">
                         <select class="browser-default" id="select-searchby" ng-model="searchDataHistoryOfMedical.searchBy" ng-init="searchDataHistoryOfMedical.searchBy = 'ชื่อคนไข้'">
                             <option value="ชื่อคนไข้">ชื่อคนไข้</option>
@@ -130,18 +130,18 @@
                 <th style="width: 20%" class="table-department">ชื่อลูกค้า</th>
                 <th style="width: 20%" class="table-department">ชื่อหมอ</th>
                 <th style="width: 15%" class="table-department">วันที่รักษา</th>
-                <th style="width: 15%" class="table-department">จัดการ</th>
+                <th style="width: 30%" class="table-department">จัดการ</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="dh in detailHeals.content | orderBy:'id':true"">
+                    <tr ng-repeat="dh in detailHeals.content">
                         <td>{{dh.id}}</td>
                         <td>{{dh.patient.name}}</td>
                         <td>{{dh.doctor.nameTh}}</td>
                         <td>{{dh.dateHeal}}</td>
                         <td>
                             <a href="" ng-click="clickSeeDatailHeal(dh)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
-                            <!--                            <a class="btn-custom-radius btn-edit" ng-click="UpdateDoctor()"><i class="mdi-content-create"></i></a>
-                                                        <a class="btn-custom-radius btn-delete" ng-click="clickDelete(doctorDetail)"><i class="mdi-action-delete"></i></a>-->
+                            <a class="btn-custom-radius btn-edit" ng-click="clickUpdateDetailHeal(dh)"><i class="mdi-content-create"></i></a>
+                            <a class="btn-custom-radius btn-delete" ng-click="clickDeleteDetailHeal(dh)"><i class="mdi-action-delete"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -216,10 +216,10 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row margin-top right">
-                        <a class="btn btn-gray waves-light" ng-click="cancel()">ยกเลิก</a>
-                        <a class="btn btn-blue2 waves-light" ng-click="clickUpdateDetailHeal()">แก้ไข</a>
-                        <button class="btn btn-red waves-light" ng-click="clickDeleteDetailHeal()">ลบ</button>
+                    <div class="row margin-top-20 center" style="margin-right: 10px">
+                        <a class="btn-custom-radius btn-cancelv2" ng-click="cancel()"><i class="mdi-content-clear"></i></a>
+                        <a class="btn-custom-radius btn-edit" ng-click="clickUpdateDetailHeal(seeDetailHeal)"><i class="mdi-content-create"></i></a>
+                        <a class="btn-custom-radius btn-delete"ng-click="clickDeleteDetailHeal(seeDetailHeal)"><i class="mdi-action-delete"></i></a>
                     </div>
                 </div>
             </div>
@@ -301,7 +301,9 @@
                         <td>{{pat.name}}</td>
                         <th>{{pat.hn}}</th>
                         <th>{{pat.pid}}</th>
-                        <th><a class="select-human modal-close btn" ng-click="selectPatient(pat)">เลือก</a></th>
+                        <th>
+                            <a class="select-human modal-close" ng-click="selectPatient(pat)">เลือก</a>
+                        </th>
                     </tr>
                 </tbody>                  
             </table>
@@ -364,7 +366,9 @@
                         <td>{{doc.nameTh}}</td>
                         <th>{{doc.email}}</th>
                         <th>{{doc.mobile}}</th>
-                        <th><a class="select-human modal-close btn" ng-click="selectDoctor(doc)">เลือก</a></th>
+                        <th>
+                            <a class="select-human modal-close" ng-click="selectDoctor(doc)">เลือก</a>
+                        </th>
                     </tr>
                 </tbody>                  
             </table>
@@ -422,7 +426,9 @@
                         <th>
                             <input id="value-of-operation" type="text" style="height:2rem" placeholder="จำนวน" ng-model="value">
                         </th>
-                        <th><a class="select-human modal-close btn" ng-click="selectTypeOfMedical(typ, value)">เลือก</a></th>
+                        <th>
+                            <a class="select-human modal-close" ng-click="selectTypeOfMedical(typ, value)">เลือก</a>
+                        </th>
                     </tr>
                 </tbody>                  
             </table>
@@ -457,9 +463,19 @@
         <a href="" class="magin-button btn btn-gray modal-action modal-close">ยกเลิก</a>
     </div>
 </div>
+
 <div id="warp-toast">
 </div>
 
+<div id="modal-notfont" class="modal" style="border-radius: 10px;">
+    <div class="modal-content">
+        <div class="row center" style="height: 150px;">
+            <div style="margin-top: 60px">
+                <font size="100" color="#90a4ae"> ไม่พบข้อมูล</font>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
