@@ -69,10 +69,20 @@ public class OrderHealController {
 //
 //    }
     @RequestMapping(value = "/saveorderheal", method = RequestMethod.POST)
-    public void saveDetailHeal(@Validated @RequestBody HistoryOfMedicalAndTypeOfMedical historyOfMedicalAndTypeOfMedical) {
+    public Integer saveDetailHeal(@Validated @RequestBody HistoryOfMedicalAndTypeOfMedical historyOfMedicalAndTypeOfMedical) {
         DetailHeal detailHeal = historyOfMedicalAndTypeOfMedical.getDetailHeal();
         List<TypeOfMedical> typeOfMedicals = historyOfMedicalAndTypeOfMedical.getTypeOfMedicals();
         DetailHeal detailHealTmp = detailHeal;
+        int error = 0;
+        if (detailHeal.getDateHeal() == null) {
+            error += 1;
+        }
+        if (detailHeal.getPatient() == null) {
+            error += 2;
+        }
+        if (error > 0) {
+            return error;
+        }
         detailHealRepo.save(detailHeal);
         for (int i = 0; i < typeOfMedicals.size(); i++) {
             OrderHeal orderHeal = new OrderHeal();
@@ -81,6 +91,7 @@ public class OrderHealController {
             orderHeal.setValue(typeOfMedicals.get(i).getValue());
             orderHealRepo.save(orderHeal);
         }
+        return 200;
     }
 
 //     @RequestMapping(value = "/saveorderheal" , method = RequestMethod.POST)

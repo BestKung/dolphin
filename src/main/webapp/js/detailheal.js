@@ -21,7 +21,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     $scope.seeDetailHeal = {};
     $scope.size = 10;
     $scope.preScroll = 0;
-    $scope.error = {};
+    $scope.error = {detailheal: "", patient: ""};
     var user = "";
     var historyOfMedicalAndTypeOfMedical = {};
     var typeOfMedicalForSave = {};
@@ -73,6 +73,13 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         getUser();
     };
     $scope.seveOrderHeal = function () {
+//       if($scope.detailHeal.dateHeal == "" || detailHeal.dateHeal == undefined){
+//           alert('date');
+//       }
+//        else if (){
+//            
+//        }
+//        else{
         var typeMedical = [];
         historyOfMedicalAndTypeOfMedical.detailHeal = $scope.detailHeal;
         for (var i = 0; i < totalOrderHeal; i++) {
@@ -80,35 +87,45 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         }
         historyOfMedicalAndTypeOfMedical.typeOfMedicals = typeMedical;
         $http.post('/saveorderheal', historyOfMedicalAndTypeOfMedical).success(function (data) {
-            countDetailHeal();
-            if (!!dataUpdate.orderHealDetailHeals) {
-                if (dataUpdate.orderHealDetailHeals.length !== 0) {
-                    for (var i = 0; i < dataUpdate.orderHealDetailHeals.length; i++) {
-                        $http.post('/deleteorderheal', dataUpdate.orderHealDetailHeals[i]);
+            console.log(data);
+            if (data == 1 || data == 3) {
+                $scope.error.dateHeal = 'กรุณากรอกวันที่';
+            }
+            if (data > 1 || data == 3) {
+                $scope.error.patient = 'กรุณาเลือกคนไข้';
+            }
+            if (data == 200) {
+                countDetailHeal();
+                if (!!dataUpdate.orderHealDetailHeals) {
+                    if (dataUpdate.orderHealDetailHeals.length !== 0) {
+                        for (var i = 0; i < dataUpdate.orderHealDetailHeals.length; i++) {
+                            $http.post('/deleteorderheal', dataUpdate.orderHealDetailHeals[i]);
+                        }
+                        ;
                     }
-                    ;
                 }
+                getUser();
+                for (var i = 0; i < totalOrderHeal; i++) {
+                    typeMedical[i] = $scope.orderHeals.content[i];
+                    $http.post('/deletetypeofmedical', typeMedical[i]);
+                }
+                $scope.detailHeal = {};
+                $scope.patient = '';
+                $scope.doctor = '';
+                $scope.orderHeals = {};
+                totalOrderHeal = 0;
+                $('.update').removeClass('active');
+                $('#preffix-id-detailheal , #prefix-dateheal-detailheal , #prefix-detailheal-patient , #prefix-detailheal-doctor , #prefix-detailheal-detailheal').css('color', 'black');
+                getDetailHeal();
+                $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
+                Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
             }
-            getUser();
-            for (var i = 0; i < totalOrderHeal; i++) {
-                typeMedical[i] = $scope.orderHeals.content[i];
-                $http.post('/deletetypeofmedical', typeMedical[i]);
-            }
-            $scope.detailHeal = {};
-            $scope.patient = '';
-            $scope.doctor = '';
-            $scope.orderHeals = {};
-            totalOrderHeal = 0;
-            $('.update').removeClass('active');
-            $('#preffix-id-detailheal , #prefix-dateheal-detailheal , #prefix-detailheal-patient , #prefix-detailheal-doctor , #prefix-detailheal-detailheal').css('color', 'black');
-            getDetailHeal();
-            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
-            Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
         }).error(function (data) {
             $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
             Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
             $scope.error = data;
         });
+//        }
     };
     $scope.clearData = function () {
         clearData();
@@ -240,6 +257,7 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
         $('#modal-patient').closeModal();
         $('#prefix-detailheal-patient').css('color', '#00bcd4');
         $('#label-detailheal-patient').addClass('active');
+        $scope.error.patient = '';
     };
     $scope.selectDoctor = function (doc) {
         $scope.doctor = doc;
