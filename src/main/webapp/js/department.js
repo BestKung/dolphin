@@ -29,7 +29,7 @@ angular.module('department').controller('departmentController', function ($scope
                     $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
                     Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
                     getTotalListDepartment();
-               
+
                 }).error(function (data) {
             $('body,html').animate({scrollTop: 0}, "600");
             $scope.error = data;
@@ -211,8 +211,13 @@ angular.module('department').controller('departmentController', function ($scope
     function searcDataContentDepartment() {
         console.log($scope.searchDataDepartment);
         $http.post('/getdepartment/searchdepartment', $scope.searchDataDepartment, {params: {page: $scope.pageDepartment, size: $scope.rowDepartment}}).success(function (data) {
-            $scope.departments = data;
-            countSearchDepartment();
+            if (data.content.length == 0 || $scope.searchDataDepartment.keyword == "") {
+                $('#modal-notfont').openModal();
+                getDepartment();
+            } else {
+                $scope.departments = data;
+                countSearchDepartment();
+            }
         });
     }
 

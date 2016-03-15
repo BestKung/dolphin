@@ -106,11 +106,11 @@ angular.module('appointment').controller('appointmentController', function ($sco
     };
     function searchAppointment() {
         $http.post('/searchappointment', $scope.searchDataAppointment, {params: {page: pageAppointment, size: $scope.sizeAppointment}}).success(function (data) {
-            if (data.content.length != 0) {
-                $scope.appointments = data;
-            } else {
+            if (data.content.length == 0 || $scope.searchDataAppointment.keyword == "") {
                 $('#modal-notfont').openModal();
                 getAppointment();
+            } else {
+                $scope.appointments = data;
             }
         });
     }

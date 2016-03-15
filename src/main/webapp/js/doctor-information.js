@@ -74,12 +74,12 @@ angular.module('doctor-information').controller('doctorInformationController', f
 
     function searchData() {
         $http.post('/searchdoctor', $scope.search, {params: {page: page, size: $scope.size}}).success(function (data) {
-            if (data.content.length != 0) {
-                $scope.doctors = data;
-                countSearchDoctor();
-            } else {
+            if (data.content.length == 0 || $scope.search.keyword == "") {
                 $('#modal-notfont').openModal();
                 getDoctor();
+            } else {
+                $scope.doctors = data;
+                countSearchDoctor();
             }
         });
     }

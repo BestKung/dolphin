@@ -57,12 +57,14 @@ angular.module('patient-information').controller('patientInformationController',
 
     function searchPatient() {
         $http.post('/searchpatient', $scope.search).success(function (data) {
-            if (data.content.length != 0) {
+            console.log(data+"-------------->");
+            if (data.content.length == 0 || $scope.search.keyword == "") {
+                $('#modal-notfont').openModal();
+                console.log(data);
+                getPatient();
+            } else {
                 $scope.patients = data;
                 countSearchPatient();
-            } else {
-                $('#modal-notfont').openModal();
-                getPatient();
             }
         });
     }
@@ -72,7 +74,6 @@ angular.module('patient-information').controller('patientInformationController',
         $http.get('/countpatient').success(function (data) {
             $scope.totalPatient = data;
             findTotalPage();
-            console.log('total page : ' + totalPage);
         });
     }
 

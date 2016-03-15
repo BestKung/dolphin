@@ -79,13 +79,13 @@ angular.module('employee-information').controller('employeeInformationController
     $scope.searcEmployee = function () {
         console.log('search');
         $http.post('/searchstaff', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
-            if (data.content.length != 0) {
+            console.log(data);
+            if (data.content.length == 0 || $scope.searchData.keyword == "") {
+                $('#modal-notfont').openModal();
+                getEmployees();
+            } else {
                 $scope.employees = data;
                 searchStaffCount();
-            }
-            else{
-                 $('#modal-notfont').openModal();
-                getEmployees();
             }
         }).error(function (data) {
 
@@ -139,7 +139,7 @@ angular.module('employee-information').controller('employeeInformationController
     $scope.deleteEmployee = function () {
         $http.post('/deletestaff', $scope.selectEmployee).success(function (data) {
             Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
-           $scope.selectEmployee = {};
+            $scope.selectEmployee = {};
             selectGetOrSearch();
 //            toPreScroll();
             $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');

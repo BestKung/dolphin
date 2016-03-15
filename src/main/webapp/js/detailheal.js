@@ -335,12 +335,12 @@ angular.module('detailHeal').controller('detailHealController', function ($scope
     };
     $scope.searchHistoryOfMedical = function () {
         $http.post('/loaddetailheal/searchdetailheal', $scope.searchDataHistoryOfMedical, {params: {page: pageDetailHeal, size: $scope.size}}).success(function (data) {
-            if (data.content.length != 0) {
-                $scope.detailHeals = data;
-                countSearchDetailHeal();
-            } else {
+            if (data.content.length == 0 || $scope.searchDataHistoryOfMedical.keyword == "") {
                 $('#modal-notfont').openModal();
                 getDetailHeal();
+            } else {
+                $scope.detailHeals = data;
+                countSearchDetailHeal();
             }
 
         });
