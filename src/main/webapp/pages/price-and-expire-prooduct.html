@@ -192,8 +192,8 @@
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
-            <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searcDataContentLot()">
+             <div class="col m3 " style="margin-top: 30px;">
+                <a class="btn-best btn-search" ng-click="searcDataContentLot()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
             </div>
         </div>
         <div class="row">
@@ -213,7 +213,7 @@
                         <td>{{lo.nameStaffReam}}</td>
                         <td>{{lo.dateIn}}</td>
                         <td>{{lo.dateOut}}</td>
-                        <th><a class="select-human modal-close btn" ng-click="selectLot(lo)">เลือก</a></th>
+                        <th><a class="modal-close btn-best btn-edit" ng-click="selectLot(lo)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
@@ -257,8 +257,8 @@
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
-            <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searcDataContentProduct()">
+             <div class="col m3 " style="margin-top: 30px;">
+                <a class="btn-best btn-search" ng-click="searcDataContentProduct()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
             </div>
         </div>
         <div class="row">
@@ -278,7 +278,7 @@
                         <td>{{pd.name}}</td>
                         <td>{{pd.typeProduct.name}}</td>
                         <td>{{pd.unit.name}}</td>
-                        <th><a class="select-human modal-close btn" ng-click="selectProduct(pd)">เลือก</a></th>
+                        <th><a class="modal-close btn-best btn-edit" ng-click="selectProduct(pd)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
@@ -287,7 +287,7 @@
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
                     <li class="btn btn-pagination" id="first-page-product" ng-click="firstPageProduct()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn btn-pagination" id="pre-page-product" ng-click="prePageProduct()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn btn-pagination" id="pre-page-product" ng-click="prePageProduct()"><p style="margin-top: 2px;">&LT;</p></li>
                     <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPageProduct + 1}}</p></li>
                     <li class="btn btn-pagination" id="next-page-product" ng-click="nextPageProduct()"><p style="margin-top: 2px;">&GT;</p></li>
                     <li class="btn btn-pagination" id="final-page-product" ng-click="finalPageEmployee()"><p style="margin-top: 2px;">&Gt;</p></li>

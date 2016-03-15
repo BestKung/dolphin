@@ -88,7 +88,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col m2">
+                <div class="col m2" style="margin-top: 40px;">
                     <a class="btn-best btn-search" ng-click="searchAppointment()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
                 </div>
                 <div class="col m2">
@@ -234,18 +234,18 @@
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
-            <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searchPatient()">
+             <div class="col m3 " style="margin-top: 30px;">
+                <a class="btn-best btn-search" ng-click="searchPatient()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
             </div>
         </div>
         <div class="row">
             <table class="responsive-table hoverable">
                 <thead>
                     <tr>
-                        <th style="width:40%">ชื่อ</th>
+                        <th style="width:25%">ชื่อ</th>
                         <th style="width:15%">H/N</th>
                         <th style="width:30%">รหัสประชาชน</th>
-                        <th style="width:15%">เลือก</th>
+                        <th style="width:20%">เลือก</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -253,7 +253,7 @@
                         <td>{{pat.name}}</td>
                         <th>{{pat.hn}}</th>
                         <th>{{pat.pid}}</th>
-                        <th><a class="select-human modal-close" ng-click="selectPatient(pat)">เลือก</a></th>
+                        <th><a class="modal-close btn-best btn-edit" ng-click="selectPatient(pat)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
@@ -262,7 +262,7 @@
             <div class="col m12">
                 <ul class="pagination right" style="margin-top: 10px;">
                     <li class="btn btn-pagination" id="first-page" ng-click="firstPage()"><p style="margin-top: 2px;">&Lt;</p></li>
-                    <li class="btn btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT</p>;</li>
+                    <li class="btn btn-pagination" id="pre-page" ng-click="prePage()"><p style="margin-top: 2px;">&LT;</p></li>
                     <li class="btn btn-pagination"><p style="margin-top: 2px;">{{currentPage + 1}}</p></li>
                     <li class="btn btn-pagination" id="next-page" ng-click="nextPage()"><p style="margin-top: 2px;">&GT;</p></li>
                     <li class="btn btn-pagination" id="final-page" ng-click="finalPage()"><p style="margin-top: 2px;">&Gt;</p></li>
@@ -297,18 +297,18 @@
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
-            <div class="col m3 " style="margin-top: 20px;">
-                <input type="submit" value="ค้นหา" class="btn" ng-click="searchDoctor()">
+             <div class="col m3 " style="margin-top: 30px;">
+                <a class="btn-best btn-search" ng-click="searchDoctor()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
             </div>
         </div>
         <div class="row">
             <table class="responsive-table hoverable">
                 <thead>
                     <tr>
-                        <th style="width:40%">ชื่อ</th>
-                        <th style="width:30%">อีเมลล์</th>
+                        <th style="width:25%">ชื่อ</th>
+                        <th style="width:25%">อีเมลล์</th>
                         <th style="width:20%">เบอร์โทร</th>
-                        <th style="width:10%">เลือก</th>
+                        <th style="width:20%">เลือก</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -316,7 +316,7 @@
                         <td>{{doc.nameTh}}</td>
                         <th>{{doc.email}}</th>
                         <th>{{doc.mobile}}</th>
-                        <th><a class="select-human modal-close" ng-click="selectDoctor(doc)">เลือก</a></th>
+                        <th><a class="modal-close btn-best btn-edit" ng-click="selectDoctor(doc)">เลือก</a></th>
                     </tr>
                 </tbody>                  
             </table>
