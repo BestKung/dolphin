@@ -16,7 +16,7 @@
                     <label class="active" for="name">ชื่อชนิดการรักษา<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.name.message}}</span></label>
                 </div>
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix" >attach_money</i>
+                    <i class="material-icons prefix" >format_bold</i>
                     <input type="number" id="price" ng-model="listSelectHeal.price" ng-change="error.violations.price.message = '';">
                     <label class="active" for="price">ราคา<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.price.message}}</span></label>
                 </div>
@@ -36,12 +36,12 @@
                 <div class="col m6 input-field">
                     <i class="material-icons prefix">search</i>
                     <input type="text" id="search" ng-model="searchData.keyword">
-                    <label for="search" >Search : </label>
+                    <label for="search" >ค้นหา : </label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m3">
-                    <span><h6>Search By : </h6></span>
+                    <span><h6>ค้นหาโดย : </h6></span>
                     <div class="select-custom">
                         <select class="browser-default" id="select-searchby" ng-model="searchData.searchBy" ng-init="searchData.searchBy = 'Name'">
                             <option value="Name">ชื่อชนิดการรักษา</option>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="col m6">
                     <div class="right">
-                        <span class="">Show Page : </span>
+                        <span >จำนวนแถวที่แสดง : </span>
                         <select class="browser-default" ng-change="selectGetOrSearch()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="row" ng-init="row ='10'">
                             <option value="10">10</option>
                             <option value="20">20</option>
@@ -83,7 +83,7 @@
                 <th style="width: 30px;"class="table-department">จัดการ</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="lsh in listSelectHeals.content | orderBy:'id':true">
+                    <tr ng-repeat="lsh in listSelectHeals.content">
                         <td>{{lsh.id}}</td>
                         <td>{{lsh.name}}</td>
                         <td>{{lsh.price}}</td>

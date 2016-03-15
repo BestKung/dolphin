@@ -35,6 +35,8 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
     $scope.searchDataPriceAndExpireProduct.keyword = "";
     $scope.priceAndExpireProducts = {};
     $scope.priceAndExpireProduct = {};
+    $scope.priceAndExpireProduct.expire = new Date();
+    $scope.priceAndExpireProduct.notificationsExpire = 30;
     $scope.priceAndExpireProductdelete = {};
     $scope.error = {};
 //===========================================================================================

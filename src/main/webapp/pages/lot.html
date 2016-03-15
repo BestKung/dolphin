@@ -44,12 +44,12 @@
                 <div class="col m6 input-field">
                     <i class="material-icons prefix">search</i>
                     <input type="text" id="search" ng-model="searchDataLot.keyword">
-                    <label for="search" >Search : </label>
+                    <label for="search" >ค้นหา : </label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m3">
-                    <span><h6>Search By : </h6></span>
+                    <span><h6>ค้นหาโดย : </h6></span>
                     <div class="select-custom">
                         <select class="browser-default" id="select-searchby" ng-model="searchDataLot.searchBy" ng-init="searchDataLot.searchBy = 'Name'">
                             <option value="Name">คนเซ็นชื่อกำกับ</option>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="col m6">
                     <div class="right">
-                        <span class="">Show Page : </span>
+                        <span class="">จำนวนแถวที่แสดง : </span>
                         <select class="browser-default" ng-change="selectGetOrSearchLot()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="rowLot" ng-init="rowLot = '10'">
                             <option value="10">10</option>
                             <option value="20">20</option>
@@ -170,7 +170,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="emp in employees.content | orderBy:'id':true"">
+                    <tr ng-repeat="emp in employees.content">
                         <td>{{emp.nameTh}}</td>
                         <th>{{emp.email}}</th>
                         <th>{{emp.mobile}}</th>

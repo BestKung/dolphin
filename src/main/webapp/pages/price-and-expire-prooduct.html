@@ -41,8 +41,18 @@
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix">notifications_active</i>
-                    <input type="date" id="dateIn" class="datepicker" ng-model="priceAndExpireProduct.notificationsExpire">
-                    <label for="dateIn" class="active" id="namedepartment1" >กำหนดการแจ้งเตือนวันหมดอายุ</label>
+                    <!--                    <input type="date" id="dateIn" class="datepicker" ng-model="priceAndExpireProduct.notificationsExpire">
+                                        <label for="dateIn" class="active" id="namedepartment1" >กำหนดการแจ้งเตือนวันหมดอายุ</label>-->
+                    <div class="select-custom">
+                        <select class="browser-default" id="select-sex" ng-model="priceAndExpireProduct.notificationsExpire" ng-init="priceAndExpireProduct.notificationsExpire = '30'"> 
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                            <option value="45">60</option>
+                            <option value="45">75</option>
+                            <option value="45">90</option>
+                        </select> 
+                    </div>
+                    <label class="active" >กำหนดการแจ้งเตือนวันหมดอายุ</label>
                 </div>
             </div>
             <div class="row">
@@ -52,7 +62,7 @@
                     <label class="active" id="namedepartment" for="name">ราคาซื้อ<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.priceBuy.message}}</span></label>
                 </div>
                 <div class="col m6 input-field">
-                    <i class="material-icons prefix" >attach_money</i>
+                    <i class="material-icons prefix" >format_bold</i>
                     <input type="number" id="name" ng-model="priceAndExpireProduct.priceSell" ng-change="error.violations.priceSell.message = '';">
                     <label class="active" id="namedepartment" for="name">ราคาขาย<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.priceSell.message}}</span></label>
                 </div>
@@ -73,12 +83,12 @@
                 <div class="col m6 input-field">
                     <i class="material-icons prefix">search</i>
                     <input type="text" id="search" ng-model="searchDataPriceAndExpireProduct.keyword">
-                    <label for="search" >Search : </label>
+                    <label for="search" >ค้นหา : </label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m3">
-                    <span><h6>Search By : </h6></span>
+                    <span><h6>ค้นหาโดย : </h6></span>
                     <div class="select-custom">
                         <select class="browser-default" id="select-searchby" ng-model="searchDataPriceAndExpireProduct.searchBy" ng-init="searchDataPriceAndExpireProduct.searchBy = 'NameProduct'">
                             <option value="LotIn">รอบสินค้า</option>
@@ -105,7 +115,7 @@
                 </div>
                 <div class="col m6">
                     <div class="right">
-                        <span class="">Show Page : </span>
+                        <span class="">จำนวนแถวที่แสดง : </span>
                         <select class="browser-default" ng-change="selectGetOrSearchPriceAndExpireProduct()" style="margin-top: 10px; margin-left:calc(3.8rem);width: 100px;" ng-model="rowPriceAndExpireProduct" ng-init="rowPriceAndExpireProduct = '10'">
                             <option value="10">10</option>
                             <option value="20">20</option>
@@ -127,7 +137,7 @@
                 <th style="width: 10%"class="table-department">จัดการ</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="paep in priceAndExpireProducts.content | orderBy:'id':true"">
+                    <tr ng-repeat="paep in priceAndExpireProducts.content">
                         <td>{{paep.id}}</td>
                         <td>{{paep.lot.dateIn}}</td>
                         <td>{{paep.product.name}}</td>
@@ -192,7 +202,7 @@
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
-             <div class="col m3 " style="margin-top: 30px;">
+            <div class="col m3 " style="margin-top: 30px;">
                 <a class="btn-best btn-search" ng-click="searcDataContentLot()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
             </div>
         </div>
@@ -257,7 +267,7 @@
                 </div>
                 <label class="active">ค้นหาจาก</label>
             </div>
-             <div class="col m3 " style="margin-top: 30px;">
+            <div class="col m3 " style="margin-top: 30px;">
                 <a class="btn-best btn-search" ng-click="searcDataContentProduct()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
             </div>
         </div>

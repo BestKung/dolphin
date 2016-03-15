@@ -37,38 +37,40 @@ public class PriceAndExpireProduct implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date expire;
 
+//    @Column(name = "NOTIFICATIONSEXPIRE")
+//    @Temporal(TemporalType.DATE)
+//    private Date notificationsExpire;
     @Column(name = "NOTIFICATIONSEXPIRE")
-    @Temporal(TemporalType.DATE)
-    private Date notificationsExpire;
+    private String notificationsExpire;
 
-    @Column(name = "VALUE",nullable = false)
+    @Column(name = "VALUE", nullable = false)
     @NotNull(message = "กรุณาระบุจำนวนสินค้า")
     private Integer value;
 
-    @Column(name = "NOTIFICATIONSVALUE",nullable = false)
+    @Column(name = "NOTIFICATIONSVALUE", nullable = false)
     @NotNull(message = "กรุณาระบุกำหนดการแจ้งเตือนจำนวนสินค้า")
     private Integer notificationsValue;
 
-    @Column(name = "PRICEBUY",nullable = false)
+    @Column(name = "PRICEBUY", nullable = false)
     @NotNull(message = "กรุณาระบุราคาซื้อ")
     private Double priceBuy;
 
-    @Column(name = "PRICESELL",nullable = false)
+    @Column(name = "PRICESELL", nullable = false)
     @NotNull(message = "กรุณาระบุราคาขาย")
     private Double priceSell;
 
     @ManyToOne
-    @JoinColumn(name = "LOT_ID",nullable = false)
+    @JoinColumn(name = "LOT_ID", nullable = false)
     @NotNull(message = "กรุณาระบุรอบนำเข้าด้วยครับ")
     private Lot lot;
 
     @ManyToOne
-    @JoinColumn(name = "PRODUCT_ID",nullable = false)
+    @JoinColumn(name = "PRODUCT_ID", nullable = false)
     @NotNull(message = "กรุณาระบุชื่อสินค้าด้วยครับ")
     private Product product;
-    
+
     private String statusNontificationValue;
-    
+
     private String statusNontificationExpire;
 
     public Integer getId() {
@@ -87,11 +89,11 @@ public class PriceAndExpireProduct implements Serializable {
         this.expire = expire;
     }
 
-    public Date getNotificationsExpire() {
+    public String getNotificationsExpire() {
         return notificationsExpire;
     }
 
-    public void setNotificationsExpire(Date notificationsExpire) {
+    public void setNotificationsExpire(String notificationsExpire) {
         this.notificationsExpire = notificationsExpire;
     }
 
@@ -158,7 +160,7 @@ public class PriceAndExpireProduct implements Serializable {
     public void setStatusNontificationExpire(String statusNontificationExpire) {
         this.statusNontificationExpire = statusNontificationExpire;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
