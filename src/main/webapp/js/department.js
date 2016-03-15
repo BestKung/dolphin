@@ -26,10 +26,10 @@ angular.module('department').controller('departmentController', function ($scope
         $http.post('/savedepartment', $scope.department)
                 .success(function (data) {
                     getDepartment();
-                    $scope.department = {};
                     $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
                     Materialize.toast('บันทึกข้อมูลเรียบร้อย', 3000, 'rounded');
                     getTotalListDepartment();
+               
                 }).error(function (data) {
             $('body,html').animate({scrollTop: 0}, "600");
             $scope.error = data;

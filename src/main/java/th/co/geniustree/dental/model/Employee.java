@@ -41,7 +41,7 @@ public class Employee implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @EmployeeEmailUnique()
+//    @EmployeeEmailUnique()
     @Column(name = "EMAIL", nullable = false)
     @NotBlank(message = "กรุณากรอก อีเมล")
     @Email(message = "example@example.com")

@@ -33,7 +33,7 @@ public class Department implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @DepartmentNameUnique
+//    @DepartmentNameUnique
     @Column(name = "NAME", nullable = false)
     @NotBlank(message = "กรุณากรอกชื่อเเผนก")
     private String name;
