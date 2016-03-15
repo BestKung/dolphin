@@ -387,8 +387,14 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
     function searcDataContentLot() {
         console.log($scope.searchDataLot);
         $http.post('/loadlot/searchlot', $scope.searchDataLot, {params: {page: $scope.pageLot, size: $scope.rowLot}}).success(function (data) {
-            $scope.lots = data;
-            countSearchLot();
+
+            if (data.content.length === 0 || $scope.searchDataLot.keyword === "") {
+                $('#modal-notfont').openModal();
+                loadLot();
+            } else {
+                $scope.lots = data;
+                countSearchLot();
+            }
         });
     }
 

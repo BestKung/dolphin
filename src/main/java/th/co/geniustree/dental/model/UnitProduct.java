@@ -32,7 +32,7 @@ public class UnitProduct implements Serializable {
     private Integer id;
 
     
-    @Column(name = "NAME",nullable = false)
+    @Column(name = "NAME",nullable = false,unique = true)
     @NotBlank(message = "กรุณาระบุชื่อหน่วย")
     private String name;
 

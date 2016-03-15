@@ -549,8 +549,14 @@ angular.module('priceAndExpireProduct').controller('priceAndExpireProductControl
     function searcDataContentPriceAndExpireProduct() {
         console.log($scope.searchDataPriceAndExpireProduct);
         $http.post('/loadpriceandexpireproduct/searchpriceandexpireproduct', $scope.searchDataPriceAndExpireProduct, {params: {page: $scope.pagePriceAndExpireProduct, size: $scope.rowPriceAndExpireProduct}}).success(function (data) {
-            $scope.priceAndExpireProducts = data;
-            countSearchPriceAndExpireProduct();
+
+            if (data.content.length === 0 || $scope.searchDataPriceAndExpireProduct.keyword === "") {
+                $('#modal-notfont').openModal();
+                 loadPriceAndExpireProduct();
+            } else {
+                $scope.priceAndExpireProducts = data;
+                countSearchPriceAndExpireProduct();
+            }
         });
     }
 

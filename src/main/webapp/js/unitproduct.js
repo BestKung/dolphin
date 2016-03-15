@@ -87,8 +87,13 @@ angular.module('unitProduct').controller('unitProductController', function ($sco
 
     function searcDataContent() {
         $http.post('/loadunitproduct/searchunitproduct', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
-            $scope.unitProducts = data;
-            countSearch();
+            if (data.content.length === 0 || $scope.searchData.keyword === "") {
+                $('#modal-notfont').openModal();
+                loadUnitProduct();
+            } else {
+                $scope.unitProducts = data;
+                countSearch();
+            }
         });
     }
 

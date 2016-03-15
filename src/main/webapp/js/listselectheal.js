@@ -86,8 +86,13 @@ angular.module('listSelectHeal').controller('listSelectHealController', function
 
     function searcDataContent() {
         $http.post('/loadlistselectheal/searchlistselectheal', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
-            $scope.listSelectHeals = data;
-            countSearchListselectHeal();
+            if (data.content.length === 0 || $scope.searchData.keyword === "") {
+                $('#modal-notfont').openModal();
+                loadListSelectHeal();
+            } else {
+                $scope.listSelectHeals = data;
+                countSearchListselectHeal();
+            }
         });
     }
 

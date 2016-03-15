@@ -235,8 +235,13 @@ angular.module('product').controller('productController', function ($scope, $htt
     function searcDataContentProduct() {
         console.log($scope.searchDataProduct);
         $http.post('/loadlproduct/searchproduct', $scope.searchDataProduct, {params: {page: $scope.pageProduct, size: $scope.rowProduct}}).success(function (data) {
-            $scope.products = data;
-            countSearchLot();
+            if (data.content.length === 0 || $scope.searchDataProduct.keyword === "") {
+                $('#modal-notfont').openModal();
+                loadProduct();
+            } else {
+                $scope.products = data;
+                countSearchLot();
+            }
         });
     }
 

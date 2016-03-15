@@ -86,8 +86,13 @@ angular.module('typeProduct').controller('typeProductController', function ($sco
 
     function searcDataContent() {
         $http.post('/loadtypeproduct/searchtypeproduct', $scope.searchData, {params: {page: $scope.page, size: $scope.row}}).success(function (data) {
-            $scope.typeProducts = data;
-            countSearch();
+            if (data.content.length === 0 || $scope.searchData.keyword === "") {
+                $('#modal-notfont').openModal();
+                loadTpyeProduct();
+            } else {
+                $scope.typeProducts = data;
+                countSearch();
+            }
         });
     }
 
