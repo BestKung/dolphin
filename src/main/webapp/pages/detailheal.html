@@ -10,15 +10,15 @@
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-dateheal-detailheal">today</i>
-                    <input type="date" id="dateIn" class="datepicker" ng-model="detailHeal.dateHeal" ng-change="changePrefix('#prefix-dateheal-detailheal');error.violations.dateHeal.message = ''">
-                    <label for="dateIn" class="update" id="label-dateheal" >วันที่รักษา<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.dateHeal.message}}</span></label>
+                    <input type="date" id="dateIn" class="datepicker" ng-model="detailHeal.dateHeal" ng-change="changePrefix('#prefix-dateheal-detailheal')">
+                    <label for="dateIn" class="update" id="label-dateheal" >วันที่รักษา<span class="necessary">*</span><span class="margin-left necessary-text">{{error.dateHeal}}</span></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-detailheal-patient">mood_bad</i>
-                    <input type="text" id="patient-detailheal" ng-model="patient.name" ng-click="clickPatient()" ng-change="changePrefix('#prefix-detailheal-patient');error.violations.patient.message = ''">
-                    <label class="update" for="patient-detailheal" id="label-detailheal-patient">ชื่อคนไข้<span class="necessary">*</span><span class="margin-left necessary-text">{{error.violations.patient.message}}</span></label>
+                    <input type="text" id="patient-detailheal" ng-model="patient.name" ng-click="clickPatient()" ng-change="changePrefix('#prefix-detailheal-patient')">
+                    <label class="update" for="patient-detailheal" id="label-detailheal-patient">ชื่อคนไข้<span class="necessary">*</span><span class="margin-left necessary-text">{{error.patient}}</span></label>
                 </div>
                 <div class="col m6 input-field">
                     <i class="material-icons prefix clear-prefix" id="prefix-detailheal-doctor">mood</i>
