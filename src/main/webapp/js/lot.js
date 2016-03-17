@@ -3,6 +3,7 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
 
     $scope.lot = {};
     $scope.lot.nameStaffReam = "";
+    $scope.lot.dateIn = new Date();
     $scope.lots = {};
     $scope.employees = {};
     $scope.lotDelete = {};

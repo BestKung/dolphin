@@ -37,9 +37,11 @@ public class PriceAndExpireProduct implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date expire;
 
+//    @Column(name = "NOTIFICATIONSEXPIRE")
+//    @Temporal(TemporalType.DATE)
+//    private Date notificationsExpire;
     @Column(name = "NOTIFICATIONSEXPIRE")
-    @Temporal(TemporalType.DATE)
-    private Date notificationsExpire;
+    private String notificationsExpire;
 
     @Column(name = "VALUE", nullable = false)
     @NotNull(message = "กรุณาระบุจำนวนสินค้า")
@@ -91,11 +93,11 @@ public class PriceAndExpireProduct implements Serializable {
         this.expire = expire;
     }
 
-    public Date getNotificationsExpire() {
+    public String getNotificationsExpire() {
         return notificationsExpire;
     }
 
-    public void setNotificationsExpire(Date notificationsExpire) {
+    public void setNotificationsExpire(String notificationsExpire) {
         this.notificationsExpire = notificationsExpire;
     }
 
