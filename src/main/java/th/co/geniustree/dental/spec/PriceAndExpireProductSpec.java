@@ -21,56 +21,55 @@ import th.co.geniustree.dental.model.Product_;
  * @author Jasin007
  */
 public class PriceAndExpireProductSpec {
-    
-    public static Specification<PriceAndExpireProduct> productLike(final String keyword){
+
+    public static Specification<PriceAndExpireProduct> productLike(final String keyword) {
         return new Specification<PriceAndExpireProduct>() {
 
             @Override
             public Predicate toPredicate(Root<PriceAndExpireProduct> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-                return cb.like(cb.upper(root.get(PriceAndExpireProduct_.product).get(Product_.name)), keyword.toUpperCase());
+                return cb.and(cb.like(cb.upper(root.get(PriceAndExpireProduct_.product).get(Product_.name)), keyword.toUpperCase()), cb.isNull(root.get(PriceAndExpireProduct_.status)));
             }
         };
     }
-    
-    public static Specification<PriceAndExpireProduct> expireBetween(final Date keyword){
+
+    public static Specification<PriceAndExpireProduct> expireBetween(final Date keyword) {
         return new Specification<PriceAndExpireProduct>() {
 
             @Override
             public Predicate toPredicate(Root<PriceAndExpireProduct> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-               return cb.between(root.get(PriceAndExpireProduct_.expire), keyword, keyword);
+                return cb.and(cb.between(root.get(PriceAndExpireProduct_.expire), keyword, keyword), cb.isNull(root.get(PriceAndExpireProduct_.status)));
             }
         };
     }
-    
-    public static Specification<PriceAndExpireProduct> lotInBetween(final Date keyword){
+
+    public static Specification<PriceAndExpireProduct> lotInBetween(final Date keyword) {
         return new Specification<PriceAndExpireProduct>() {
 
             @Override
             public Predicate toPredicate(Root<PriceAndExpireProduct> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-               return cb.between(root.get(PriceAndExpireProduct_.lot).get(Lot_.dateIn), keyword, keyword);
+                return cb.and(cb.between(root.get(PriceAndExpireProduct_.lot).get(Lot_.dateIn), keyword, keyword), cb.isNull(root.get(PriceAndExpireProduct_.status)));
             }
         };
     }
-    
-    
-    public static Specification<PriceAndExpireProduct> OutProduct(){
-    return new Specification<PriceAndExpireProduct>() {
 
-        @Override
-        public Predicate toPredicate(Root<PriceAndExpireProduct> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-         return cb.lessThanOrEqualTo(root.get(PriceAndExpireProduct_.value), root.get(PriceAndExpireProduct_.notificationsValue));
-        }
-    };
-    }
-    
-    public static Specification<PriceAndExpireProduct> outProductAndStatus(){
-    return new Specification<PriceAndExpireProduct>() {
+    public static Specification<PriceAndExpireProduct> OutProduct() {
+        return new Specification<PriceAndExpireProduct>() {
 
-        @Override
-        public Predicate toPredicate(Root<PriceAndExpireProduct> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-           return cb.and(cb.lessThanOrEqualTo(root.get(PriceAndExpireProduct_.value), root.get(PriceAndExpireProduct_.notificationsValue)), cb.like(root.get(PriceAndExpireProduct_.statusNontificationValue),"1"));
-        }
-    };
+            @Override
+            public Predicate toPredicate(Root<PriceAndExpireProduct> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+                return cb.lessThanOrEqualTo(root.get(PriceAndExpireProduct_.value), root.get(PriceAndExpireProduct_.notificationsValue));
+            }
+        };
     }
-  
+
+    public static Specification<PriceAndExpireProduct> outProductAndStatus() {
+        return new Specification<PriceAndExpireProduct>() {
+
+            @Override
+            public Predicate toPredicate(Root<PriceAndExpireProduct> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+                return cb.and(cb.lessThanOrEqualTo(root.get(PriceAndExpireProduct_.value), root.get(PriceAndExpireProduct_.notificationsValue)), cb.like(root.get(PriceAndExpireProduct_.statusNontificationValue), "1"));
+            }
+        };
+    }
+
 }

@@ -127,7 +127,7 @@
                 <th style="width: 10%"class="table-department">จัดการ</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="paep in priceAndExpireProducts.content | orderBy:'id':true"">
+                    <tr ng-repeat="paep in priceAndExpireProducts.content">
                         <td>{{paep.id}}</td>
                         <td>{{paep.lot.dateIn}}</td>
                         <td>{{paep.product.name}}</td>

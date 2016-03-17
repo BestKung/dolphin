@@ -36,11 +36,12 @@ public class PriceAndExpireProductController {
 
     @RequestMapping(value = "/loadpriceandexpireproduct")
     public Page<PriceAndExpireProduct> loadPriceAndExpireProduct(Pageable pageable) {
-        return priceAndExpireProductRepo.findAll(pageable);
+        return priceAndExpireProductRepo.findByStatusIsNull(pageable);
     }
 
     @RequestMapping(value = "/savepriceandexpireproduct", method = RequestMethod.POST)
     public void savePriceAndExpireProduct(@Validated @RequestBody PriceAndExpireProduct priceAndExpireProduct) {
+        priceAndExpireProduct.setAmountRemaining(priceAndExpireProduct.getValue());
         priceAndExpireProductRepo.save(priceAndExpireProduct);
     }
 
@@ -50,8 +51,8 @@ public class PriceAndExpireProductController {
     }
 
     @RequestMapping(value = "/totalpriceandexpireproduct", method = RequestMethod.GET)
-    public Long getTotalPriceAndExpireProduct() {
-        return priceAndExpireProductRepo.count();
+    public Integer getTotalPriceAndExpireProduct() {
+        return priceAndExpireProductRepo.findByStatusIsNull().size();
     }
 
     @Autowired

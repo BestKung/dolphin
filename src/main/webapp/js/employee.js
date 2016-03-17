@@ -50,7 +50,6 @@ var app = angular.module('employee')
                     $scope.employee.endWork = new Date();
                     $('#label-endwork').addClass('active');
                 }
-
             }
 
             function clearData() {

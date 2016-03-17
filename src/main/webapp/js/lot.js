@@ -29,6 +29,16 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
 
 //===========================================================================================
 
+
+    startPageStaff();
+    function startPageStaff() {
+        $http.get('/startpagestaff').success(function (data) {
+            $scope.nameStream = data.nameTh;
+            $('#label-nameStaffReam').addClass('active');
+            console.log(data);
+        });
+    }
+
     loadLot();
     function loadLot() {
         $http.get('/loadlot', {params: {page: $scope.pageLot, size: $scope.rowLot}}).success(function (data) {
@@ -48,7 +58,6 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
         $http.post('/savelot', $scope.lot).success(function (data) {
             loadLot();
             $scope.lot = {};
-            $scope.nameStream = "";
             getTotalListLot();
             $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
             Materialize.toast('saveข้อมูลเรียบร้อย', 3000, 'rounded');
@@ -61,7 +70,6 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
 
     $scope.clearData = function () {
         $scope.lot = {};
-        $scope.nameStream = "";
         $('#namedepartment').removeClass('active'); // ให้ namedepartment เด้งลง
     };
 
@@ -99,157 +107,157 @@ angular.module('lot').controller('lotController', function ($scope, $http) {
         container: 'body'
     });
 
-    $scope.clickEmployee = function () {
-        $scope.searchDataEmployee = {};
-        $scope.searchDataEmployee.searchBy = 'ชื่อ';
-        loadEmployees();
-        $('#modal-employee').openModal();
-        getTotalListEmployee();
-        $scope.firstPageEmployee();
-
-    };
-
-    $scope.selectEmployee = function (emp) {
-        $scope.nameStream = emp.nameTh;
-        console.log($scope.lot.nameStaffReam);
-        $('#modal-employee').closeModal();
-        $('#label-nameStaffReam').addClass('active');
-        $('#prefix-appointment-employee').css('color', '#00bcd4');
-    };
-
-
-// pageginEmployee
-    function getTotalListEmployee() {
-        $http.get('/tatallemployee').success(function (data) {
-            totalListEmployee = data;
-            totalPagesEmployee();
-        });
-    }
-
-    function totalPagesEmployee() {
-        console.log(totalListEmployee + ' total');
-        var totalPagesEmployee = parseInt(totalListEmployee / $scope.rowEmployee);
-        console.log(totalListEmployee + "tatalbefor");
-        if ((totalListEmployee % $scope.rowEmployee) !== 0) {  //บรรทัดนี้ทำงาน ถ้าค่ามากกว่าจำนวนหน้า แต่ไม่เต็มอีกหน้า ให้บวกอีกหน้า
-            totalPagesEmployee++;
-        }
-        totalPageEmployee = totalPagesEmployee;
-
-        console.log(totalPageEmployee + "tatalafter");
-        if ($scope.currentPageEmployee === 0) {
-            $('#first-page-employee').addClass('disabled');
-            $('#pre-page-employee').addClass('disabled');
-            $('#next-page-employee').removeClass('disabled');
-            $('#final-page-employee').removeClass('disabled');
-            console.log('1..........');
-        }
-        if ($scope.currentPageEmployee === totalPageEmployee - 1) {
-            $('#next-page-employee').addClass('disabled');
-            $('#final-page-employee').addClass('disabled');
-            $('#first-page-employee').removeClass('disabled');
-            $('#pre-page-employee').removeClass('disabled');
-            console.log('2');
-        }
-        if ($scope.currentPageEmployee === 0 && $scope.currentPageEmployee === totalPageEmployee - 1) {
-            $('#next-page-employee').addClass('disabled');
-            $('#final-page-employee').addClass('disabled');
-            $('#first-page-employee').addClass('disabled');
-            $('#pre-page-employee').addClass('disabled');
-        }
-        if ($scope.currentPageEmployee < totalPageEmployee - 1 && $scope.currentPageEmployee > 0) {
-            $('#first-page-employee').removeClass('disabled');
-            $('#pre-page-employee').removeClass('disabled');
-            $('#next-page-employee').removeClass('disabled');
-            $('#final-page-employee').removeClass('disabled');
-            console.log('3');
-        }
-    }
-
-    $scope.firstPageEmployee = function () {
-        if (!$('#first-page-employee').hasClass('disabled')) {
-            $scope.pageEmployee = 0;
-            $scope.currentPageEmployee = $scope.pageEmployee;
-            selectGetOrSearchEmployee();
-            $('#first-page-employee').addClass('disabled');
-            $('#pre-page-employee').addClass('disabled');
-            $('#next-page-employee').removeClass('disabled');
-            $('#final-page-employee').removeClass('disabled');
-        }
-    };
-    $scope.finalPageEmployee = function () {
-        if (!$('#final-page-employee').hasClass('disabled')) {
-            $scope.pageEmployee = totalPageEmployee - 1;
-            selectGetOrSearchEmployee();
-            $scope.currentPageEmployee = $scope.pageEmployee;
-            $('#first-page-employee').removeClass('disabled');
-            $('#pre-page-employee').removeClass('disabled');
-            $('#next-page-employee').addClass('disabled');
-            $('#final-page-employee').addClass('disabled');
-        }
-    };
-
-    $scope.prePageEmployee = function () {
-        if (!$('#first-page-employee').hasClass('disabled')) {
-            $scope.pageEmployee--;
-            selectGetOrSearchEmployee();
-            $scope.currentPageEmployee = $scope.pageEmployee;
-            if ($scope.pageEmployee === 0) {
-                $('#first-page-employee').addClass('disabled');
-                $('#pre-page-employee').addClass('disabled');
-            }
-            $('#next-page-employee').removeClass('disabled');
-            $('#final-page-employee').removeClass('disabled');
-        }
-    };
-
-    $scope.nextPageEmployee = function () {
-        if (!$('#final-page-employee').hasClass('disabled')) {
-            $scope.pageEmployee++;
-            selectGetOrSearchEmployee();
-            $scope.currentPageEmployee = $scope.pageEmployee;
-            if ($scope.pageEmployee === totalPageEmployee - 1) {
-                $('#next-page-employee').addClass('disabled');
-                $('#final-page-employee').addClass('disabled');
-            }
-            $('#first-page-employee').removeClass('disabled');
-            $('#pre-page-employee').removeClass('disabled');
-        }
-
-    };
-
-    function selectGetOrSearchEmployee() {
-        if (!!$scope.searchDataEmployee.keyword) {
-            searcDataContentEmployee();
-            console.log('searchhhhh');
-        } else {
-            loadEmployees();
-        }
-    }
-
-    $scope.searcDataContentEmployee = function () {
-        $scope.pageEmployee = 0;
-        $scope.currentPageEmployee = $scope.pageEmployee;
-        searcDataContentEmployee();
-    };
-
-    function searcDataContentEmployee() {
-        $http.post('/loademployee/searchemployee', $scope.searchDataEmployee, {params: {page: $scope.pageEmployee, size: $scope.rowEmployee}}).success(function (data) {
-            $scope.employees = data;
-            countSearchEmployee();
-        });
-    }
-
-    function countSearchEmployee() {
-        $http.post('/countsearchemployee', $scope.searchDataEmployee).success(function (data) {
-            totalListEmployee = data;
-            if (!data) {
-                totalListEmployee = 0;
-                console.log("nulle");
-            }
-            console.log(totalListEmployee);
-            totalPagesEmployee();
-        });
-    }
+//    $scope.clickEmployee = function () {
+//        $scope.searchDataEmployee = {};
+//        $scope.searchDataEmployee.searchBy = 'ชื่อ';
+//        loadEmployees();
+//        $('#modal-employee').openModal();
+//        getTotalListEmployee();
+//        $scope.firstPageEmployee();
+//
+//    };
+//
+//    $scope.selectEmployee = function (emp) {
+//        $scope.nameStream = emp.nameTh;
+//        console.log($scope.lot.nameStaffReam);
+//        $('#modal-employee').closeModal();
+//        $('#label-nameStaffReam').addClass('active');
+//        $('#prefix-appointment-employee').css('color', '#00bcd4');
+//    };
+//
+//
+//// pageginEmployee
+//    function getTotalListEmployee() {
+//        $http.get('/tatallemployee').success(function (data) {
+//            totalListEmployee = data;
+//            totalPagesEmployee();
+//        });
+//    }
+//
+//    function totalPagesEmployee() {
+//        console.log(totalListEmployee + ' total');
+//        var totalPagesEmployee = parseInt(totalListEmployee / $scope.rowEmployee);
+//        console.log(totalListEmployee + "tatalbefor");
+//        if ((totalListEmployee % $scope.rowEmployee) !== 0) {  //บรรทัดนี้ทำงาน ถ้าค่ามากกว่าจำนวนหน้า แต่ไม่เต็มอีกหน้า ให้บวกอีกหน้า
+//            totalPagesEmployee++;
+//        }
+//        totalPageEmployee = totalPagesEmployee;
+//
+//        console.log(totalPageEmployee + "tatalafter");
+//        if ($scope.currentPageEmployee === 0) {
+//            $('#first-page-employee').addClass('disabled');
+//            $('#pre-page-employee').addClass('disabled');
+//            $('#next-page-employee').removeClass('disabled');
+//            $('#final-page-employee').removeClass('disabled');
+//            console.log('1..........');
+//        }
+//        if ($scope.currentPageEmployee === totalPageEmployee - 1) {
+//            $('#next-page-employee').addClass('disabled');
+//            $('#final-page-employee').addClass('disabled');
+//            $('#first-page-employee').removeClass('disabled');
+//            $('#pre-page-employee').removeClass('disabled');
+//            console.log('2');
+//        }
+//        if ($scope.currentPageEmployee === 0 && $scope.currentPageEmployee === totalPageEmployee - 1) {
+//            $('#next-page-employee').addClass('disabled');
+//            $('#final-page-employee').addClass('disabled');
+//            $('#first-page-employee').addClass('disabled');
+//            $('#pre-page-employee').addClass('disabled');
+//        }
+//        if ($scope.currentPageEmployee < totalPageEmployee - 1 && $scope.currentPageEmployee > 0) {
+//            $('#first-page-employee').removeClass('disabled');
+//            $('#pre-page-employee').removeClass('disabled');
+//            $('#next-page-employee').removeClass('disabled');
+//            $('#final-page-employee').removeClass('disabled');
+//            console.log('3');
+//        }
+//    }
+//
+//    $scope.firstPageEmployee = function () {
+//        if (!$('#first-page-employee').hasClass('disabled')) {
+//            $scope.pageEmployee = 0;
+//            $scope.currentPageEmployee = $scope.pageEmployee;
+//            selectGetOrSearchEmployee();
+//            $('#first-page-employee').addClass('disabled');
+//            $('#pre-page-employee').addClass('disabled');
+//            $('#next-page-employee').removeClass('disabled');
+//            $('#final-page-employee').removeClass('disabled');
+//        }
+//    };
+//    $scope.finalPageEmployee = function () {
+//        if (!$('#final-page-employee').hasClass('disabled')) {
+//            $scope.pageEmployee = totalPageEmployee - 1;
+//            selectGetOrSearchEmployee();
+//            $scope.currentPageEmployee = $scope.pageEmployee;
+//            $('#first-page-employee').removeClass('disabled');
+//            $('#pre-page-employee').removeClass('disabled');
+//            $('#next-page-employee').addClass('disabled');
+//            $('#final-page-employee').addClass('disabled');
+//        }
+//    };
+//
+//    $scope.prePageEmployee = function () {
+//        if (!$('#first-page-employee').hasClass('disabled')) {
+//            $scope.pageEmployee--;
+//            selectGetOrSearchEmployee();
+//            $scope.currentPageEmployee = $scope.pageEmployee;
+//            if ($scope.pageEmployee === 0) {
+//                $('#first-page-employee').addClass('disabled');
+//                $('#pre-page-employee').addClass('disabled');
+//            }
+//            $('#next-page-employee').removeClass('disabled');
+//            $('#final-page-employee').removeClass('disabled');
+//        }
+//    };
+//
+//    $scope.nextPageEmployee = function () {
+//        if (!$('#final-page-employee').hasClass('disabled')) {
+//            $scope.pageEmployee++;
+//            selectGetOrSearchEmployee();
+//            $scope.currentPageEmployee = $scope.pageEmployee;
+//            if ($scope.pageEmployee === totalPageEmployee - 1) {
+//                $('#next-page-employee').addClass('disabled');
+//                $('#final-page-employee').addClass('disabled');
+//            }
+//            $('#first-page-employee').removeClass('disabled');
+//            $('#pre-page-employee').removeClass('disabled');
+//        }
+//
+//    };
+//
+//    function selectGetOrSearchEmployee() {
+//        if (!!$scope.searchDataEmployee.keyword) {
+//            searcDataContentEmployee();
+//            console.log('searchhhhh');
+//        } else {
+//            loadEmployees();
+//        }
+//    }
+//
+//    $scope.searcDataContentEmployee = function () {
+//        $scope.pageEmployee = 0;
+//        $scope.currentPageEmployee = $scope.pageEmployee;
+//        searcDataContentEmployee();
+//    };
+//
+//    function searcDataContentEmployee() {
+//        $http.post('/loademployee/searchemployee', $scope.searchDataEmployee, {params: {page: $scope.pageEmployee, size: $scope.rowEmployee}}).success(function (data) {
+//            $scope.employees = data;
+//            countSearchEmployee();
+//        });
+//    }
+//
+//    function countSearchEmployee() {
+//        $http.post('/countsearchemployee', $scope.searchDataEmployee).success(function (data) {
+//            totalListEmployee = data;
+//            if (!data) {
+//                totalListEmployee = 0;
+//                console.log("nulle");
+//            }
+//            console.log(totalListEmployee);
+//            totalPagesEmployee();
+//        });
+//    }
 
 
 //===========================================================================================

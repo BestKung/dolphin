@@ -41,34 +41,38 @@ public class PriceAndExpireProduct implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date notificationsExpire;
 
-    @Column(name = "VALUE",nullable = false)
+    @Column(name = "VALUE", nullable = false)
     @NotNull(message = "กรุณาระบุจำนวนสินค้า")
-    private Integer value;
+    private Double value;
 
-    @Column(name = "NOTIFICATIONSVALUE",nullable = false)
+    @Column(name = "NOTIFICATIONSVALUE", nullable = false)
     @NotNull(message = "กรุณาระบุกำหนดการแจ้งเตือนจำนวนสินค้า")
     private Integer notificationsValue;
 
-    @Column(name = "PRICEBUY",nullable = false)
+    @Column(name = "PRICEBUY", nullable = false)
     @NotNull(message = "กรุณาระบุราคาซื้อ")
     private Double priceBuy;
 
-    @Column(name = "PRICESELL",nullable = false)
+    @Column(name = "PRICESELL", nullable = false)
     @NotNull(message = "กรุณาระบุราคาขาย")
     private Double priceSell;
 
+    private Double amountRemaining;
+
+    private String status;
+
     @ManyToOne
-    @JoinColumn(name = "LOT_ID",nullable = false)
+    @JoinColumn(name = "LOT_ID", nullable = false)
     @NotNull(message = "กรุณาระบุรอบนำเข้าด้วยครับ")
     private Lot lot;
 
     @ManyToOne
-    @JoinColumn(name = "PRODUCT_ID",nullable = false)
+    @JoinColumn(name = "PRODUCT_ID", nullable = false)
     @NotNull(message = "กรุณาระบุชื่อสินค้าด้วยครับ")
     private Product product;
-    
+
     private String statusNontificationValue;
-    
+
     private String statusNontificationExpire;
 
     public Integer getId() {
@@ -103,11 +107,11 @@ public class PriceAndExpireProduct implements Serializable {
         this.notificationsValue = notificationsValue;
     }
 
-    public Integer getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
@@ -158,7 +162,23 @@ public class PriceAndExpireProduct implements Serializable {
     public void setStatusNontificationExpire(String statusNontificationExpire) {
         this.statusNontificationExpire = statusNontificationExpire;
     }
-    
+
+    public Double getAmountRemaining() {
+        return amountRemaining;
+    }
+
+    public void setAmountRemaining(Double amountRemaining) {
+        this.amountRemaining = amountRemaining;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

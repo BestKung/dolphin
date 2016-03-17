@@ -137,7 +137,7 @@
                 <th style="width: 10%" class="table-department">ดูรายละเอียดเพิ่มเติม</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="bs in bills.content | orderBy:'id':true"">
+                    <tr ng-repeat="bs in bills.content| orderBy:'id':true"">
                         <td>{{bs.id}}</td>
                         <td>{{bs.dateBill}}</td>
                         <td>{{bs.sumPrice}}</td>
@@ -318,15 +318,17 @@
                     <tr>
                         <th style="width:15%">ลำดับ</th>
                         <th style="width:35%">ชื่อสินค้า</th>
+                        <th style="width:10%">วันที่นำเข้า</th>
                         <th style="width:10%">ราคา</th>
-                        <th style="width:15%">จำนวน</th>
-                        <th style="width:15%">เลือก</th>
+                        <th style="width:10%">จำนวน</th>
+                        <th style="width:10%">เลือก</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="pro in products.content">
                         <td>{{pro.id}}</td>
                         <th>{{pro.product.name}}</th>
+                        <td>{{pro.lot.dateIn}}</td>
                         <th>{{pro.priceSell}}</th>
                         <th>
                             <input id="value-of-operation" type="text" style="height:2rem" placeholder="จำนวน" ng-model="valueProduct">

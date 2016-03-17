@@ -9,7 +9,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import javafx.scene.chart.PieChart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import th.co.geniustree.dental.model.Employee;
 import th.co.geniustree.dental.model.Lot;
+import th.co.geniustree.dental.model.PriceAndExpireProduct;
 import th.co.geniustree.dental.model.SearchData;
 import th.co.geniustree.dental.repo.EmployeeRepo;
 import th.co.geniustree.dental.repo.LotRepo;
+import th.co.geniustree.dental.repo.PriceAndExpireProductRepo;
 import th.co.geniustree.dental.service.EmployeeService;
 import th.co.geniustree.dental.service.LotService;
 import th.co.geniustree.dental.spec.EmployeeSpec;
@@ -40,6 +44,9 @@ public class LotController {
 
     @Autowired
     private EmployeeRepo employeeRepo;
+
+    @Autowired
+    private PriceAndExpireProductRepo priceAndExpireProductRepo;
 
     @RequestMapping(value = "/loademployee")
     public Page<Employee> loadEmployee(Pageable pageable) {
@@ -89,6 +96,21 @@ public class LotController {
 
     @RequestMapping(value = "/savelot", method = RequestMethod.POST)
     public void saveLot(@Validated @RequestBody Lot lot) {
+        if (lot.getDateOut() != null) {
+            List<PriceAndExpireProduct> priceAndExpireProducts = priceAndExpireProductRepo.findByLot(lot);
+            Date d = new Date();
+            for (PriceAndExpireProduct p : priceAndExpireProducts) {
+                if (lot.getDateOut().compareTo(d) >= 0) {
+                    p.setStatus("out");
+                    System.out.println("------------------------------------------------------------>" + p.getProduct().getName());
+                }
+            }
+        } else if (lot.getId() != null) {
+            List<PriceAndExpireProduct> priceAndExpireProducts = priceAndExpireProductRepo.findByLot(lot);
+            for (PriceAndExpireProduct p : priceAndExpireProducts) {
+                p.setStatus(null);
+            }
+        }
         lotRepo.save(lot);
     }
 
