@@ -70,7 +70,7 @@ public class BillController {
             System.out.println("----------------------------------------------------------------------->>>>>" + detailHealAndTmpProduct.getTmpProducts().get(0).getPriceAndExpireProduct().getId());
             for (int i = 0; i < detailHealAndTmpProduct.getTmpProducts().size(); i++) {
                 PriceAndExpireProduct priceAndExpireProduct = detailHealAndTmpProduct.getTmpProducts().get(i).getPriceAndExpireProduct();
-                if (priceAndExpireProduct.getAmountRemaining() - detailHealAndTmpProduct.getTmpProducts().get(i).getValue() < 0 && detailHealAndTmpProduct.getDateUpdate() == null) {
+                if ((priceAndExpireProduct.getAmountRemaining() - detailHealAndTmpProduct.getTmpProducts().get(i).getValue() < 0) && (detailHealAndTmpProduct.getDateUpdate() == null)) {
                     return 101;
                 }
             }

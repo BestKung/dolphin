@@ -57,7 +57,8 @@ public class PriceAndExpireProductSpec {
 
             @Override
             public Predicate toPredicate(Root<PriceAndExpireProduct> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-                return cb.lessThanOrEqualTo(root.get(PriceAndExpireProduct_.value), root.get(PriceAndExpireProduct_.notificationsValue));
+//                return cb.lessThanOrEqualTo(root.get(PriceAndExpireProduct_.value), root.get(PriceAndExpireProduct_.notificationsValue));
+                return null;
             }
         };
     }
@@ -67,7 +68,8 @@ public class PriceAndExpireProductSpec {
 
             @Override
             public Predicate toPredicate(Root<PriceAndExpireProduct> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-                return cb.and(cb.lessThanOrEqualTo(root.get(PriceAndExpireProduct_.value), root.get(PriceAndExpireProduct_.notificationsValue)), cb.like(root.get(PriceAndExpireProduct_.statusNontificationValue), "1"));
+//                return cb.and(cb.lessThanOrEqualTo(root.get(PriceAndExpireProduct_.value), root.get(PriceAndExpireProduct_.notificationsValue)), cb.like(root.get(PriceAndExpireProduct_.statusNontificationValue), "1"));
+                return null;
             }
         };
     }

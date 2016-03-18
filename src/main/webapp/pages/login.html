@@ -20,16 +20,23 @@ and open the template in the editor.
     </head>
     <body style="background: #f3f3f3;">
 
-        <form action="/login" method="post">
-            <div class="text-center" style="margin-top: 15%">
-                <input type="text" autocomplete="off" id="form-login-email" placeholder="Username" style="height: 37px;z-index: 8000;margin-top: 142px;width: 250px;position: absolute;background: #f9f9f9 ;border: #f9f9f9;margin-left: -138px" name="email">
-                <input type="password" autocomplete="off" id="form-login-password" placeholder="Password" style="height: 37px;z-index: 8000;margin-top: 189px;width: 250px;position: absolute;background: #f9f9f9 ;border: #f9f9f9;margin-left: -138px"  name="password">
-                <input src="../image/button.png" id="login-btn" type="image" style="position: absolute;z-index: 8000;margin-top: 236px;margin-left: -140px;width: 283px;height: 45px;">
-                <div style="margin-top: -30px;">
-                    <img src="../image/box.png">
+        <div class="container-fluid">
+            <div class="row">
+                <img src="../image/logodolphin.png" class="col-md-7">
+                <div class="col-md-5">
+                    <form action="/login" method="post">
+                        <div style="margin-top: 50%">
+                            <input type="text" autocomplete="off" id="form-login-email" placeholder="Username" style="height: 37px;z-index: 8000;margin-top: 142px;width: 250px;position: absolute;background: #f9f9f9 ;border: #f9f9f9;margin-left:45px" name="email">
+                            <input type="password" autocomplete="off" id="form-login-password" placeholder="Password" style="height: 37px;z-index: 8000;margin-top: 189px;width: 250px;position: absolute;background: #f9f9f9 ;border: #f9f9f9;margin-left: 45px"  name="password">
+                            <input src="../image/button.png" id="login-btn" type="image" style="position: absolute;z-index: 8000;margin-top: 236px;margin-left: 45px;width: 283px;height: 45px;">
+                            <div style="margin-top: -30px;">
+                                <img src="../image/box.png">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </form>
+        </div>
 
         <!--        <div class="container">
                     <div class="row">
