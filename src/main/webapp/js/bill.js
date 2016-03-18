@@ -19,6 +19,9 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     $scope.searchDataBill = {};
     $scope.currentPageBill = 0;
     $scope.row = 10;
+    $scope.error = {};
+    $scope.errorProduct = '';
+    $scope.errorDateBill = '';
 
     var totalDetailHeal = 0;
     var totalPageDetailHeal = 0;
@@ -39,8 +42,16 @@ angular.module('bill').controller('billController', function ($scope, $http) {
 
     $scope.saveBill = function () {
         if (!!deleteProduct.id) {
-            $http.post('/deleteorderproduct', deleteProduct);
+            saveBillSub();
+//            $http.post('/deleteorderproduct', deleteProduct).success(function (data) {
+//                saveBillSub();
+//            });
+        } else {
+            saveBillSub();
         }
+    };
+
+    function saveBillSub() {
         detailHealAndTmpProduct.detailHeal = $scope.bill.detailHeal;
         detailHealAndTmpProduct.day = $scope.bill.dateBill;
         detailHealAndTmpProduct.sumPrice = $scope.totalPrice;
@@ -50,22 +61,47 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         }
         detailHealAndTmpProduct.tmpProducts = products;
         $http.post('/savebill', detailHealAndTmpProduct).success(function (data) {
-            for (var i = 0; i < countTmpProduct; i++) {
-                $http.post('/deletetmpproduct', $scope.tmpProducts.content[i]);
-                getUser();
+            if (data == 1) {
+                $scope.errorDateBill = 'กรุณากรอกวันที่ออกบิล';
+                $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+                Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
             }
-            getBill();
-            countBill();
-            $scope.totalPrice = 0;
-            $scope.bill = {};
-            $scope.dataSelectDetailHeal = {};
-            $('.update').removeClass('active');
-            $('#bill-prefix-dateBill , #bill-prefix-id').css('color', 'black');
-            $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
-            Materialize.toast('saveข้อมูลเรียบร้อย', 3000, 'rounded');
+            if (data == 101) {
+                $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+                Materialize.toast('สินค้าไม่พอ', 3000, 'rounded');
+            }
+            if (data == 200) {
+                console.log(data);
+                for (var i = 0; i < countTmpProduct; i++) {
+                    $http.post('/deletetmpproduct', $scope.tmpProducts.content[i]);
+                    getUser();
+                }
+                getBill();
+                countBill();
+                $scope.totalPrice = 0;
+                $scope.bill = {};
+                $scope.dataSelectDetailHeal = {};
+                $('.update').removeClass('active');
+                $('#bill-prefix-dateBill , #bill-prefix-id').css('color', 'black');
+                $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
+                Materialize.toast('saveข้อมูลเรียบร้อย', 3000, 'rounded');
+                detailHealAndTmpProduct = {};
+            }
+        }).error(function (data) {
+            $scope.error = data;
+            $('#warp-toast').html('<style>.toast{background-color:#FF6D6D}</style>');
+            Materialize.toast('เกิดข้อผิดพลาด', 3000, 'rounded');
         });
 
-    };
+    }
+
+    checkDate();
+    function checkDate() {
+        if (!!$scope.bill.dateBill || $scope.bill.dateBill == undefined) {
+            $scope.bill.dateBill = new Date();
+            $('#nameddatebill').addClass('active');
+        }
+    }
 
     getBill();
     function getBill() {
@@ -142,6 +178,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         $scope.totalPrice = 0;
         $('.update').removeClass('active');
         $('.clear-prefix').css('color', 'black');
+        detailHealAndTmpProduct = {};
     }
 
 
@@ -151,6 +188,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         $('#bill-prefix-dateBill , #bill-prefix-id').css('color', '#00bcd4');
         $('span#close-card').trigger('click');
         $('body,html').animate({scrollTop: 0}, "600");
+        detailHealAndTmpProduct.dateUpdate = new Date(moment(new Date()).format('YYYY-MM-D'));
 
         detailHealAndTmpProduct.id = $scope.billMoreDetail.id;
         $scope.bill.id = $scope.billMoreDetail.id;
@@ -162,6 +200,12 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         detailHealAndTmpProduct.totalPrice = $scope.billMoreDetail.sumPrice;
         $scope.totalPrice = $scope.billMoreDetail.sumPrice;
         saveTmpProduct = $scope.billMoreDetail;
+        if ($scope.tmpProducts.content.length > 0) {
+            for (var i = 0; i < countTmpProduct; i++) {
+                $http.post('/deletetmpproduct', $scope.tmpProducts.content[i]);
+                getUser();
+            }
+        }
         for (var i = 0; i < saveTmpProduct.orderProduct.length; i++) {
             saveTmpProduct.orderProduct[i].id = undefined;
             saveTmpProduct.orderProduct[i].user = user.nameTh;
@@ -346,9 +390,13 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         if (value === undefined) {
             value = 0;
         }
-        if (parseInt(value) == NaN) {
+        console.log(parseInt(value) + " " + !!valueIsNan);
+        if (isNaN(parseInt(value)) || parseInt(value) <= 0) {
             valueIsNan = true;
+            console.log(valueIsNan + "-------------->")
+            $scope.errorProduct = 'ไม่สามรถเพิ่มสินค้าได้';
         }
+        console.log(valueIsNan);
         if (!valueIsNan) {
             var tmpProduct = {};
             tmpProduct.priceAndExpireProduct = selectProduct;
@@ -368,9 +416,18 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             $http.post('/savetmpproduct', tmpProduct).success(function () {
                 getUser();
                 $('#modal-addproduct').closeModal();
+                clearErrorProduct();
             });
         }
     };
+
+    $scope.clearErrorProduct = function () {
+        clearErrorProduct();
+    };
+
+    function clearErrorProduct() {
+        $scope.errorProduct = '';
+    }
 
     $scope.searchProduct = function () {
         pageProduct = 0;
@@ -488,9 +545,9 @@ angular.module('bill').controller('billController', function ($scope, $http) {
 
     $scope.selectDetailHeal = function (det) {
         $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
-         if( $scope.totalPrice != 0){
-             $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
-                      }
+        if ($scope.totalPrice != 0) {
+            $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
+        }
 
         totalPriceDetailHeal = 0;
         $scope.dataSelectDetailHeal = det;

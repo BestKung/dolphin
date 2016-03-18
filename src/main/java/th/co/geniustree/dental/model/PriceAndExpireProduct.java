@@ -65,7 +65,7 @@ public class PriceAndExpireProduct implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "LOT_ID", nullable = false)
-    @NotNull(message = "กรุณาระบุรอบนำเข้าด้วยครับ")
+    @NotNull(message = "กรุณาระบุรอบนำเข้า")
     private Lot lot;
 
     @ManyToOne
@@ -201,6 +201,11 @@ public class PriceAndExpireProduct implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "PriceAndExpireProduct{" + "id=" + id + ", expire=" + expire + ", notificationsExpire=" + notificationsExpire + ", value=" + value + ", notificationsValue=" + notificationsValue + ", priceBuy=" + priceBuy + ", priceSell=" + priceSell + ", amountRemaining=" + amountRemaining + ", status=" + status + ", lot=" + lot + ", product=" + product + ", statusNontificationValue=" + statusNontificationValue + ", statusNontificationExpire=" + statusNontificationExpire + '}';
     }
 
 }

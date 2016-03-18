@@ -9,10 +9,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,12 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 import th.co.geniustree.dental.model.Bill;
 import th.co.geniustree.dental.model.DetailHealAndTmpProduct;
 import th.co.geniustree.dental.model.OrderProduct;
+import th.co.geniustree.dental.model.PriceAndExpireProduct;
 import th.co.geniustree.dental.model.SearchData;
 import th.co.geniustree.dental.repo.BillRepo;
 import th.co.geniustree.dental.repo.OrderBillRepo;
 import th.co.geniustree.dental.repo.OrderProductRepo;
+import th.co.geniustree.dental.repo.PriceAndExpireProductRepo;
 import th.co.geniustree.dental.service.BillService;
 import th.co.geniustree.dental.spec.BillSpec;
+import th.co.geniustree.dental.spec.OrderProductSpecificaton;
 
 /**
  *
@@ -46,30 +51,96 @@ public class BillController {
     @Autowired
     private BillService billService;
 
-//    @RequestMapping(value = "/loadbill")
-//    public Page<Bill2> loadBill(Pageable pageable) {
-//        return billRepo.findAll(pageable);
-//    }
+    @Autowired
+    private PriceAndExpireProductRepo priceAndExpireProductRepo;
+
     @RequestMapping(value = "/savebill", method = RequestMethod.POST)
-    public void saveBill(@RequestBody DetailHealAndTmpProduct detailHealAndTmpProduct) {
-        System.out.println("-------------------------------------------------------------> detailheal"+detailHealAndTmpProduct.getDetailHeal());
-        Bill bill = new Bill();
-        bill.setDateBill(detailHealAndTmpProduct.getDay());
-//        if(detailHealAndTmpProduct.getDetailHeal().getId() != null){
-        bill.setDetailHeal(detailHealAndTmpProduct.getDetailHeal());
-//        }
-        bill.setSumPrice(detailHealAndTmpProduct.getSumPrice());
-        bill.setId(detailHealAndTmpProduct.getId());
-        billRepo.save(bill);
-        for (int i = 0; i < detailHealAndTmpProduct.getTmpProducts().size(); i++) {
+    public Integer saveBill(@Validated @RequestBody DetailHealAndTmpProduct detailHealAndTmpProduct) {
+        System.out.println("-------------------------------------------------------------> detailheal" + detailHealAndTmpProduct.getDetailHeal());
+        if (detailHealAndTmpProduct.getDay() == null) {
+            return 1;
+        } else {
+            Bill bill = new Bill();
+            bill.setDateBill(detailHealAndTmpProduct.getDay());
+            bill.setDetailHeal(detailHealAndTmpProduct.getDetailHeal());
 
-            OrderProduct orderProduct = new OrderProduct();
-            orderProduct.setPriceAndExpireProduct(detailHealAndTmpProduct.getTmpProducts().get(i).getPriceAndExpireProduct());
-            orderProduct.setValue(detailHealAndTmpProduct.getTmpProducts().get(i).getValue());
-            orderProduct.setBill(bill);
-            orderProductRepo.save(orderProduct);
+            bill.setSumPrice(detailHealAndTmpProduct.getSumPrice());
+            bill.setId(detailHealAndTmpProduct.getId());
+            bill.setDateUpdate(detailHealAndTmpProduct.getDateUpdate());
+            System.out.println("----------------------------------------------------------------------->>>>>" + detailHealAndTmpProduct.getTmpProducts().get(0).getPriceAndExpireProduct().getId());
+            for (int i = 0; i < detailHealAndTmpProduct.getTmpProducts().size(); i++) {
+                PriceAndExpireProduct priceAndExpireProduct = detailHealAndTmpProduct.getTmpProducts().get(i).getPriceAndExpireProduct();
+                if (priceAndExpireProduct.getAmountRemaining() - detailHealAndTmpProduct.getTmpProducts().get(i).getValue() < 0 && detailHealAndTmpProduct.getDateUpdate() == null) {
+                    return 101;
+                }
+            }
+            billRepo.save(bill);
+            List<OrderProduct> productsAfter = orderProductRepo.findAll(OrderProductSpecificaton.whereBill(detailHealAndTmpProduct.getId()));
+            System.out.println("---------------------------------->sssssssss" + productsAfter.size());
+            if (productsAfter.size() > 0) {
+                for (int i = 0; i < productsAfter.size(); i++) {
+                    orderProductRepo.delete(productsAfter.get(i));
+                }
+            }
+
+            for (int i = 0; i < detailHealAndTmpProduct.getTmpProducts().size(); i++) {
+                OrderProduct orderProduct = new OrderProduct();
+                orderProduct.setPriceAndExpireProduct(detailHealAndTmpProduct.getTmpProducts().get(i).getPriceAndExpireProduct());
+                orderProduct.setValue(detailHealAndTmpProduct.getTmpProducts().get(i).getValue());
+                orderProduct.setBill(bill);
+                orderProductRepo.save(orderProduct);
+                if (detailHealAndTmpProduct.getDateUpdate() == null) {
+                    PriceAndExpireProduct priceAndExpireProduct = detailHealAndTmpProduct.getTmpProducts().get(i).getPriceAndExpireProduct();
+                    priceAndExpireProduct.setAmountRemaining((priceAndExpireProduct.getAmountRemaining() - detailHealAndTmpProduct.getTmpProducts().get(i).getValue()));
+                    System.out.println("------------------------------------------------------->>>>>>>>>>>>>>>>>>>>>>" + (priceAndExpireProduct.getAmountRemaining()));
+                    priceAndExpireProductRepo.save(priceAndExpireProduct);
+                }
+            }
+            if (detailHealAndTmpProduct.getDateUpdate() != null) {
+//                PriceAndExpireProduct priceAndExpireProductBefore = priceAndExpireProductRepo.findOne(detailHealAndTmpProduct.getTmpProducts().get(i).getPriceAndExpireProduct().getId());
+                Bill bill1 = new Bill();
+                bill.setId(detailHealAndTmpProduct.getId());
+
+                System.out.println("-------------================" + detailHealAndTmpProduct.getTmpProducts().size() + "--------------------------> " + productsAfter.size());
+
+                List<OrderProduct> orderProducts = orderProductRepo.findByBill(bill);
+                long sizeBefore = orderProductRepo.count(OrderProductSpecificaton.whereBill(detailHealAndTmpProduct.getId()));
+                for (int i = 0; i < productsAfter.size(); i++) {
+                    System.out.println("------------------------------------size " + orderProductRepo.count(OrderProductSpecificaton.whereBill(detailHealAndTmpProduct.getId())));
+//                    System.out.println(productsAfter.get(i));
+//                    System.out.println("---------------------->" + productsAfter.get(i).getPriceAndExpireProduct().getAmountRemaining());
+//                    System.out.println("---------------==========" + productsAfter.get(i).getValue());
+//                    System.out.println((productsAfter.get(i).getPriceAndExpireProduct().getAmountRemaining() + productsAfter.get(i).getValue()));
+//                    PriceAndExpireProduct priceAndExpireProduct = detailHealAndTmpProduct.getTmpProducts().get(i).getPriceAndExpireProduct();
+//                    priceAndExpireProduct.setAmountRemaining((productsAfter.get(i).getPriceAndExpireProduct().getAmountRemaining() + productsAfter.get(i).getValue()));
+//                    priceAndExpireProductRepo.save(priceAndExpireProduct);
+                    for (int j = 0; j < detailHealAndTmpProduct.getTmpProducts().size(); j++) {
+                        PriceAndExpireProduct priceAndExpireProduct = detailHealAndTmpProduct.getTmpProducts().get(j).getPriceAndExpireProduct();
+                        if (productsAfter.get(i).getPriceAndExpireProduct().getId().equals(detailHealAndTmpProduct.getTmpProducts().get(j).getPriceAndExpireProduct().getId())) {
+                            System.out.println("price------------------------------------------>" + productsAfter.get(i).getPriceAndExpireProduct().getId() + " price----------------------------->" + detailHealAndTmpProduct.getTmpProducts().get(j).getPriceAndExpireProduct().getId());
+                            System.out.println("------------------------------------------------------->trure");
+                            System.out.println("------=======================================>order product" + productsAfter.get(i).getValue());
+                            System.out.println("=============================================>>>>>>>>>>>" + detailHealAndTmpProduct.getTmpProducts().get(j).getPriceAndExpireProduct());
+                            System.out.println("--------------------------------------------->result : " + (detailHealAndTmpProduct.getTmpProducts().get(j).getPriceAndExpireProduct().getAmountRemaining() + productsAfter.get(i).getValue()));
+//                                    productsAfter.get(i).getValue()));
+                            priceAndExpireProduct.setAmountRemaining((detailHealAndTmpProduct.getTmpProducts().get(j).getPriceAndExpireProduct().getAmountRemaining() + productsAfter.get(i).getValue()));
+                            priceAndExpireProductRepo.save(priceAndExpireProduct);
+                        }
+                    }
+                }
+                for (int i = 0; i < detailHealAndTmpProduct.getTmpProducts().size(); i++) {
+                    PriceAndExpireProduct priceAndExpireProduct = detailHealAndTmpProduct.getTmpProducts().get(i).getPriceAndExpireProduct();
+                    Double amountTotal = priceAndExpireProductRepo.findOne(priceAndExpireProduct.getId()).getAmountRemaining();
+                    System.out.println("--------------------------------------------------->amount after : " + amountTotal);
+                    priceAndExpireProduct.setAmountRemaining((amountTotal - detailHealAndTmpProduct.getTmpProducts().get(i).getValue()));
+                    System.out.println("--------------------------------------------------->amount before : " + amountTotal);
+                    System.out.println("------------------------------------------>value " + detailHealAndTmpProduct.getTmpProducts().get(i).getValue());
+                    System.out.println("------------------------------------------------------->>>>>>>>>>>>>>>>>>>>>>" + (amountTotal - detailHealAndTmpProduct.getTmpProducts().get(i).getValue()));
+                    priceAndExpireProductRepo.save(priceAndExpireProduct);
+                }
+            }
         }
-
+        return 200;
     }
 
     @RequestMapping(value = "/getbill", method = RequestMethod.GET)
@@ -97,10 +168,10 @@ public class BillController {
     public long countBill() {
         return billRepo.count();
     }
-    
-    @RequestMapping(value = "/countsearchbill" , method = RequestMethod.POST)
-    public long countSearchBill(@RequestBody SearchData searchData) throws ParseException{
-    String searchBy = searchData.getSearchBy();
+
+    @RequestMapping(value = "/countsearchbill", method = RequestMethod.POST)
+    public long countSearchBill(@RequestBody SearchData searchData) throws ParseException {
+        String searchBy = searchData.getSearchBy();
         String keyword = searchData.getKeyword();
         long count = 0;
         if ("DateBill".equals(searchBy)) {

@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -33,6 +34,7 @@ public class Bill implements Serializable {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "DATEBILL")
+    @NotBlank(message = "กรุณากรอกวันที่ออกบิล")
     private Date dateBill;
 
     @Column(name = "SUMPRICE")
@@ -44,6 +46,8 @@ public class Bill implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "bill")
     private List<OrderProduct> orderProduct;
+
+    private Date dateUpdate;
 
     public Integer getId() {
         return id;
@@ -83,6 +87,14 @@ public class Bill implements Serializable {
 
     public void setOrderProduct(List<OrderProduct> orderProduct) {
         this.orderProduct = orderProduct;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
     }
 
     @Override

@@ -10,8 +10,8 @@
                 </div>
                 <div class="col m6 s12 input-field">
                     <i class="material-icons prefix clear-prefix" id="bill-prefix-dateBill">today</i>
-                    <input type="date" id="dateIn" class="datepicker" ng-model="bill.dateBill">
-                    <label for="dateIn" class="update" id="nameddatebill" >วันที่ออกบิล</label>
+                    <input type="date" id="dateIn" class="datepicker" ng-model="bill.dateBill" ng-change="errorDateBill = ''">
+                    <label for="dateIn" class="update" id="nameddatebill" >วันที่ออกบิล<span class="necessary">*</span><span class="margin-left necessary-text">{{errorDateBill}}</span></label>
                 </div>
             </div>
             <div class="row" >
@@ -310,6 +310,7 @@
             </div>
             <div class="col m3 " style="margin-top: 30px;">
                 <a class="btn-best btn-search" ng-click="searchProduct()"><i class="mdi-action-search" style="margin-right: 5px"></i>ค้นหา</a>
+                <label><span class="margin-left necessary-text">{{errorProduct}}</span></label>
             </div>
         </div>
         <div class="row">
@@ -331,9 +332,11 @@
                         <td>{{pro.lot.dateIn}}</td>
                         <th>{{pro.priceSell}}</th>
                         <th>
-                            <input id="value-of-operation" type="text" style="height:2rem" placeholder="จำนวน" ng-model="valueProduct">
+                            <input id="value-of-operation" type="text" style="height:2rem" ng-change="clearErrorProduct()" placeholder="จำนวน" ng-model="valueProduct">
                         </th>
-                        <th><a class="modal-close btn-best btn-edit" ng-click="selectProductToBill(pro, valueProduct)">เลือก</a></th>
+                        <th>
+                            <a class="modal-close btn-best btn-edit" ng-click="selectProductToBill(pro, valueProduct)">เลือก</a>
+                        </th>
                     </tr>
                 </tbody>                  
             </table>

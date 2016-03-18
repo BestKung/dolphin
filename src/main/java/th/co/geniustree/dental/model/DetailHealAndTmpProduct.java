@@ -13,12 +13,13 @@ import java.util.List;
  * @author BestKung
  */
 public class DetailHealAndTmpProduct {
-    
+
     private Integer id;
     private Date day;
     private DetailHeal detailHeal;
     private List<TmpProduct> tmpProducts;
     private Double sumPrice;
+    private Date dateUpdate;
 
     public Integer getId() {
         return id;
@@ -58,6 +59,14 @@ public class DetailHealAndTmpProduct {
 
     public void setSumPrice(Double sumPrice) {
         this.sumPrice = sumPrice;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
     }
 
     @Override
