@@ -45,6 +45,8 @@ public class DetailHeal implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateHeal;
 
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "PATIENT_ID")
     private Patient patient;
@@ -105,6 +107,14 @@ public class DetailHeal implements Serializable {
         this.orderHealDetailHeals = orderHealDetailHeals;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -129,7 +139,7 @@ public class DetailHeal implements Serializable {
 
     @Override
     public String toString() {
-        return "DetailHeal{" + "id=" + id + ", detail=" + detail + ", dateHeal=" + dateHeal + ", patient=" + patient + ", doctor=" + doctor + ", orderHealDetailHeals=" + orderHealDetailHeals + '}';
+        return "DetailHeal{" + "id=" + id + ", detail=" + detail + ", dateHeal=" + dateHeal + ", status=" + status + ", patient=" + patient + ", doctor=" + doctor + ", orderHealDetailHeals=" + orderHealDetailHeals + '}';
     }
 
 }

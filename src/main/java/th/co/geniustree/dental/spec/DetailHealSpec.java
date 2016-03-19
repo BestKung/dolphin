@@ -21,8 +21,8 @@ import th.co.geniustree.dental.model.Patient_;
  * @author Jasin007
  */
 public class DetailHealSpec {
-    
-    public static Specification<DetailHeal> patientLike(final String keyword){
+
+    public static Specification<DetailHeal> patientLike(final String keyword) {
         return new Specification<DetailHeal>() {
 
             @Override
@@ -31,18 +31,18 @@ public class DetailHealSpec {
             }
         };
     }
-    
-    public static Specification<DetailHeal> doctorLike(final String keyword){
+
+    public static Specification<DetailHeal> doctorLike(final String keyword) {
         return new Specification<DetailHeal>() {
 
             @Override
             public Predicate toPredicate(Root<DetailHeal> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-          return cb.like(cb.upper(root.get(DetailHeal_.doctor).get(Doctor_.nameTh)), keyword);
+                return cb.like(cb.upper(root.get(DetailHeal_.doctor).get(Doctor_.nameTh)), keyword);
             }
         };
     }
-    
-    public static Specification<DetailHeal> dateHealLike(final Date keyword){
+
+    public static Specification<DetailHeal> dateHealLike(final Date keyword) {
         return new Specification<DetailHeal>() {
 
             @Override
@@ -51,5 +51,36 @@ public class DetailHealSpec {
             }
         };
     }
-    
+
+    //====================================================================================================================
+    public static Specification<DetailHeal> patientLikeForBill(final String keyword) {
+        return new Specification<DetailHeal>() {
+
+            @Override
+            public Predicate toPredicate(Root<DetailHeal> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+                return cb.and(cb.like(cb.upper(root.get(DetailHeal_.patient).get(Patient_.name)), keyword), cb.isNull(root.get(DetailHeal_.status)));
+            }
+        };
+    }
+
+    public static Specification<DetailHeal> doctorLikeForBill(final String keyword) {
+        return new Specification<DetailHeal>() {
+
+            @Override
+            public Predicate toPredicate(Root<DetailHeal> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+                return cb.and(cb.like(cb.upper(root.get(DetailHeal_.doctor).get(Doctor_.nameTh)), keyword), cb.isNull(root.get(DetailHeal_.status)));
+            }
+        };
+    }
+
+    public static Specification<DetailHeal> dateHealLikeForBill(final Date keyword) {
+        return new Specification<DetailHeal>() {
+
+            @Override
+            public Predicate toPredicate(Root<DetailHeal> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+                return cb.and(cb.between(root.get(DetailHeal_.dateHeal), keyword, keyword), cb.isNull(root.get(DetailHeal_.status)));
+            }
+        };
+    }
+
 }

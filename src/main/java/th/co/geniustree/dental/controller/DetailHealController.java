@@ -50,6 +50,11 @@ public class DetailHealController {
         return detailHealRepo.findAll(pageable);
     }
 
+    @RequestMapping(value = "/loaddetailhealforbill")
+    public Page<DetailHeal> loadOrderHealForBill(Pageable pageable) {
+        return detailHealRepo.findByStatusIsNull(pageable);
+    }
+
     @RequestMapping(value = "/deletedetailheal", method = RequestMethod.POST)
     public void deleteDetailHeal(@RequestBody DetailHeal detailHeal) {
         detailHealRepo.delete(detailHeal.getId());
@@ -58,6 +63,11 @@ public class DetailHealController {
     @RequestMapping(value = "/totaldetailheal", method = RequestMethod.GET)
     public Long getTotalDetailHeal() {
         return detailHealRepo.count();
+    }
+
+    @RequestMapping(value = "/totaldetailhealforbill", method = RequestMethod.GET)
+    public Integer getTotalDetailHealForBill() {
+        return detailHealRepo.findByStatusIsNull().size();
     }
 
     @RequestMapping(value = "/loaddetailheal/searchdetailheal", method = RequestMethod.POST)
@@ -79,35 +89,79 @@ public class DetailHealController {
         return detailHeals;
     }
 
+    @RequestMapping(value = "/loaddetailheal/searchdetailhealforbill", method = RequestMethod.POST)
+    public Page<DetailHeal> searchForBill(@RequestBody SearchData searchData, Pageable pageable) throws ParseException {
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        Page<DetailHeal> detailHeals = null;
+        if ("ชื่อคนไข้".equals(searchBy)) {
+            detailHeals = detailHealService.searchByPatientForBill(keyword, pageable);
+        }
+        if ("ชื่อทันตเเพทย์".equals(searchBy)) {
+            detailHeals = detailHealService.searchByDoctorForBill(keyword, pageable);
+        }
+        if ("วันที่รักษา".equals(searchBy)) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            Date keywordDate = df.parse(keyword);
+            detailHeals = detailHealService.searchByDateHealForBill(keywordDate, pageable);
+        }
+        return detailHeals;
+    }
+
     @RequestMapping(value = "/countdetailheal", method = RequestMethod.GET)
     public long countDetailHeal() {
         return detailHealRepo.count();
     }
     
-    @RequestMapping(value = "/countsearchdetailheal" , method = RequestMethod.POST)
-    public long countSearchDetailHeal(@RequestBody SearchData searchData) throws ParseException{
-    long count = 0;
-    String keyword = searchData.getKeyword();
+    @RequestMapping(value = "/countdetailhealforbill", method = RequestMethod.GET)
+    public long countDetailHealForBill() {
+        return detailHealRepo.findByStatusIsNull().size();
+    }
+
+    @RequestMapping(value = "/countsearchdetailheal", method = RequestMethod.POST)
+    public long countSearchDetailHeal(@RequestBody SearchData searchData) throws ParseException {
+        long count = 0;
+        String keyword = searchData.getKeyword();
         String searchBy = searchData.getSearchBy();
         Page<DetailHeal> detailHeals = null;
         if ("ชื่อคนไข้".equals(searchBy)) {
-            count = detailHealRepo.count(DetailHealSpec.patientLike("%"+keyword+"%"));
+            count = detailHealRepo.count(DetailHealSpec.patientLike("%" + keyword + "%"));
         }
         if ("ชื่อทันตเเพทย์".equals(searchBy)) {
-            count = detailHealRepo.count(DetailHealSpec.doctorLike("%"+keyword+"%"));
+            count = detailHealRepo.count(DetailHealSpec.doctorLike("%" + keyword + "%"));
         }
         if ("Dateวันที่รักษาHeal".equals(searchBy)) {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             Date keywordDate = df.parse(keyword);
             count = detailHealRepo.count(DetailHealSpec.dateHealLike(keywordDate));
         }
-    return count;
+        return count;
     }
-    
-    @RequestMapping(value = "/removeorderheal" , method = RequestMethod.POST)
-    private void removeOrderHeal(@RequestBody DetailHeal detailHeal){
-    for(int i = 0 ; i < detailHeal.getOrderHealDetailHeals().size() ; i++){
-        orderHealRepo.delete(detailHeal.getOrderHealDetailHeals().get(i));
+
+    @RequestMapping(value = "/countsearchdetailhealforbill", method = RequestMethod.POST)
+    public long countSearchDetailHealForBill(@RequestBody SearchData searchData) throws ParseException {
+        long count = 0;
+        String keyword = searchData.getKeyword();
+        String searchBy = searchData.getSearchBy();
+        Page<DetailHeal> detailHeals = null;
+        if ("ชื่อคนไข้".equals(searchBy)) {
+            count = detailHealRepo.count(DetailHealSpec.patientLikeForBill("%" + keyword + "%"));
+        }
+        if ("ชื่อทันตเเพทย์".equals(searchBy)) {
+            count = detailHealRepo.count(DetailHealSpec.doctorLikeForBill("%" + keyword + "%"));
+        }
+        if ("Dateวันที่รักษาHeal".equals(searchBy)) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            Date keywordDate = df.parse(keyword);
+            count = detailHealRepo.count(DetailHealSpec.dateHealLikeForBill(keywordDate));
+        }
+        return count;
     }
+
+    @RequestMapping(value = "/removeorderheal", method = RequestMethod.POST)
+    private void removeOrderHeal(@RequestBody DetailHeal detailHeal) {
+        for (int i = 0; i < detailHeal.getOrderHealDetailHeals().size(); i++) {
+            orderHealRepo.delete(detailHeal.getOrderHealDetailHeals().get(i));
+        }
     }
 }

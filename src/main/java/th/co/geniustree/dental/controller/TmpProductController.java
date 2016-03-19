@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.dental.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,13 @@ public class TmpProductController {
     @RequestMapping(value = "/deletetmpproduct" , method = RequestMethod.POST)
     private void deleteTmpProduct(@RequestBody TmpProduct tmpProduct){
     tmpProductRepo.delete(tmpProduct);
+    }
+    
+     @RequestMapping(value = "/deletetmpproductlist" , method = RequestMethod.POST)
+    private void deleteTmpProductList(@RequestBody List<TmpProduct> tmpProducts){
+    for(int i = 0 ; i<tmpProducts.size() ; i++){
+    tmpProductRepo.delete(tmpProducts.get(i));
+    }
     }
     
     @RequestMapping(value = "/gettmpproduct" , method = RequestMethod.POST)

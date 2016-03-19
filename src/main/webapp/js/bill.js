@@ -41,14 +41,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
 
 
     $scope.saveBill = function () {
-        if (!!deleteProduct.id) {
-            saveBillSub();
-//            $http.post('/deleteorderproduct', deleteProduct).success(function (data) {
-//                saveBillSub();
-//            });
-        } else {
-            saveBillSub();
-        }
+        saveBillSub();
     };
 
     function saveBillSub() {
@@ -72,10 +65,14 @@ angular.module('bill').controller('billController', function ($scope, $http) {
             }
             if (data == 200) {
                 console.log(data);
-                for (var i = 0; i < countTmpProduct; i++) {
-                    $http.post('/deletetmpproduct', $scope.tmpProducts.content[i]);
-                    getUser();
-                }
+//                var tmpProducts = [];
+//                for (var i = 0; i < countTmpProduct; i++) {
+////                    $http.post('/deletetmpproduct', $scope.tmpProducts.content[i]);
+//                    tmpProducts[i] = $scope.tmpProducts.content[i];
+////                    console.log($scope.tmpProducts.content[i]);
+////                    getUser();
+//                }
+//                $http.post('/deletetmpproductlist', tmpProducts);
                 getBill();
                 countBill();
                 $scope.totalPrice = 0;
@@ -86,6 +83,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
                 $('#warp-toast').html('<style>.toast{background-color:#32CE70}</style>');
                 Materialize.toast('saveข้อมูลเรียบร้อย', 3000, 'rounded');
                 detailHealAndTmpProduct = {};
+                clearData();
             }
         }).error(function (data) {
             $scope.error = data;
@@ -156,6 +154,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
                 getBill();
                 $('span#close-card').trigger('click');
                 toPreScroll();
+                clearData();
             });
             Materialize.toast('ลบข้อมูลเรียบร้อย', 3000, 'rounded');
         });
@@ -182,12 +181,15 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     }
 
 
-    $scope.clickUpdateBill = function () {
+    $scope.clickUpdateBill = function (bill) {
         var saveTmpProduct = {};
         $('.update').addClass('active');
         $('#bill-prefix-dateBill , #bill-prefix-id').css('color', '#00bcd4');
         $('span#close-card').trigger('click');
         $('body,html').animate({scrollTop: 0}, "600");
+
+        $scope.billMoreDetail = bill;
+        deleteProduct = bill;
         detailHealAndTmpProduct.dateUpdate = new Date(moment(new Date()).format('YYYY-MM-D'));
 
         detailHealAndTmpProduct.id = $scope.billMoreDetail.id;
@@ -199,6 +201,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
         $scope.bill.detailHeal = $scope.billMoreDetail.detailHeal;
         detailHealAndTmpProduct.totalPrice = $scope.billMoreDetail.sumPrice;
         $scope.totalPrice = $scope.billMoreDetail.sumPrice;
+        console.log($scope.totalPrice);
         saveTmpProduct = $scope.billMoreDetail;
         if ($scope.tmpProducts.content.length > 0) {
             for (var i = 0; i < countTmpProduct; i++) {
@@ -206,14 +209,26 @@ angular.module('bill').controller('billController', function ($scope, $http) {
                 getUser();
             }
         }
+//        var amountSelectProduct = 0;
+//        for(var i = 0; i < saveTmpProduct.orderProduct.length; i++){
+//            amountSelectProduct = amountSelectProduct + saveTmpProduct.orderProduct[i].value;
+//        }
         for (var i = 0; i < saveTmpProduct.orderProduct.length; i++) {
             saveTmpProduct.orderProduct[i].id = undefined;
             saveTmpProduct.orderProduct[i].user = user.nameTh;
             $http.post('/savetmpproduct', saveTmpProduct.orderProduct[i]);
-            totalPriceProduct = totalPriceProduct + saveTmpProduct.orderProduct[i].priceAndExpireProduct.priceSell;
+
+            if (saveTmpProduct.orderProduct[i].value > 1) {
+                for (var j = 0; j < saveTmpProduct.orderProduct[i].value; j++) {
+                    totalPriceProduct = totalPriceProduct + saveTmpProduct.orderProduct[i].priceAndExpireProduct.priceSell;
+                }
+            } else {
+                totalPriceProduct = totalPriceProduct + saveTmpProduct.orderProduct[i].priceAndExpireProduct.priceSell;
+            }
             getUser();
         }
         totalPriceDetailHeal = $scope.totalPrice - totalPriceProduct;
+        console.log(totalPriceDetailHeal + '-------------------------price');
     };
 
     $scope.clickDeeteBill = function () {
@@ -538,17 +553,19 @@ angular.module('bill').controller('billController', function ($scope, $http) {
 
 //////////////////////////////////// Start DetailHeal //////////////////////////////////////////////////////
     function getDetailHeal() {
-        $http.get('/loaddetailheal', {params: {page: PageDetailHeal, size: 10}}).success(function (data) {
+        $http.get('/loaddetailhealforbill', {params: {page: PageDetailHeal, size: 10}}).success(function (data) {
             $scope.detailHeals = data;
         });
     }
 
     $scope.selectDetailHeal = function (det) {
+        console.log(totalPriceDetailHeal + '--------------2');
+        console.log('taoal p ' + $scope.totalPrice);
         $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
-        if ($scope.totalPrice != 0) {
-            $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
-        }
-
+//        if ($scope.totalPrice != 0) {
+//            $scope.totalPrice = $scope.totalPrice - totalPriceDetailHeal;
+//        }
+        console.log($scope.totalPrice + '------------------------wow');
         totalPriceDetailHeal = 0;
         $scope.dataSelectDetailHeal = det;
         $scope.bill.detailHeal = det;
@@ -567,7 +584,7 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     };
 
     function countDetailHeal() {
-        $http.get('/countdetailheal').success(function (data) {
+        $http.get('/countdetailhealforbill').success(function (data) {
             totalDetailHeal = data;
             findTotalPageDetailHeal();
         });
@@ -581,13 +598,13 @@ angular.module('bill').controller('billController', function ($scope, $http) {
     };
 
     function searchDetailHeal() {
-        $http.post('/loaddetailheal/searchdetailheal', $scope.searchDataDetailHeal, {params: {page: PageDetailHeal, size: 10}}).success(function (data) {
+        $http.post('/loaddetailheal/searchdetailhealforbill', $scope.searchDataDetailHeal, {params: {page: PageDetailHeal, size: 10}}).success(function (data) {
             $scope.detailHeals = data;
         });
     }
 
     function countSearchDetailHeal() {
-        $http.post('/countsearchdetailheal', $scope.searchDataDetailHeal).success(function (data) {
+        $http.post('/countsearchdetailhealforbill', $scope.searchDataDetailHeal).success(function (data) {
             totalDetailHeal = data;
             findTotalPageDetailHeal();
         });

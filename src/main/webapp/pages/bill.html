@@ -137,14 +137,14 @@
                 <th style="width: 10%" class="table-department">ดูรายละเอียดเพิ่มเติม</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="bs in bills.content| orderBy:'id':true"">
+                    <tr ng-repeat="bs in bills.content">
                         <td>{{bs.id}}</td>
                         <td>{{bs.dateBill}}</td>
                         <td>{{bs.sumPrice}}</td>
                         <td>
                             <a href="" ng-click="selectmMoreDetailBill(bs)" class="activator btn-custom-radius btn-moredetail">ดูรายละเอียด</a> 
-                            <!--                            <a class="btn-custom-radius btn-edit" ng-click="UpdateDoctor()"><i class="mdi-content-create"></i></a>
-                                                        <a class="btn-custom-radius btn-delete" ng-click="clickDelete(doctorDetail)"><i class="mdi-action-delete"></i></a>-->
+                            <a class="btn-custom-radius btn-edit" ng-click="clickUpdateBill(bs)"><i class="mdi-content-create"></i></a>
+                            <a class="btn-custom-radius btn-delete" ng-click="clickDeeteBill(bs)"><i class="mdi-action-delete"></i></a>   
                         </td>
                     </tr>
                 </tbody>
@@ -219,10 +219,15 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row margin-top right">
-                        <a class="btn btn-gray waves-light" ng-click="cancel()">ยกเลิก</a>
-                        <a class="btn btn-blue2 waves-light" ng-click="clickUpdateBill()">แก้ไข</a>
-                        <button class="btn btn-red waves-light modal-trigger" href="#modal-delete" ng-click="clickDeeteBill()">ลบ</button>
+                    <!--                    <div class="row margin-top right">
+                                            <a class="btn btn-gray waves-light" ng-click="cancel()">ยกเลิก</a>
+                                            <a class="btn btn-blue2 waves-light" ng-click="clickUpdateBill()">แก้ไข</a>
+                                            <button class="btn btn-red waves-light modal-trigger" href="#modal-delete" ng-click="clickDeeteBill()">ลบ</button>
+                                        </div>-->
+                    <div class="row margin-top-20 center" style="margin-right: 10px">
+                        <a class="btn-custom-radius btn-cancelv2" ng-click="cancel()"><i class="mdi-content-clear"></i></a>
+                        <a class="btn-custom-radius btn-edit" ng-click="clickUpdateBill(billMoreDetail)"><i class="mdi-content-create"></i></a>
+                        <a class="btn-custom-radius btn-delete" ng-click="clickDeeteBill(billMoreDetail)"><i class="mdi-action-delete"></i></a>
                     </div>
                 </div>
             </div>
